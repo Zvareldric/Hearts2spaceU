@@ -1,51 +1,139 @@
 # Hearts2spaceU
 
-Aplikasi mobile **Flutter** bertema **Hearts2Hearts**. Dikembangkan sebagai project **portofolio jangka panjang** sekaligus media belajar Flutter, Backend, Cloud Computing, Docker, Deployment, dan Software Engineering.
+**Hearts2spaceU** is an all-in-one Flutter application designed for Hearts2Hearts fans to access official information, schedules, music releases, event schedules, and personal collections in a single experience.
 
-> **Status:** 🟡 **Planning** — masih tahap pondasi, belum masuk coding aplikasi.
+This project is developed as a long-term portfolio to apply modern Software Engineering practices, Evolutionary Clean Architecture, and scalable mobile application development using Flutter.
 
-## Deskripsi Singkat
-[TODO: 2–3 kalimat, diisi setelah `docs/02_product_vision.md` disepakati]
+---
 
-## Struktur Project
-```
-Hearts2spaceU/                 ← root project (monorepo)
+## 🚧 Project Status
+
+**Current Status:** 🟡 Foundation Completed
+
+### Current Phase
+Sprint 0 – Project Bootstrap
+
+### Next Milestone
+Sprint 1 – Official Information
+
+The project foundation has been completed, including product vision, architecture, technology stack, development workflow, coding standards, and design system. Application feature development will begin in the next sprint.
+
+---
+
+## ✨ Project Goals
+
+- Provide a centralized platform for Hearts2Hearts fans.
+- Deliver official and structured information.
+- Build a scalable Flutter application using Evolutionary Clean Architecture.
+- Serve as a long-term software engineering portfolio.
+
+---
+
+## 📁 Repository Structure
+
+```text
+Hearts2spaceU/
 ├── app/
-│   └── hearts2spaceu/         ← aplikasi Flutter (kode aplikasi)
-├── assets/                    ← aset project non-runtime: branding, design, screenshots
-├── docs/                      ← dokumentasi project (overview, vision, roadmap, dll.)
-├── .ai/                       ← workspace kolaborasi AI (prompts, templates, context)
-└── README.md                  ← file ini
+│   └── hearts2spaceu/         # Flutter application
+├── assets/                    # Branding, design assets, screenshots
+├── docs/                      # Project documentation
+├── README.md
+└── .gitignore
 ```
-> Komponen lain (mis. `backend/`, `infra/`) akan ditambahkan sebagai folder sejajar bila sudah diputuskan.
 
-## Dokumentasi
-Mulai membaca dari [`docs/01_project_overview.md`](docs/01_project_overview.md).
+Additional components (such as `backend/`, `infra/`, or `packages/`) will only be introduced when justified by future architectural decisions.
 
-| # | Dokumen | Isi singkat |
-|---|---------|-------------|
-| 01 | [project_overview](docs/01_project_overview.md) | Gambaran umum: apa, kenapa, untuk siapa |
-| 02 | [product_vision](docs/02_product_vision.md) | Visi & arah produk (wewenang Product Owner) |
-| 03 | [roadmap](docs/03_roadmap.md) | Rencana bertahap & prioritas |
-| 04 | [architecture](docs/04_architecture.md) | Keputusan arsitektur + decision log |
-| 05 | [tech_stack](docs/05_tech_stack.md) | Teknologi yang dipakai & alasannya |
-| 06 | [coding_guidelines](docs/06_coding_guidelines.md) | Standar & konsistensi penulisan kode |
-| 07 | [git_workflow](docs/07_git_workflow.md) | Cara mengelola versi kode |
-| 08 | [ai_guidelines](docs/08_ai_guidelines.md) | Cara kerja dengan AI Pair Programmer |
-| 09 | [design_system](docs/09_design_system.md) | Aturan visual & komponen UI |
-| 10 | [backlog](docs/10_backlog.md) | Daftar ide & tugas belum dijadwalkan |
+---
 
-## Status Teknologi
-- Frontend: **Flutter** ✅
-- Backend, Database, Cloud, Deployment, State Management, dll.: **[Decision Required]** — lihat [`docs/05_tech_stack.md`](docs/05_tech_stack.md).
+## 📚 Documentation
 
-## Cara Memulai
-> ⚠️ Placeholder — project masih tahap **Planning**. Instruksi lengkap ditambahkan setelah tech stack diputuskan.
+The complete project documentation is located inside the `docs/` directory.
+
+| Document | Description |
+|----------|-------------|
+| 01 | Project Overview |
+| 02 | Product Vision |
+| 03 | Roadmap |
+| 04 | Architecture |
+| 05 | Technology Stack |
+| 06 | Coding Guidelines |
+| 07 | Git Workflow |
+| 08 | AI Guidelines |
+| 09 | Design System |
+| 10 | Backlog |
+
+> Documents **01–10** serve as the project's governance and architectural foundation.
+
+---
+
+## 🛠 Technology Stack
+
+| Category | Technology |
+|----------|------------|
+| Framework | Flutter |
+| Language | Dart |
+| Architecture | Evolutionary Clean Architecture |
+| State Management | Riverpod |
+| HTTP Client | http |
+| Routing | Named Routes |
+| Linting | flutter_lints |
+| Version Control | Git + GitHub |
+
+For complete technical decisions, see **docs/05_tech_stack.md**.
+
+---
+
+## 🚀 Getting Started
+
+Clone the repository:
 
 ```bash
-# [TODO] Prasyarat (Flutter SDK, dll.) dan langkah setup menyusul.
-# Sementara, aplikasi Flutter ada di folder ./app/hearts2spaceu
+git clone https://github.com/Zvareldric/Hearts2spaceU.git
 ```
 
-## Lisensi
-[Decision Required]
+Go to the Flutter application:
+
+```bash
+cd Hearts2spaceU/app/hearts2spaceu
+```
+
+Install dependencies:
+
+```bash
+flutter pub get
+```
+
+Run the application:
+
+```bash
+flutter run
+```
+
+---
+
+## 🗺 Roadmap
+
+Current development focus:
+
+- ✅ Project Foundation
+- 🚧 Official Information
+- ⏳ Schedule
+- ⏳ Music Releases
+- ⏳ Personal Collection
+- ⏳ Additional capabilities (see Roadmap)
+
+For the complete roadmap, see **docs/03_roadmap.md**.
+
+---
+
+## 🤝 Contributing
+
+This project is currently maintained by the project owner.
+
+A `CONTRIBUTING.md` guide will be added before external contributions are accepted.
+
+---
+
+## 📄 License
+
+This project is licensed under the **Apache License 2.0**.

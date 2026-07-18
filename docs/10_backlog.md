@@ -72,6 +72,7 @@ Setiap item sebaiknya memuat:
 > Tempat menaruh ide mentah secepat mungkin sebelum lupa.
 
 - [ ] **`CONTRIBUTING.md`** (root project) — panduan **ringkas** kontributor: cara setup, membuat branch, aturan commit, membuka PR; merujuk ke [`07_git_workflow.md`](07_git_workflow.md) & [`06_coding_guidelines.md`](06_coding_guidelines.md). Dibuat **saat repository dipublikasikan**, bukan sekarang. *(praktik umum open source; `docs/07` tetap dokumentasi lengkap, `CONTRIBUTING.md` versi ringkasnya)*
+- [ ] **Perbarui status proyek di `docs/01`** — field `Tahap` masih `Planning`; perbarui ke fase saat ini (mis. `Development`) setelah **Sprint 0 (Bootstrap) selesai**. Tipe `docs`, prioritas 🟢 Low. *Housekeeping dokumentasi (foundation edit) — **bukan** pekerjaan Sprint 1.*
 
 ## 7. Backlog Items
 

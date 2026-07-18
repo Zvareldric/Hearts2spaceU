@@ -16,7 +16,7 @@ Dokumen ini adalah *pintu masuk* project: gambaran umum **apa**, **kenapa**, dan
 | Jenis Produk | Aplikasi mobile                                |
 | Framework    | Flutter                                        |
 | Tahap        | Planning                                       |
-| Repository   | Publik di GitHub — URL`[TODO]`              |
+| Repository   | Publik di GitHub — https://github.com/Zvareldric/Hearts2spaceU              |
 | Lisensi      | Apache License 2.0                             |
 
 ## 2. Ringkasan

@@ -2,8 +2,6 @@
 
 **Hearts2spaceU** is an all-in-one Flutter application designed for Hearts2Hearts fans to access official information, schedules, music releases, event schedules, and personal collections in a single experience.
 
-This project is developed as a long-term portfolio to apply modern Software Engineering practices, Evolutionary Clean Architecture, and scalable mobile application development using Flutter.
-
 ---
 
 ## 🚧 Project Status

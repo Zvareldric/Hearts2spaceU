@@ -16,7 +16,13 @@ final memberRepositoryProvider = Provider<MemberRepository>((ref) {
 ///
 /// Empty is not a separate state here: it is the `data` case where the list
 /// happens to be empty — the UI decides how to render that.
-final membersProvider = FutureProvider<List<Member>>((ref) {
-  final repository = ref.watch(memberRepositoryProvider);
-  return repository.getMembers();
-});
+final membersProvider = FutureProvider<List<Member>>(
+  (ref) {
+    final repository = ref.watch(memberRepositoryProvider);
+    return repository.getMembers();
+  },
+  // No automatic retry (a Riverpod 3.x default): the source is a local asset,
+  // so failures are not transient, and the UI offers an explicit Retry.
+  // Revisit when the source becomes a network API.
+  retry: (_, _) => null,
+);

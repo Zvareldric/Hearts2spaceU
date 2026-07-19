@@ -9,12 +9,12 @@
 **Current Status:** 🟡 Foundation Completed
 
 ### Current Phase
-Sprint 0 – Project Bootstrap
-
-### Next Milestone
 Sprint 1 – Official Information
 
-The project foundation has been completed, including product vision, architecture, technology stack, development workflow, coding standards, and design system. Application feature development will begin in the next sprint.
+### Next Milestone
+Expanding Official Information — schedule, music, and more (see Roadmap)
+
+The project foundation is complete. Sprint 1 delivers the first capability — **Official Information (Member Profiles)** — built on the documented Evolutionary Clean Architecture.
 
 ---
 
@@ -114,7 +114,7 @@ flutter run
 Current development focus:
 
 - ✅ Project Foundation
-- 🚧 Official Information
+- ✅ Official Information — Member Profiles (MVP slice)
 - ⏳ Schedule
 - ⏳ Music Releases
 - ⏳ Personal Collection

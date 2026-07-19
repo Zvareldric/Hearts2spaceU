@@ -61,6 +61,7 @@ flutter:
   # Static data assets (curated from official sources by the Product Owner).
   assets:
     - assets/data/members.json
+    - assets/data/events.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/official_information/presentation/pages/member_detail_page.dart';
 import '../features/official_information/presentation/pages/member_list_page.dart';
+import '../features/schedule/presentation/pages/event_detail_page.dart';
+import '../features/schedule/presentation/pages/schedule_page.dart';
 import 'app_routes.dart';
 
 /// Central place that maps route names to screens.
@@ -22,6 +24,13 @@ class AppRouter {
         final memberId = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => MemberDetailPage(memberId: memberId),
+        );
+      case AppRoutes.schedule:
+        return MaterialPageRoute(builder: (_) => const SchedulePage());
+      case AppRoutes.eventDetail:
+        final eventId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => EventDetailPage(eventId: eventId),
         );
       default:
         return MaterialPageRoute(

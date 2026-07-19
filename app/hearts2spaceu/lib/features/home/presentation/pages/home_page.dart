@@ -22,6 +22,12 @@ class HomePage extends StatelessWidget {
                   Navigator.of(context).pushNamed(AppRoutes.memberList),
               child: const Text('Members'),
             ),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () =>
+                  Navigator.of(context).pushNamed(AppRoutes.schedule),
+              child: const Text('Schedule'),
+            ),
           ],
         ),
       ),

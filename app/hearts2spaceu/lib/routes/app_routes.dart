@@ -4,4 +4,6 @@ class AppRoutes {
   const AppRoutes._();
 
   static const String home = '/';
+  static const String memberList = '/members';
+  static const String memberDetail = '/members/detail';
 }

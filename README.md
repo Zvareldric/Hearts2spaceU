@@ -9,12 +9,12 @@
 **Current Status:** 🟡 Foundation Completed
 
 ### Current Phase
-Sprint 1 – Official Information
+Sprint 2 – Schedule
 
 ### Next Milestone
-Expanding Official Information — schedule, music, and more (see Roadmap)
+Music Releases & Personal Collection (see Roadmap)
 
-The project foundation is complete. Sprint 1 delivers the first capability — **Official Information (Member Profiles)** — built on the documented Evolutionary Clean Architecture.
+The project foundation is complete. Sprints 1–2 deliver the first two capabilities — **Official Information (Member Profiles)** and **Schedule (Upcoming Events)** — built on the documented Evolutionary Clean Architecture.
 
 ---
 
@@ -115,7 +115,7 @@ Current development focus:
 
 - ✅ Project Foundation
 - ✅ Official Information — Member Profiles (MVP slice)
-- ⏳ Schedule
+- ✅ Schedule — Upcoming Events (MVP slice)
 - ⏳ Music Releases
 - ⏳ Personal Collection
 - ⏳ Additional capabilities (see Roadmap)

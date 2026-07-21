@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/schedule/domain/event.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_spacing.dart';
-import '../badges/type_badge.dart';
-import 'app_card.dart';
+import '../../../../app/theme/app_colors.dart';
+import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/badges/type_badge.dart';
+import '../../../../app/widgets/cards/app_card.dart';
+import '../../domain/event.dart';
 
 /// Design System V1 event card — prominent date, title, and a [TypeBadge].
 ///
-/// Lives in `app/widgets/cards/` as a shared design-system component (see the
-/// note in `member_card.dart` re: depending on a feature's domain entity).
-/// Not yet wired into any page — `schedule` still renders its own local
-/// `EventCard` (`ListTile`-based) until the Schedule Refresh checkpoint swaps
-/// it in.
-class EventCard extends StatelessWidget {
-  const EventCard({super.key, required this.event, this.onTap});
+/// Built from generic Design System building blocks ([AppCard], [TypeBadge]);
+/// lives here (not in `app/widgets/`) because it depends on the [Event]
+/// domain entity — `app/` must never know about a feature's domain
+/// (Checkpoint 2.5 cleanup).
+///
+/// Staged, not yet wired: `schedule_page.dart` still renders the older
+/// `EventCard` (`ListTile`-based) below. This becomes the real `EventCard` —
+/// replacing that file — at the **Schedule Refresh** checkpoint.
+class EventCardRefresh extends StatelessWidget {
+  const EventCardRefresh({super.key, required this.event, this.onTap});
 
   final Event event;
   final VoidCallback? onTap;
@@ -82,7 +85,7 @@ class EventCard extends StatelessWidget {
   }
 }
 
-/// The prominent day/month block on the left of an [EventCard].
+/// The prominent day/month block on the left of an [EventCardRefresh].
 class _DateBlock extends StatelessWidget {
   const _DateBlock({required this.day, required this.month});
 

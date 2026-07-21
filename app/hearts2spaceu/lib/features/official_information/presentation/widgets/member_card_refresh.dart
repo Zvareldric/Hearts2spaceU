@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-import '../../../features/official_information/domain/member.dart';
-import '../../theme/app_colors.dart';
-import '../../theme/app_spacing.dart';
-import 'app_card.dart';
+import '../../../../app/theme/app_colors.dart';
+import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/cards/app_card.dart';
+import '../../domain/member.dart';
 
 /// Design System V1 member card — large avatar, gradient ring, modern layout.
 ///
-/// Lives in `app/widgets/cards/` (not the feature folder) because the design
-/// proposal calls it a shared design-system component; it depends on the
-/// [Member] domain entity since that's the whole point of the component. Not
-/// yet wired into any page — `official_information` still renders its own
-/// local `MemberCard` (`ListTile`-based) until the Members Refresh checkpoint
-/// swaps it in.
-class MemberCard extends StatelessWidget {
-  const MemberCard({super.key, required this.member, this.onTap});
+/// Built from generic Design System building blocks ([AppCard]); lives here
+/// (not in `app/widgets/`) because it depends on the [Member] domain entity —
+/// `app/` must never know about a feature's domain (Checkpoint 2.5 cleanup).
+///
+/// Staged, not yet wired: `member_list_page.dart` still renders the older
+/// `MemberCard` (`ListTile`-based) below. This becomes the real `MemberCard`
+/// — replacing that file — at the **Members Refresh** checkpoint.
+class MemberCardRefresh extends StatelessWidget {
+  const MemberCardRefresh({super.key, required this.member, this.onTap});
 
   final Member member;
   final VoidCallback? onTap;

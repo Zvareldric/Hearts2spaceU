@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../app/theme/app_colors.dart';
-import '../../../../app/theme/app_radius.dart';
-import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
+import '../../../../app/widgets/cards/coming_soon_card.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
+import '../../../../app/theme/app_spacing.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../schedule/presentation/providers/event_providers.dart';
 import '../widgets/hero_section.dart';
@@ -16,9 +15,8 @@ import '../widgets/up_next_card.dart';
 
 /// Landing screen — Design System V1 (docs/specs/home-layout.md).
 ///
-/// Checkpoint 3.4: real Hero + Capability Cards + Up Next. Coming Soon
-/// remains a neutral placeholder (wired in 3.5). No AppBar — the Hero
-/// section carries brand identity.
+/// Checkpoint 3.5 (final): Hero + Capability Cards + Up Next + Coming Soon —
+/// Home Refresh complete. No AppBar — the Hero section carries brand identity.
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
@@ -76,23 +74,41 @@ class HomePage extends ConsumerWidget {
                         const SizedBox(height: AppSpacing.md),
                         const _UpNextSection(),
                         const SizedBox(height: AppSpacing.xxl),
-                        _SectionLabelPlaceholder(label: 'COMING SOON'),
+                        const SectionHeader(label: 'Coming soon'),
                         const SizedBox(height: AppSpacing.md),
-                        Row(
+                        const Row(
                           children: [
                             Expanded(
-                              child: _CardPlaceholder(label: 'Collection'),
+                              child: ComingSoonCard(
+                                icon: Icons.collections_bookmark_rounded,
+                                label: 'Collection',
+                              ),
                             ),
-                            const SizedBox(width: AppSpacing.md),
-                            Expanded(child: _CardPlaceholder(label: 'Gallery')),
+                            SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: ComingSoonCard(
+                                icon: Icons.photo_library_rounded,
+                                label: 'Gallery',
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.md),
-                        Row(
+                        const Row(
                           children: [
-                            Expanded(child: _CardPlaceholder(label: 'Music')),
-                            const SizedBox(width: AppSpacing.md),
-                            Expanded(child: _CardPlaceholder(label: 'News')),
+                            Expanded(
+                              child: ComingSoonCard(
+                                icon: Icons.music_note_rounded,
+                                label: 'Music',
+                              ),
+                            ),
+                            SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: ComingSoonCard(
+                                icon: Icons.newspaper_rounded,
+                                label: 'News',
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),
@@ -105,26 +121,6 @@ class HomePage extends ConsumerWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Neutral placeholder standing in for a real card (Checkpoint 3.5).
-class _CardPlaceholder extends StatelessWidget {
-  const _CardPlaceholder({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: AppColors.surfaceTint,
-        borderRadius: AppRadius.lgRadius,
-      ),
-      child: Text(label),
     );
   }
 }
@@ -157,23 +153,6 @@ class _UpNextSection extends ConsumerWidget {
           ).pushNamed(AppRoutes.eventDetail, arguments: next.id),
         );
       },
-    );
-  }
-}
-
-/// Neutral placeholder standing in for `SectionHeader` (Checkpoint 3.4).
-class _SectionLabelPlaceholder extends StatelessWidget {
-  const _SectionLabelPlaceholder({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      label,
-      style: Theme.of(
-        context,
-      ).textTheme.labelSmall?.copyWith(color: AppColors.inkMuted),
     );
   }
 }

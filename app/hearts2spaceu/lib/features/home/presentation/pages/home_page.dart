@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/cards/capability_card.dart';
+import '../../../../routes/app_routes.dart';
 import '../widgets/hero_section.dart';
 
 /// Landing screen — Design System V1 (docs/specs/home-layout.md).
 ///
-/// Checkpoint 3.2: real Hero. Other sections remain neutral placeholders
-/// (wired in 3.3–3.5). No AppBar — the Hero section carries brand identity.
+/// Checkpoint 3.3: real Hero + Capability Cards. Up Next / Coming Soon remain
+/// neutral placeholders (wired in 3.4–3.5). No AppBar — the Hero section
+/// carries brand identity.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -38,10 +41,26 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: AppSpacing.xl),
                         Row(
                           children: [
-                            Expanded(child: _CardPlaceholder(label: 'Members')),
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.groups_rounded,
+                                title: 'Members',
+                                subtitle: 'Meet Hearts2Hearts',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.memberList),
+                              ),
+                            ),
                             const SizedBox(width: AppSpacing.md),
                             Expanded(
-                              child: _CardPlaceholder(label: 'Schedule'),
+                              child: CapabilityCard(
+                                icon: Icons.event_rounded,
+                                title: 'Schedule',
+                                subtitle: 'Upcoming activities',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.schedule),
+                              ),
                             ),
                           ],
                         ),

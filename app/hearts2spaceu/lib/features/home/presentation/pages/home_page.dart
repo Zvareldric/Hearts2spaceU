@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../widgets/hero_section.dart';
 
 /// Landing screen — Design System V1 (docs/specs/home-layout.md).
 ///
-/// Checkpoint 3.1: layout skeleton only. Sections are neutral placeholders so
-/// spacing/scroll/responsive behavior can be reviewed before real content is
-/// wired in (3.2–3.5). No AppBar — the Hero section carries brand identity.
+/// Checkpoint 3.2: real Hero. Other sections remain neutral placeholders
+/// (wired in 3.3–3.5). No AppBar — the Hero section carries brand identity.
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -16,6 +16,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
+        // top:false — HeroSection reaches the very top itself and handles the
+        // safe-area inset internally, so its gradient is truly full-bleed.
+        top: false,
         bottom: false,
         child: Center(
           child: ConstrainedBox(
@@ -24,7 +27,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _HeroPlaceholder(),
+                  const HeroSection(),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: AppSpacing.screenPadding,
@@ -76,28 +79,6 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-/// Full-bleed placeholder standing in for `HeroSection` (Checkpoint 3.2).
-class _HeroPlaceholder extends StatelessWidget {
-  const _HeroPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      height: 180,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: AppColors.surfaceTint,
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(AppRadius.xl),
-          bottomRight: Radius.circular(AppRadius.xl),
-        ),
-      ),
-      child: const Text('Hero Section'),
     );
   }
 }

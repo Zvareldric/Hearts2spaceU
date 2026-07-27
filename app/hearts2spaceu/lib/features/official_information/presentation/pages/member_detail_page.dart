@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_colors.dart';
+import '../../../../app/theme/app_radius.dart';
+import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/buttons/secondary_button.dart';
+import '../../../../app/widgets/cards/app_card.dart';
+import '../../../../app/widgets/layout/meta_row.dart';
+import '../../../../app/widgets/states/empty_view.dart';
+import '../../../../app/widgets/states/error_view.dart';
+import '../../../../app/widgets/states/loading_view.dart';
 import '../../domain/member.dart';
 import '../providers/member_providers.dart';
-import '../widgets/empty_view.dart';
-import '../widgets/error_view.dart';
-import '../widgets/loading_view.dart';
 
-/// UC-2 — one member's details.
+/// UC-2 — one member's details. Design System V1 (Checkpoint 6).
 ///
 /// Reuses the cached [membersProvider] (no refetch) and selects by id, which
 /// also exercises the same Loading/Empty/Error views as the list.
@@ -21,11 +27,14 @@ class MemberDetailPage extends ConsumerWidget {
     final membersAsync = ref.watch(membersProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Member')),
+      // The hero runs behind the (transparent) app bar, which is reduced to a
+      // back button — the hero itself carries the page's identity.
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(),
       body: membersAsync.when(
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(
-          message: 'Failed to load member.',
+          message: "Couldn't load the member.",
           onRetry: () => ref.invalidate(membersProvider),
         ),
         data: (members) {
@@ -40,10 +49,8 @@ class MemberDetailPage extends ConsumerWidget {
   }
 }
 
-/// Renders a member's fields.
-///
-/// Date formatting happens HERE (presentation) — never in the domain or data
-/// layers, which only keep the raw [DateTime].
+/// Renders a member. Only non-null optional fields are shown, and the date is
+/// formatted here (presentation) — the domain keeps the raw [DateTime].
 class _MemberDetail extends StatelessWidget {
   const _MemberDetail({required this.member});
 
@@ -51,19 +58,52 @@ class _MemberDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
+    final hasMeta = member.fullName != null || member.birthDate != null;
+
     return ListView(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.zero,
       children: [
-        Text(member.stageName, style: textTheme.headlineSmall),
-        const SizedBox(height: 16),
-        if (member.fullName != null) _DetailRow('Full name', member.fullName!),
-        if (member.birthDate != null)
-          _DetailRow('Born', _formatDate(member.birthDate!)),
-        if (member.positions.isNotEmpty)
-          _DetailRow('Positions', member.positions.join(', ')),
-        if (member.officialProfileUrl != null)
-          _DetailRow('Official profile', member.officialProfileUrl!),
+        _MemberHero(member: member),
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.screenPadding,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: AppSpacing.xl),
+              if (hasMeta)
+                AppCard(
+                  child: Column(
+                    children: [
+                      if (member.fullName != null)
+                        MetaRow(
+                          icon: Icons.badge_rounded,
+                          label: 'Full name',
+                          value: member.fullName!,
+                        ),
+                      if (member.birthDate != null)
+                        MetaRow(
+                          icon: Icons.cake_rounded,
+                          label: 'Born',
+                          value: _formatDate(member.birthDate!),
+                        ),
+                    ],
+                  ),
+                ),
+              if (member.officialProfileUrl != null) ...[
+                const SizedBox(height: AppSpacing.xl),
+                // Disabled for now: opening links needs url_launcher, which is
+                // still out of scope (docs/specs/official-information.md).
+                const SecondaryButton(
+                  label: 'Official profile (soon)',
+                  icon: Icons.open_in_new_rounded,
+                ),
+              ],
+              const SizedBox(height: AppSpacing.xxl),
+            ],
+          ),
+        ),
       ],
     );
   }
@@ -75,21 +115,72 @@ class _MemberDetail extends StatelessWidget {
   }
 }
 
-class _DetailRow extends StatelessWidget {
-  const _DetailRow(this.label, this.value);
+/// Full-bleed gradient header with a large avatar carrying the member's
+/// identity.
+class _MemberHero extends StatelessWidget {
+  const _MemberHero({required this.member});
 
-  final String label;
-  final String value;
+  final Member member;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+    final textTheme = Theme.of(context).textTheme;
+    final topInset = MediaQuery.of(context).padding.top;
+    final positions = member.positions.join(' · ');
+
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.xl,
+        topInset + kToolbarHeight + AppSpacing.lg,
+        AppSpacing.xl,
+        AppSpacing.xxl,
+      ),
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: AppColors.heroGradient,
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(AppRadius.xl),
+          bottomRight: Radius.circular(AppRadius.xl),
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Text(label, style: Theme.of(context).textTheme.labelMedium),
-          Text(value),
+          // Receives the avatar flying in from the list's MemberCard.
+          Hero(
+            tag: 'member-avatar-${member.id}',
+            child: Container(
+              width: 96,
+              height: 96,
+              padding: const EdgeInsets.all(3),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.surface,
+              ),
+              child: const CircleAvatar(
+                backgroundColor: AppColors.surfaceTint,
+                child: Icon(
+                  Icons.person_rounded,
+                  color: AppColors.primaryStrong,
+                  size: 44,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpacing.lg),
+          Text(member.stageName, style: textTheme.headlineSmall),
+          if (positions.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.sm),
+            Text(
+              positions,
+              style: textTheme.bodyLarge?.copyWith(color: AppColors.inkMuted),
+            ),
+          ],
         ],
       ),
     );

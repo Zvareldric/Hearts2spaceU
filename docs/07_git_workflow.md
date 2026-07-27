@@ -67,6 +67,25 @@ flowchart LR
 - **Hindari menggabungkan beberapa fitur yang tidak berkaitan** dalam satu PR.
 - Riwayat dijaga tetap bersih (mis. *squash* commit kecil bila perlu).
 
+### Pengecualian: PR besar yang dibenarkan *(amandemen 2026-07-27)*
+
+Dua poin di atas tetap menjadi **ideal yang dituju**, bukan larangan mutlak. Sebuah PR besar
+**boleh** dilakukan apabila:
+
+1. pekerjaannya **berurutan di atas satu branch** sehingga tidak praktis dipecah tanpa
+   membongkar riwayat, **atau**
+2. memecahnya justru **menghasilkan `main` yang tidak utuh** (mis. fitur mendarat tanpa
+   fondasi visual yang menopangnya).
+
+Syaratnya: **alasan dicatat pada deskripsi PR**, dan bila PR memuat lebih dari satu tahap
+pekerjaan, tiap tahap **ditandai dengan tag** (mis. `v0.2.0`, `v0.3.0`) agar evolusi proyek
+tetap terbaca.
+
+> 📌 Latar amandemen: PR **Release 0.3.0 (Design System V1)** memuat 16 commit dari
+> 7 *checkpoint* yang saling bergantung — token → komponen → tiap layar → motion.
+> Memecahnya akan menempatkan komponen di `main` tanpa layar yang memakainya, atau
+> layar yang separuh bergaya lama. Keputusan Product Owner, 2026-07-27.
+
 ## 6. `.gitignore`
 
 - Gunakan `.gitignore` standar Flutter.

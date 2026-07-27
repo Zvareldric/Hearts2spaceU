@@ -81,10 +81,10 @@ Syaratnya: **alasan dicatat pada deskripsi PR**, dan bila PR memuat lebih dari s
 pekerjaan, tiap tahap **ditandai dengan tag** (mis. `v0.2.0`, `v0.3.0`) agar evolusi proyek
 tetap terbaca.
 
-> 📌 Latar amandemen: PR pertama yang memakai pengecualian ini memuat **Sprint 2 (Schedule)**
-> dan **Release 0.3.0 (Design System V1)** dalam satu branch — Design System dikerjakan
-> langsung di atas Sprint 2 setelah *visual review* menilai UI perlu dibenahi lebih dulu.
-> Keputusan Product Owner, 2026-07-27.
+> 📌 Latar amandemen: PR **Release 0.3.0 (Design System V1)** memuat 16 commit dari
+> 7 *checkpoint* yang saling bergantung — token → komponen → tiap layar → motion.
+> Memecahnya akan menempatkan komponen di `main` tanpa layar yang memakainya, atau
+> layar yang separuh bergaya lama. Keputusan Product Owner, 2026-07-27.
 
 ## 6. `.gitignore`
 

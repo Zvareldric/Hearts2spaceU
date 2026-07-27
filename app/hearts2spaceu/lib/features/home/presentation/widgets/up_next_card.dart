@@ -46,14 +46,26 @@ class UpNextCard extends StatelessWidget {
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              // min: without it the Column fills any bounded height it is
+              // given, making the card's height depend on its context.
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Text(event.title, style: textTheme.titleMedium),
+                // Single-line: a teaser stays one predictable height, so the
+                // slot never grows when a long title arrives.
+                Text(
+                  event.title,
+                  style: textTheme.titleMedium,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   formatEventDateTime(event.startDateTime),
                   style: textTheme.bodyMedium?.copyWith(
                     color: AppColors.inkMuted,
                   ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ],
             ),

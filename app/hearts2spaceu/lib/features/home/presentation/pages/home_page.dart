@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
 import '../../../../app/widgets/cards/coming_soon_card.dart';
 import '../../../../app/widgets/layout/section_header.dart';
@@ -128,6 +129,9 @@ class HomePage extends ConsumerWidget {
 /// Home's "Up next" slot — reads [upcomingEventsProvider] (Sprint 2) and
 /// renders the same Loading/Empty/Error/Data states used app-wide, always
 /// visible regardless of state (docs/specs/home-layout.md §5).
+///
+/// Every state uses the compact variant inside an [AppCard], so the slot keeps
+/// one fixed height: switching states never reflows the sections below it.
 class _UpNextSection extends ConsumerWidget {
   const _UpNextSection();
 
@@ -136,14 +140,23 @@ class _UpNextSection extends ConsumerWidget {
     final eventsAsync = ref.watch(upcomingEventsProvider);
 
     return eventsAsync.when(
-      loading: () => const SizedBox(height: 72, child: LoadingView()),
-      error: (error, _) => ErrorView(
-        message: 'Failed to load your schedule.',
-        onRetry: () => ref.invalidate(upcomingEventsProvider),
+      loading: () => const AppCard(child: LoadingView(compact: true)),
+      error: (error, _) => AppCard(
+        child: ErrorView(
+          message: 'Couldn\'t load the schedule.',
+          onRetry: () => ref.invalidate(upcomingEventsProvider),
+          compact: true,
+        ),
       ),
       data: (events) {
         if (events.isEmpty) {
-          return const EmptyView(message: 'No upcoming events yet.');
+          return const AppCard(
+            child: EmptyView(
+              message: 'No upcoming events yet.',
+              icon: Icons.event_available_rounded,
+              compact: true,
+            ),
+          );
         }
         final next = events.first;
         return UpNextCard(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_motion.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
 import '../../../../app/widgets/cards/coming_soon_card.dart';
@@ -139,33 +140,44 @@ class _UpNextSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final eventsAsync = ref.watch(upcomingEventsProvider);
 
-    return eventsAsync.when(
-      loading: () => const AppCard(child: LoadingView(compact: true)),
-      error: (error, _) => AppCard(
-        child: ErrorView(
-          message: 'Couldn\'t load the schedule.',
-          onRetry: () => ref.invalidate(upcomingEventsProvider),
-          compact: true,
+    // Cross-fades between states; every state is the same height, so the
+    // sections below never move (see up_next_slot_height_test.dart).
+    return AnimatedSwitcher(
+      duration: AppMotion.of(context, AppMotion.base),
+      child: eventsAsync.when(
+        loading: () => const AppCard(
+          key: ValueKey('loading'),
+          child: LoadingView(compact: true),
         ),
-      ),
-      data: (events) {
-        if (events.isEmpty) {
-          return const AppCard(
-            child: EmptyView(
-              message: 'No upcoming events yet.',
-              icon: Icons.event_available_rounded,
-              compact: true,
-            ),
+        error: (error, _) => AppCard(
+          key: const ValueKey('error'),
+          child: ErrorView(
+            message: 'Couldn\'t load the schedule.',
+            onRetry: () => ref.invalidate(upcomingEventsProvider),
+            compact: true,
+          ),
+        ),
+        data: (events) {
+          if (events.isEmpty) {
+            return const AppCard(
+              key: ValueKey('empty'),
+              child: EmptyView(
+                message: 'No upcoming events yet.',
+                icon: Icons.event_available_rounded,
+                compact: true,
+              ),
+            );
+          }
+          final next = events.first;
+          return UpNextCard(
+            key: const ValueKey('data'),
+            event: next,
+            onTap: () => Navigator.of(
+              context,
+            ).pushNamed(AppRoutes.eventDetail, arguments: next.id),
           );
-        }
-        final next = events.first;
-        return UpNextCard(
-          event: next,
-          onTap: () => Navigator.of(
-            context,
-          ).pushNamed(AppRoutes.eventDetail, arguments: next.id),
-        );
-      },
+        },
+      ),
     );
   }
 }

@@ -151,20 +151,24 @@ class _MemberHero extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Container(
-            width: 96,
-            height: 96,
-            padding: const EdgeInsets.all(3),
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              color: AppColors.surface,
-            ),
-            child: const CircleAvatar(
-              backgroundColor: AppColors.surfaceTint,
-              child: Icon(
-                Icons.person_rounded,
-                color: AppColors.primaryStrong,
-                size: 44,
+          // Receives the avatar flying in from the list's MemberCard.
+          Hero(
+            tag: 'member-avatar-${member.id}',
+            child: Container(
+              width: 96,
+              height: 96,
+              padding: const EdgeInsets.all(3),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.surface,
+              ),
+              child: const CircleAvatar(
+                backgroundColor: AppColors.surfaceTint,
+                child: Icon(
+                  Icons.person_rounded,
+                  color: AppColors.primaryStrong,
+                  size: 44,
+                ),
               ),
             ),
           ),

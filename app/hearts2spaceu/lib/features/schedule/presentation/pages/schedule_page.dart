@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
@@ -23,32 +25,44 @@ class SchedulePage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(title: const Text('Schedule')),
-      body: eventsAsync.when(
-        loading: () => const LoadingView(),
-        error: (error, _) => ErrorView(
-          message: 'Failed to load the schedule.',
-          onRetry: () => ref.invalidate(upcomingEventsProvider),
-        ),
-        data: (events) {
-          if (events.isEmpty) {
-            return const EmptyView(message: 'No upcoming events.');
-          }
-          return ListView.separated(
-            padding: const EdgeInsets.all(AppSpacing.screenPadding),
-            itemCount: events.length,
-            separatorBuilder: (context, index) =>
-                const SizedBox(height: AppSpacing.md),
-            itemBuilder: (context, index) {
-              final event = events[index];
-              return EventCard(
-                event: event,
-                onTap: () => Navigator.of(
-                  context,
-                ).pushNamed(AppRoutes.eventDetail, arguments: event.id),
+      // Cross-fades between loading/empty/error/data instead of snapping.
+      body: AnimatedSwitcher(
+        duration: AppMotion.of(context, AppMotion.base),
+        child: eventsAsync.when(
+          loading: () => const LoadingView(key: ValueKey('loading')),
+          error: (error, _) => ErrorView(
+            key: const ValueKey('error'),
+            message: 'Failed to load the schedule.',
+            onRetry: () => ref.invalidate(upcomingEventsProvider),
+          ),
+          data: (events) {
+            if (events.isEmpty) {
+              return const EmptyView(
+                key: ValueKey('empty'),
+                message: 'No upcoming events.',
               );
-            },
-          );
-        },
+            }
+            return ListView.separated(
+              key: const ValueKey('data'),
+              padding: const EdgeInsets.all(AppSpacing.screenPadding),
+              itemCount: events.length,
+              separatorBuilder: (context, index) =>
+                  const SizedBox(height: AppSpacing.md),
+              itemBuilder: (context, index) {
+                final event = events[index];
+                return StaggeredItem(
+                  index: index,
+                  child: EventCard(
+                    event: event,
+                    onTap: () => Navigator.of(
+                      context,
+                    ).pushNamed(AppRoutes.eventDetail, arguments: event.id),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

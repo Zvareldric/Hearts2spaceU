@@ -25,24 +25,28 @@ class MemberCard extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Container(
-            width: 64,
-            height: 64,
-            padding: const EdgeInsets.all(2),
-            decoration: const BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: AppColors.heroGradient,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
+          // Flies into the detail page's larger avatar (see MemberDetailPage).
+          Hero(
+            tag: 'member-avatar-${member.id}',
+            child: Container(
+              width: 64,
+              height: 64,
+              padding: const EdgeInsets.all(2),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(
+                  colors: AppColors.heroGradient,
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
               ),
-            ),
-            child: const CircleAvatar(
-              backgroundColor: AppColors.surface,
-              child: Icon(
-                Icons.person_rounded,
-                color: AppColors.primaryStrong,
-                size: 28,
+              child: const CircleAvatar(
+                backgroundColor: AppColors.surface,
+                child: Icon(
+                  Icons.person_rounded,
+                  color: AppColors.primaryStrong,
+                  size: 28,
+                ),
               ),
             ),
           ),

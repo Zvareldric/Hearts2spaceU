@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/states/empty_view.dart';
+import '../../../../app/widgets/states/error_view.dart';
+import '../../../../app/widgets/states/loading_view.dart';
 import '../../../../routes/app_routes.dart';
 import '../providers/event_providers.dart';
-import '../widgets/empty_view.dart';
-import '../widgets/error_view.dart';
 import '../widgets/event_card.dart';
-import '../widgets/loading_view.dart';
 
-/// UC-1 — the list of upcoming events.
+/// UC-1 — the list of upcoming events. Design System V1 (Checkpoint 4).
 ///
 /// Presentation only: it watches [upcomingEventsProvider] and renders the
 /// matching state. Loading, filtering, and sorting live in the provider and the
@@ -32,8 +33,11 @@ class SchedulePage extends ConsumerWidget {
           if (events.isEmpty) {
             return const EmptyView(message: 'No upcoming events.');
           }
-          return ListView.builder(
+          return ListView.separated(
+            padding: const EdgeInsets.all(AppSpacing.screenPadding),
             itemCount: events.length,
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: AppSpacing.md),
             itemBuilder: (context, index) {
               final event = events[index];
               return EventCard(

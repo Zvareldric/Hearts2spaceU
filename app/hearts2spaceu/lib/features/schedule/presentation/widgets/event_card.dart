@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_colors.dart';
+import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/badges/type_badge.dart';
+import '../../../../app/widgets/cards/app_card.dart';
 import '../../domain/event.dart';
-import '../event_date_format.dart';
 
-/// A single event row in the schedule list.
+/// Design System V1 event card — prominent date, title, and a [TypeBadge].
 ///
-/// Presentation only: it renders an [Event] and reports taps via [onTap]; it
-/// does not know where a tap leads (the page decides navigation).
+/// Built from generic Design System building blocks ([AppCard], [TypeBadge]);
+/// lives here (not `app/widgets/`) because it depends on the [Event] domain
+/// entity — `app/` must never know about a feature's domain (Checkpoint 2.5).
 class EventCard extends StatelessWidget {
   const EventCard({super.key, required this.event, this.onTap});
 
@@ -15,12 +19,101 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: const CircleAvatar(child: Icon(Icons.event)),
-      title: Text(event.title),
-      subtitle: Text(formatEventDateTime(event.startDateTime)),
-      trailing: const Icon(Icons.chevron_right),
+    final textTheme = Theme.of(context).textTheme;
+    final start = event.startDateTime;
+
+    return AppCard(
       onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _DateBlock(day: start.day, month: _monthAbbrev(start.month)),
+          const SizedBox(width: AppSpacing.lg),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (event.type != null) ...[
+                  TypeBadge(type: event.type!),
+                  const SizedBox(height: AppSpacing.sm),
+                ],
+                Text(event.title, style: textTheme.titleMedium),
+                const SizedBox(height: AppSpacing.xs),
+                Text(
+                  _timeAndLocation(event),
+                  style: textTheme.bodyMedium?.copyWith(
+                    color: AppColors.inkMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Icon(Icons.chevron_right_rounded, color: AppColors.inkMuted),
+        ],
+      ),
+    );
+  }
+
+  static String _timeAndLocation(Event event) {
+    final hour = event.startDateTime.hour.toString().padLeft(2, '0');
+    final minute = event.startDateTime.minute.toString().padLeft(2, '0');
+    final time = '$hour:$minute';
+    return event.location == null ? time : '$time · ${event.location}';
+  }
+
+  static String _monthAbbrev(int month) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    return months[month - 1];
+  }
+}
+
+/// The prominent day/month block on the left of an [EventCard].
+class _DateBlock extends StatelessWidget {
+  const _DateBlock({required this.day, required this.month});
+
+  final int day;
+  final String month;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 52,
+      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceTint,
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Column(
+        children: [
+          Text(
+            '$day',
+            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+              color: AppColors.primaryStrong,
+              height: 1,
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            month.toUpperCase(),
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall?.copyWith(color: AppColors.inkMuted),
+          ),
+        ],
+      ),
     );
   }
 }

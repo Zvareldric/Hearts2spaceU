@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hearts2spaceu/features/schedule/domain/event.dart';
 import 'package:hearts2spaceu/features/schedule/domain/event_repository.dart';
+import 'package:hearts2spaceu/app/widgets/states/empty_view.dart';
+import 'package:hearts2spaceu/app/widgets/states/error_view.dart';
 import 'package:hearts2spaceu/features/schedule/presentation/pages/schedule_page.dart';
 import 'package:hearts2spaceu/features/schedule/presentation/providers/event_providers.dart';
-import 'package:hearts2spaceu/features/schedule/presentation/widgets/empty_view.dart';
-import 'package:hearts2spaceu/features/schedule/presentation/widgets/error_view.dart';
 import 'package:hearts2spaceu/features/schedule/presentation/widgets/event_card.dart';
 import 'package:hearts2spaceu/routes/app_router.dart';
 

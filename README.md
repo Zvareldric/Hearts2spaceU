@@ -9,12 +9,15 @@
 **Current Status:** 🟡 Foundation Completed
 
 ### Current Phase
-Sprint 2 – Schedule
+Release 0.3.0 – Design System V1
 
 ### Next Milestone
 Music Releases & Personal Collection (see Roadmap)
 
-The project foundation is complete. Sprints 1–2 deliver the first two capabilities — **Official Information (Member Profiles)** and **Schedule (Upcoming Events)** — built on the documented Evolutionary Clean Architecture.
+The project foundation is complete. Sprints 1–2 deliver the first two capabilities —
+**Official Information (Member Profiles)** and **Schedule (Upcoming Events)** — built on the
+documented Evolutionary Clean Architecture. Release 0.3.0 adds **Design System V1**: brand
+tokens, reusable components, and motion shared by every screen.
 
 ---
 

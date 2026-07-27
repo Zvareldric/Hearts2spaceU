@@ -5,6 +5,7 @@ import 'package:hearts2spaceu/features/schedule/domain/event.dart';
 import 'package:hearts2spaceu/features/schedule/domain/event_repository.dart';
 import 'package:hearts2spaceu/app/widgets/states/empty_view.dart';
 import 'package:hearts2spaceu/app/widgets/states/error_view.dart';
+import 'package:hearts2spaceu/features/schedule/presentation/pages/event_detail_page.dart';
 import 'package:hearts2spaceu/features/schedule/presentation/pages/schedule_page.dart';
 import 'package:hearts2spaceu/features/schedule/presentation/providers/event_providers.dart';
 import 'package:hearts2spaceu/features/schedule/presentation/widgets/event_card.dart';
@@ -136,7 +137,9 @@ void main() {
     await tester.tap(find.text('Alpha Show'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Event'), findsOneWidget); // detail AppBar title
+    // Structural: the detail page no longer carries an AppBar title — its
+    // hero does (Design System V1, Checkpoint 6).
+    expect(find.byType(EventDetailPage), findsOneWidget);
     expect(find.text('Alpha Show'), findsOneWidget); // event title on detail
 
     await tester.pageBack();

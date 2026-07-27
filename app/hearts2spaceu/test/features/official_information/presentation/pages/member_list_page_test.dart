@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hearts2spaceu/features/official_information/domain/member.dart';
 import 'package:hearts2spaceu/features/official_information/domain/member_repository.dart';
+import 'package:hearts2spaceu/features/official_information/presentation/pages/member_detail_page.dart';
 import 'package:hearts2spaceu/features/official_information/presentation/pages/member_list_page.dart';
 import 'package:hearts2spaceu/features/official_information/presentation/providers/member_providers.dart';
 import 'package:hearts2spaceu/app/widgets/states/empty_view.dart';
@@ -128,7 +129,9 @@ void main() {
     await tester.pumpAndSettle();
 
     // On the detail page.
-    expect(find.text('Member'), findsOneWidget); // detail AppBar title
+    // Structural: the detail page no longer carries an AppBar title — its
+    // hero does (Design System V1, Checkpoint 6).
+    expect(find.byType(MemberDetailPage), findsOneWidget);
     expect(find.text('Alpha Full'), findsOneWidget); // fullName
 
     await tester.pageBack();

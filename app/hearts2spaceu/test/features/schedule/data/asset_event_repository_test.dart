@@ -76,10 +76,15 @@ void main() {
   group('AssetEventRepository.getEvents', () {
     setUp(TestWidgetsFlutterBinding.ensureInitialized);
 
-    test('loads the bundled asset (currently empty)', () async {
+    test('loads the real bundled asset', () async {
       const repository = AssetEventRepository();
 
-      expect(await repository.getEvents(), isEmpty);
+      final events = await repository.getEvents();
+
+      // Not asserting an exact schedule: the PO curates events.json
+      // independently of this test. This just proves the real asset parses.
+      expect(events, isNotEmpty);
+      expect(events.every((e) => e.title.isNotEmpty), isTrue);
     });
   });
 }

@@ -1,1 +1,57 @@
-[]
+[
+  {
+    "id": "jiwoo",
+    "stageName": "Jiwoo",
+    "fullName": "Choi Ji-woo",
+    "birthDate": "2006-09-07",
+    "positions": ["Leader", "Vocalist", "Rapper", "Dancer"]
+  },
+  {
+    "id": "carmen",
+    "stageName": "Carmen",
+    "birthDate": "2006-03-28",
+    "positions": ["Vocalist"]
+  },
+  {
+    "id": "yuha",
+    "stageName": "Yuha",
+    "fullName": "Yu Ha-ram",
+    "birthDate": "2007-04-12",
+    "positions": ["Vocalist", "Dancer"]
+  },
+  {
+    "id": "stella",
+    "stageName": "Stella",
+    "fullName": "Kim Da-hyun",
+    "birthDate": "2007-06-18",
+    "positions": ["Vocalist"]
+  },
+  {
+    "id": "juun",
+    "stageName": "Juun",
+    "fullName": "Kim Ju-eun",
+    "birthDate": "2008-12-03",
+    "positions": ["Main Dancer", "Rapper", "Vocalist"]
+  },
+  {
+    "id": "a-na",
+    "stageName": "A-na",
+    "fullName": "Roh Yu-na",
+    "birthDate": "2008-12-20",
+    "positions": ["Rapper", "Vocalist", "Visual"]
+  },
+  {
+    "id": "ian",
+    "stageName": "Ian",
+    "fullName": "Jeong Lee-an",
+    "birthDate": "2009-10-09",
+    "positions": ["Dancer", "Vocalist", "Visual", "Center"]
+  },
+  {
+    "id": "ye-on",
+    "stageName": "Ye-on",
+    "fullName": "Kim Na-yeon",
+    "birthDate": "2010-04-19",
+    "positions": ["Vocalist", "Maknae"]
+  }
+]

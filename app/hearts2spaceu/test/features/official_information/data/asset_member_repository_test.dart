@@ -65,12 +65,15 @@ void main() {
   group('AssetMemberRepository.getMembers', () {
     setUp(TestWidgetsFlutterBinding.ensureInitialized);
 
-    test('loads the bundled asset (currently empty)', () async {
+    test('loads the real bundled asset', () async {
       const repository = AssetMemberRepository();
 
       final members = await repository.getMembers();
 
-      expect(members, isEmpty);
+      // Not asserting an exact roster/count: the PO curates members.json
+      // independently of this test. This just proves the real asset parses.
+      expect(members, isNotEmpty);
+      expect(members.every((m) => m.stageName.isNotEmpty), isTrue);
     });
   });
 }

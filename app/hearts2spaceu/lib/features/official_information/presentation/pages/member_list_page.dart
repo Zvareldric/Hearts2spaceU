@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/states/empty_view.dart';
+import '../../../../app/widgets/states/error_view.dart';
+import '../../../../app/widgets/states/loading_view.dart';
 import '../../../../routes/app_routes.dart';
 import '../providers/member_providers.dart';
-import '../widgets/empty_view.dart';
-import '../widgets/error_view.dart';
-import '../widgets/loading_view.dart';
 import '../widgets/member_card.dart';
 
-/// UC-1 — the list of members.
+/// UC-1 — the list of members. Design System V1 (Checkpoint 5).
 ///
 /// Presentation only: it watches [membersProvider] and renders the matching
 /// state. Data loading lives entirely in the provider/repository.
@@ -31,8 +32,11 @@ class MemberListPage extends ConsumerWidget {
           if (members.isEmpty) {
             return const EmptyView(message: 'No members yet.');
           }
-          return ListView.builder(
+          return ListView.separated(
+            padding: const EdgeInsets.all(AppSpacing.screenPadding),
             itemCount: members.length,
+            separatorBuilder: (context, index) =>
+                const SizedBox(height: AppSpacing.md),
             itemBuilder: (context, index) {
               final member = members[index];
               return MemberCard(

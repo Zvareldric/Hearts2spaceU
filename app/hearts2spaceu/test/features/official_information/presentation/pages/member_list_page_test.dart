@@ -5,8 +5,8 @@ import 'package:hearts2spaceu/features/official_information/domain/member.dart';
 import 'package:hearts2spaceu/features/official_information/domain/member_repository.dart';
 import 'package:hearts2spaceu/features/official_information/presentation/pages/member_list_page.dart';
 import 'package:hearts2spaceu/features/official_information/presentation/providers/member_providers.dart';
-import 'package:hearts2spaceu/features/official_information/presentation/widgets/empty_view.dart';
-import 'package:hearts2spaceu/features/official_information/presentation/widgets/error_view.dart';
+import 'package:hearts2spaceu/app/widgets/states/empty_view.dart';
+import 'package:hearts2spaceu/app/widgets/states/error_view.dart';
 import 'package:hearts2spaceu/features/official_information/presentation/widgets/member_card.dart';
 import 'package:hearts2spaceu/routes/app_router.dart';
 

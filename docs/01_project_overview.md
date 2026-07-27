@@ -15,7 +15,7 @@ Dokumen ini adalah *pintu masuk* project: gambaran umum **apa**, **kenapa**, dan
 | Tema         | Hearts2Hearts (grup di bawah SM Entertainment) |
 | Jenis Produk | Aplikasi mobile                                |
 | Framework    | Flutter                                        |
-| Tahap        | Planning                                       |
+| Tahap        | Development                                    |
 | Repository   | Publik di GitHub — https://github.com/Zvareldric/Hearts2spaceU              |
 | Lisensi      | Apache License 2.0                             |
 

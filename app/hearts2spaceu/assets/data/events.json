@@ -1,9 +1,167 @@
 [
   {
-    "id": "iconic-heart-jp-single",
-    "title": "Iconic Heart (Japan Debut Single)",
-    "startDateTime": "2026-08-12T00:00:00",
+    "id": "hyos-level-up-2026-07-29",
+    "title": "Hyo's Level Up with HyoRiSoo",
+    "startDateTime": "2026-07-29T00:00:00",
+    "allDay": true,
+    "type": "broadcast",
+    "location": "South Korea",
+    "description": "Guest appearance with Hyoyeon, Yuri and Sooyoung."
+  },
+  {
+    "id": "kmstation-fansign-2026-07-31",
+    "title": "Offline Fansign Event with KMstation",
+    "startDateTime": "2026-07-31T00:00:00",
+    "allDay": true,
+    "type": "fanmeeting",
+    "location": "China"
+  },
+  {
+    "id": "iconic-heart-teaser-01",
+    "title": "Image Teaser 01 — ICONIC HEART",
+    "startDateTime": "2026-08-05T20:28:00",
     "type": "release",
-    "description": "Hearts2Hearts' official Japanese debut single. Pre-released digitally on August 10; physical release on August 12, 2026."
+    "location": "Japan",
+    "description": "Web promotion and first image teaser (20:28 KST)."
+  },
+  {
+    "id": "iconic-heart-teaser-02",
+    "title": "Image Teaser 02 & Mood Sampler — ICONIC HEART",
+    "startDateTime": "2026-08-07T20:28:00",
+    "type": "release",
+    "location": "Japan",
+    "description": "Second image teaser and mood sampler (20:28 KST)."
+  },
+  {
+    "id": "sbs-gayo-daejeon-2026",
+    "title": "SBS Gayo Daejeon Summer 2026",
+    "startDateTime": "2026-08-09T00:00:00",
+    "allDay": true,
+    "type": "broadcast",
+    "location": "South Korea",
+    "description": "IAN serves as special MC alongside RIIZE's Sungchan and NCT WISH's Sion."
+  },
+  {
+    "id": "iconic-heart-digital-single",
+    "title": "Digital Single — ICONIC HEART",
+    "startDateTime": "2026-08-10T00:00:00",
+    "allDay": true,
+    "type": "release",
+    "location": "Japan"
+  },
+  {
+    "id": "iconic-heart-mv-teaser",
+    "title": "MV Teaser & MV Image — ICONIC HEART",
+    "startDateTime": "2026-08-11T00:00:00",
+    "type": "release",
+    "location": "Japan",
+    "description": "Released at 00:00 KST."
+  },
+  {
+    "id": "japan-hi-touch-2026-08-11",
+    "title": "Group Hi-Touch Event",
+    "startDateTime": "2026-08-11T00:00:00",
+    "allDay": true,
+    "type": "fanmeeting",
+    "location": "Tokyo, Japan"
+  },
+  {
+    "id": "iconic-heart-album-release",
+    "title": "Album & MV Release — ICONIC HEART",
+    "startDateTime": "2026-08-12T00:00:00",
+    "allDay": true,
+    "type": "release",
+    "location": "Japan",
+    "description": "Official Japanese debut single."
+  },
+  {
+    "id": "mazamas-wangan-fest-2026",
+    "title": "Mazamas Wangan Fest",
+    "startDateTime": "2026-08-14T00:00:00",
+    "allDay": true,
+    "type": "concert",
+    "location": "Tokyo, Japan"
+  },
+  {
+    "id": "tgc-matsuyama-2026",
+    "title": "Tokyo Girls Collection in Matsuyama",
+    "startDateTime": "2026-08-16T00:00:00",
+    "allDay": true,
+    "type": "event",
+    "location": "Matsuyama, Japan"
+  },
+  {
+    "id": "saison-special-night-game-2026",
+    "title": "SAISON Presents Special Night Game",
+    "startDateTime": "2026-08-18T00:00:00",
+    "allDay": true,
+    "type": "event",
+    "location": "Tokyo Dome, Japan"
+  },
+  {
+    "id": "non-no-magazine-2026-10",
+    "title": "non-no Magazine October 2026 Special Edition",
+    "startDateTime": "2026-08-20T00:00:00",
+    "allDay": true,
+    "type": "release",
+    "location": "Japan"
+  },
+  {
+    "id": "tima-2026-day-1",
+    "title": "2026 TIMA — TMElive International Music Awards, Day 1",
+    "startDateTime": "2026-08-22T00:00:00",
+    "allDay": true,
+    "type": "award",
+    "location": "Kai Tak Stadium, Hong Kong"
+  },
+  {
+    "id": "japan-fansign-iconic-heart",
+    "title": "Japan Fansign Event — ICONIC HEART",
+    "startDateTime": "2026-09-17T00:00:00",
+    "allDay": true,
+    "type": "fanmeeting",
+    "location": "Tokyo, Japan",
+    "description": "Runs 17–18 September 2026."
+  },
+  {
+    "id": "tgc-tokyo-2026",
+    "title": "Tokyo Girls Collection in Tokyo",
+    "startDateTime": "2026-09-19T00:00:00",
+    "allDay": true,
+    "type": "event",
+    "location": "Tokyo, Japan"
+  },
+  {
+    "id": "fest-inazuma-2026",
+    "title": "FEST. INAZUMA 2026",
+    "startDateTime": "2026-09-20T00:00:00",
+    "allDay": true,
+    "type": "concert",
+    "location": "Japan"
+  },
+  {
+    "id": "sbs-inkigayo-tokyo-2026",
+    "title": "SBS Inkigayo LIVE in Tokyo 2026",
+    "startDateTime": "2026-09-23T00:00:00",
+    "allDay": true,
+    "type": "broadcast",
+    "location": "Belluna Dome, Tokyo, Japan"
+  },
+  {
+    "id": "nol-festival-2026",
+    "title": "NOL FESTIVAL",
+    "startDateTime": "2026-10-17T00:00:00",
+    "allDay": true,
+    "type": "concert",
+    "location": "South Korea",
+    "description": "Runs 17–18 October 2026."
+  },
+  {
+    "id": "music-expo-live-taipei-2026",
+    "title": "MUSIC EXPO LIVE 2026 in Taipei",
+    "startDateTime": "2026-10-24T00:00:00",
+    "allDay": true,
+    "type": "concert",
+    "location": "Taipei Arena, Taiwan"
   }
 ]

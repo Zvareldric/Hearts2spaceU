@@ -71,6 +71,21 @@ void main() {
         throwsFormatException,
       );
     });
+
+    test('reads the allDay flag', () {
+      const raw =
+          '[{"id": "e", "title": "T", "startDateTime": "2026-08-12T00:00:00", "allDay": true}]';
+
+      expect(AssetEventRepository.parseEvents(raw).single.allDay, isTrue);
+    });
+
+    test('defaults allDay to false when absent', () {
+      // Events written before the flag existed keep their exact time.
+      const raw =
+          '[{"id": "e", "title": "T", "startDateTime": "2026-08-05T20:28:00"}]';
+
+      expect(AssetEventRepository.parseEvents(raw).single.allDay, isFalse);
+    });
   });
 
   group('AssetEventRepository.getEvents', () {
@@ -85,6 +100,12 @@ void main() {
       // independently of this test. This just proves the real asset parses.
       expect(events, isNotEmpty);
       expect(events.every((e) => e.title.isNotEmpty), isTrue);
+      expect(events.every((e) => e.id.isNotEmpty), isTrue);
+
+      // Ids are how the detail route finds an event; duplicates would make one
+      // of them unreachable.
+      final ids = events.map((e) => e.id).toSet();
+      expect(ids, hasLength(events.length));
     });
   });
 }

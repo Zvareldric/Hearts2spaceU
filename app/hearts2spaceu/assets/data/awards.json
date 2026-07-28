@@ -1,0 +1,338 @@
+[
+  {
+    "id": "kgma-2026-individual-artist-june-rookie-stella",
+    "title": "Individual Artist of June Rookie",
+    "ceremony": "KGMA",
+    "year": 2026,
+    "members": ["Stella"]
+  },
+  {
+    "id": "km-chart-awards-2026-ultimate-12",
+    "title": "Ultimate 12 (Bonsang)",
+    "ceremony": "KM Chart Awards",
+    "year": 2026
+  },
+  {
+    "id": "km-chart-awards-2026-best-female-group",
+    "title": "Best Female Group",
+    "ceremony": "KM Chart Awards",
+    "year": 2026
+  },
+  {
+    "id": "sma-2026-bonsang",
+    "title": "Bonsang",
+    "ceremony": "Seoul Music Awards",
+    "year": 2026
+  },
+  {
+    "id": "asea-2026-the-platinum",
+    "title": "The Platinum (Bonsang)",
+    "ceremony": "ASEA Awards",
+    "year": 2026
+  },
+  {
+    "id": "asea-2026-best-group-female",
+    "title": "The Best Group (Female)",
+    "ceremony": "ASEA Awards",
+    "year": 2026
+  },
+  {
+    "id": "duckad-2026-03-best-idol-group",
+    "title": "Best Idol Group Trophy of the Month",
+    "ceremony": "Duckad",
+    "year": 2026,
+    "note": "March 2026"
+  },
+  {
+    "id": "brand-customer-loyalty-2026-hot-trend-girl-group",
+    "title": "Hot Trend Girl Group",
+    "ceremony": "Brand Customer Loyalty Awards",
+    "year": 2026
+  },
+  {
+    "id": "wiea-2026-new-force-overseas-group",
+    "title": "New Force Overseas Group of the Year",
+    "ceremony": "WIEA",
+    "year": 2026
+  },
+  {
+    "id": "rude-inkigayo-win",
+    "title": "1st Place",
+    "ceremony": "Inkigayo",
+    "year": 2026,
+    "type": "music-show",
+    "work": "RUDE!"
+  },
+  {
+    "id": "rude-music-core-win-2",
+    "title": "1st Place",
+    "ceremony": "Music Core",
+    "year": 2026,
+    "type": "music-show",
+    "work": "RUDE!",
+    "note": "Second win"
+  },
+  {
+    "id": "rude-m-countdown-win-2",
+    "title": "1st Place",
+    "ceremony": "M Countdown",
+    "year": 2026,
+    "type": "music-show",
+    "work": "RUDE!",
+    "note": "Second win"
+  },
+  {
+    "id": "rude-music-core-win-1",
+    "title": "1st Place",
+    "ceremony": "Music Core",
+    "year": 2026,
+    "type": "music-show",
+    "work": "RUDE!",
+    "note": "First win"
+  },
+  {
+    "id": "rude-m-countdown-win-1",
+    "title": "1st Place",
+    "ceremony": "M Countdown",
+    "year": 2026,
+    "type": "music-show",
+    "work": "RUDE!",
+    "note": "First win"
+  },
+  {
+    "id": "d-awards-2026-dreams-silver-label",
+    "title": "Dreams Silver Label (Rookie)",
+    "ceremony": "D Awards",
+    "year": 2026
+  },
+  {
+    "id": "ccma-2026-most-album-sales-new-female-artist",
+    "title": "Most Album Sales by New Female Artist",
+    "ceremony": "CCMA",
+    "year": 2026
+  },
+  {
+    "id": "gda-2026-most-popular-artist",
+    "title": "Most Popular Artist",
+    "ceremony": "Golden Disc Awards",
+    "year": 2026
+  },
+  {
+    "id": "first-brand-2026-vietnamese-rookie-female-idol",
+    "title": "Vietnamese Rookie Female Idol",
+    "ceremony": "First Brand Awards",
+    "year": 2026
+  },
+  {
+    "id": "first-brand-2026-indonesian-rookie-female-idol",
+    "title": "Indonesian Rookie Female Idol",
+    "ceremony": "First Brand Awards",
+    "year": 2026
+  },
+  {
+    "id": "first-brand-2026-rookie-female-idol",
+    "title": "Rookie Female Idol",
+    "ceremony": "First Brand Awards",
+    "year": 2026
+  },
+  {
+    "id": "mma-2025-new-artist-of-the-year",
+    "title": "New Artist of the Year",
+    "ceremony": "MMA Awards",
+    "year": 2025
+  },
+  {
+    "id": "mma-2025-berriz-global-fans-choice",
+    "title": "Berriz Global Fan's Choice",
+    "ceremony": "MMA Awards",
+    "year": 2025
+  },
+  {
+    "id": "mama-2025-olive-young-k-beauty-artist",
+    "title": "Olive Young K-Beauty Artist",
+    "ceremony": "MAMA Awards",
+    "year": 2025
+  },
+  {
+    "id": "mama-2025-fans-choice-female-top-10",
+    "title": "FANS' Choice Female Top 10 (Bonsang)",
+    "ceremony": "MAMA Awards",
+    "year": 2025
+  },
+  {
+    "id": "mama-2025-best-new-artist",
+    "title": "Best New Artist",
+    "ceremony": "MAMA Awards",
+    "year": 2025
+  },
+  {
+    "id": "hanteo-2025-rookie-of-the-year",
+    "title": "Rookie of the Year",
+    "ceremony": "Hanteo Music Awards",
+    "year": 2025
+  },
+  {
+    "id": "km-chart-2025-world-season-best-winter-best-rookie",
+    "title": "Best Rookie (Female)",
+    "ceremony": "KM Chart World Season Best Winter",
+    "year": 2025
+  },
+  {
+    "id": "duckad-itoty-2025",
+    "title": "ITOTY 2025",
+    "ceremony": "Duckad",
+    "year": 2025
+  },
+  {
+    "id": "isac-2025-chuseok-400m-relay",
+    "title": "400M Relay Race",
+    "ceremony": "ISAC Chuseok",
+    "year": 2025,
+    "members": ["Carmen", "Juun", "A-na", "Ian"]
+  },
+  {
+    "id": "duckad-2025-10-best-idol-group",
+    "title": "Best Idol Group Trophy of the Month",
+    "ceremony": "Duckad",
+    "year": 2025,
+    "note": "October 2025"
+  },
+  {
+    "id": "duckad-2025-03-best-idol-group",
+    "title": "Best Idol Group Trophy of the Month",
+    "ceremony": "Duckad",
+    "year": 2025,
+    "note": "March 2025"
+  },
+  {
+    "id": "isac-2025-mvp",
+    "title": "MVP",
+    "ceremony": "ISAC",
+    "year": 2025
+  },
+  {
+    "id": "focus-music-core-mpick",
+    "title": "STAGE MPICK",
+    "ceremony": "Music Core",
+    "year": 2025,
+    "type": "music-show",
+    "work": "FOCUS"
+  },
+  {
+    "id": "focus-show-champion",
+    "title": "STAGE CHAMPION",
+    "ceremony": "Show Champion",
+    "year": 2025,
+    "type": "music-show",
+    "work": "FOCUS"
+  },
+  {
+    "id": "focus-the-show",
+    "title": "1st Place",
+    "ceremony": "The Show",
+    "year": 2025,
+    "type": "music-show",
+    "work": "FOCUS"
+  },
+  {
+    "id": "pretty-please-music-core-mpick",
+    "title": "STAGE MPICK",
+    "ceremony": "Music Core",
+    "year": 2025,
+    "type": "music-show",
+    "work": "Pretty Please"
+  },
+  {
+    "id": "kgma-2025-rising-star",
+    "title": "Rising Star",
+    "ceremony": "KGMA",
+    "year": 2025
+  },
+  {
+    "id": "kgma-2025-individual-trend-of-the-year-carmen",
+    "title": "Individual Trend of the Year Rookie",
+    "ceremony": "KGMA",
+    "year": 2025,
+    "members": ["Carmen"]
+  },
+  {
+    "id": "kgma-2025-individual-trend-may-carmen",
+    "title": "Individual Trend of May Rookie",
+    "ceremony": "KGMA",
+    "year": 2025,
+    "members": ["Carmen"]
+  },
+  {
+    "id": "brand-of-the-year-2025-rookie-indonesian",
+    "title": "Rookie (Indonesian)",
+    "ceremony": "Brand of the Year",
+    "year": 2025
+  },
+  {
+    "id": "brand-of-the-year-2025-rookie-korean",
+    "title": "Rookie (Korean)",
+    "ceremony": "Brand of the Year",
+    "year": 2025
+  },
+  {
+    "id": "tma-2025-next-leader",
+    "title": "Next Leader",
+    "ceremony": "TMA",
+    "year": 2025
+  },
+  {
+    "id": "kwda-2025-super-rookie",
+    "title": "Super Rookie",
+    "ceremony": "KWDA",
+    "year": 2025
+  },
+  {
+    "id": "youtube-golden-play-button",
+    "title": "Golden Play Button",
+    "ceremony": "YouTube",
+    "year": 2025,
+    "type": "milestone"
+  },
+  {
+    "id": "sma-2025-best-new-artist",
+    "title": "Best New Artist",
+    "ceremony": "Seoul Music Awards",
+    "year": 2025
+  },
+  {
+    "id": "asea-2025-best-new-artist",
+    "title": "Best New Artist",
+    "ceremony": "ASEA",
+    "year": 2025
+  },
+  {
+    "id": "tiktok-2025-silver-award",
+    "title": "TikTok Silver Award",
+    "ceremony": "TikTok",
+    "year": 2025,
+    "type": "milestone"
+  },
+  {
+    "id": "the-chase-the-show",
+    "title": "1st Place",
+    "ceremony": "The Show",
+    "year": 2025,
+    "type": "music-show",
+    "work": "The Chase"
+  },
+  {
+    "id": "the-chase-show-champion",
+    "title": "STAGE CHAMPION",
+    "ceremony": "Show Champion",
+    "year": 2025,
+    "type": "music-show",
+    "work": "The Chase"
+  },
+  {
+    "id": "youtube-silver-play-button",
+    "title": "Silver Play Button",
+    "ceremony": "YouTube",
+    "year": 2025,
+    "type": "milestone"
+  }
+]

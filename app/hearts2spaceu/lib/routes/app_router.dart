@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../features/awards/presentation/pages/award_detail_page.dart';
+import '../features/awards/presentation/pages/awards_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/latest_updates/presentation/pages/latest_updates_page.dart';
 import '../features/latest_updates/presentation/pages/update_detail_page.dart';
@@ -44,6 +46,13 @@ class AppRouter {
         );
       case AppRoutes.streamingHub:
         return MaterialPageRoute(builder: (_) => const StreamingHubPage());
+      case AppRoutes.awards:
+        return MaterialPageRoute(builder: (_) => const AwardsPage());
+      case AppRoutes.awardDetail:
+        final awardId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => AwardDetailPage(awardId: awardId),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

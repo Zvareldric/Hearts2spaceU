@@ -66,6 +66,7 @@ flutter:
     - assets/data/members.json
     - assets/data/events.json
     - assets/data/platforms.json
+    - assets/data/awards.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -11,4 +11,6 @@ class AppRoutes {
   static const String latestUpdates = '/updates';
   static const String updateDetail = '/updates/detail';
   static const String streamingHub = '/channels';
+  static const String awards = '/awards';
+  static const String awardDetail = '/awards/detail';
 }

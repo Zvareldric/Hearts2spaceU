@@ -97,6 +97,25 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(height: AppSpacing.md),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.emoji_events_rounded,
+                                title: 'Awards',
+                                subtitle: 'What they have won',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.awards),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            // Empty slot: the grid stays 2-up and visibly has
+                            // room for what comes next.
+                            const Expanded(child: SizedBox.shrink()),
+                          ],
+                        ),
                         const SizedBox(height: AppSpacing.xxl),
                         const SectionHeader(label: 'Up next'),
                         const SizedBox(height: AppSpacing.md),

@@ -6,10 +6,10 @@
 
 ## 🚧 Project Status
 
-**Current Status:** 🟡 Foundation Completed
+**Current Status:** 🟢 MVP complete
 
 ### Current Phase
-🎉 MVP complete — all three MVP capabilities delivered
+Sprint 6 – Awards
 
 ### Next Milestone
 Early Growth — once the MVP's core value is validated (see Roadmap)
@@ -18,6 +18,9 @@ Sprints 1–4 deliver every MVP capability — **Official Information (Member Pr
 **Schedule (Upcoming Events)**, **Latest Updates**, and the **Official Streaming Hub** —
 built on the documented Evolutionary Clean Architecture. Release 0.3.0 added
 **Design System V1**: brand tokens, reusable components, and motion shared by every screen.
+
+Sprints 5–6 added all-day events with the real 2026 schedule, and **Awards** — 52
+achievements grouped by year.
 
 Two capabilities proved the architecture holds as needs change: Latest Updates is served
 over the network behind the same repository contract the bundled features use, and the
@@ -125,6 +128,7 @@ Current development focus:
 - ✅ Schedule — Upcoming Events (MVP slice)
 - ✅ Latest Updates (MVP slice)
 - ✅ Official Streaming Hub
+- ✅ Awards
 - ⏳ Personal Collection
 - ⏳ Additional capabilities (see Roadmap)
 

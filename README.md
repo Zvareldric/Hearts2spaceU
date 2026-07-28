@@ -14,12 +14,14 @@
 ### Next Milestone
 Early Growth — once the MVP's core value is validated (see Roadmap)
 
-The project foundation is complete. Sprints 1–3 deliver three MVP capabilities —
-**Official Information (Member Profiles)**, **Schedule (Upcoming Events)**, and
-**Latest Updates** — built on the documented Evolutionary Clean Architecture. Release 0.3.0
-added **Design System V1**: brand tokens, reusable components, and motion shared by every
-screen. Latest Updates is the first capability served over the network, proving the
-Data Source Boundary holds when the source changes.
+Sprints 1–4 deliver every MVP capability — **Official Information (Member Profiles)**,
+**Schedule (Upcoming Events)**, **Latest Updates**, and the **Official Streaming Hub** —
+built on the documented Evolutionary Clean Architecture. Release 0.3.0 added
+**Design System V1**: brand tokens, reusable components, and motion shared by every screen.
+
+Two capabilities proved the architecture holds as needs change: Latest Updates is served
+over the network behind the same repository contract the bundled features use, and the
+Streaming Hub links out to official platforms without the app ever hosting content itself.
 
 ---
 

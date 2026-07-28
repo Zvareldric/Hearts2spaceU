@@ -1,1 +1,77 @@
-[]
+[
+  {
+    "id": "the-chase",
+    "title": "The Chase",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/GkJKuKQbAAAZZ6H.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/GkJKuKQbAAAZZ6H.jpg", "caption": "Concept Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/GkUVYXZXUAAk2w3.jpg", "caption": "Concept Photo 02" },
+      { "id": "03", "url": "https://pbs.twimg.com/media/GkUU82fXAAATTLw.jpg", "caption": "Concept Photo 03" }
+    ]
+  },
+  {
+    "id": "style",
+    "title": "STYLE",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/GtodnLxa0AI8iGT.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/GtodnLxa0AI8iGT.jpg", "caption": "Concept Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/Gtodxo1a0AINdDI.jpg", "caption": "Concept Photo 02" },
+      { "id": "03", "url": "https://pbs.twimg.com/media/Gtod1YhbUAAsaHE.jpg", "caption": "Concept Photo 03" }
+    ]
+  },
+  {
+    "id": "pretty-please",
+    "title": "Pretty Please",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/G1mTox3bcAAjJLp.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/G1mTox3bcAAjJLp.jpg", "caption": "Concept Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/G1xXmQVagAAVDqe.jpg", "caption": "Concept Photo 02" },
+      { "id": "03", "url": "https://pbs.twimg.com/media/G12YDpRbwAAZt0a.jpg", "caption": "Concept Photo 03" }
+    ]
+  },
+  {
+    "id": "focus",
+    "title": "FOCUS",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/G3TqcKmasAASmf2.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/G3TqcKmasAASmf2.jpg", "caption": "Concept Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/G3TqJ9dasAApZAr.jpg", "caption": "Concept Photo 02" },
+      { "id": "03", "url": "https://pbs.twimg.com/media/G3TqYWHboAAUzyE.jpg", "caption": "Concept Photo 03" }
+    ]
+  },
+  {
+    "id": "rude",
+    "title": "RUDE!",
+    "year": 2026,
+    "coverUrl": "https://pbs.twimg.com/media/HBrvh8_b0AAw7J1.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/HBrvh8_b0AAw7J1.jpg", "caption": "Concept Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/HCpiHK0aMAAJBOS.jpg", "caption": "Concept Photo 02" }
+    ]
+  },
+  {
+    "id": "lemon-tang",
+    "title": "Lemon Tang",
+    "year": 2026,
+    "coverUrl": "https://pbs.twimg.com/media/HLJL7SnbIAADVVR.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/HLJL7SnbIAADVVR.jpg", "caption": "Concept Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/HLJL5bmacAA3HPi.jpg", "caption": "Concept Photo 02" },
+      { "id": "03", "url": "https://pbs.twimg.com/media/HK-2UynaoAA-XQS.jpg", "caption": "Concept Photo 03" }
+    ]
+  },
+  {
+    "id": "iconic-heart",
+    "title": "Iconic Heart",
+    "year": 2026,
+    "coverUrl": "https://pbs.twimg.com/media/HNMkZLjbsAA8Pvj.jpg",
+    "photos": [
+      { "id": "01", "url": "https://pbs.twimg.com/media/HNMkZLjbsAA8Pvj.jpg", "caption": "Teaser Photo 01" },
+      { "id": "02", "url": "https://pbs.twimg.com/media/HNMfRwFbUAEnWnw.jpg", "caption": "Teaser Photo 02" }
+    ]
+  }
+]

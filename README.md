@@ -9,7 +9,7 @@
 **Current Status:** 🟢 MVP complete
 
 ### Current Phase
-Sprint 6 – Awards
+Sprint 7 – Gallery (Early Growth)
 
 ### Next Milestone
 Early Growth — once the MVP's core value is validated (see Roadmap)
@@ -129,6 +129,7 @@ Current development focus:
 - ✅ Latest Updates (MVP slice)
 - ✅ Official Streaming Hub
 - ✅ Awards
+- ✅ Gallery
 - ⏳ Personal Collection
 - ⏳ Additional capabilities (see Roadmap)
 

@@ -12,7 +12,7 @@
 Sprint 7 – Gallery (Early Growth)
 
 ### Next Milestone
-Early Growth — once the MVP's core value is validated (see Roadmap)
+Personal Collection — the last Coming Soon card (see Roadmap)
 
 Sprints 1–4 deliver every MVP capability — **Official Information (Member Profiles)**,
 **Schedule (Upcoming Events)**, **Latest Updates**, and the **Official Streaming Hub** —

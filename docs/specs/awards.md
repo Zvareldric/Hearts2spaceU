@@ -33,12 +33,12 @@ dapat melihat rekam jejak grup tanpa menelusuri sumber yang tersebar.
 
 ## 2. Ruang Lingkup Sprint 6
 
-Product Owner menyediakan daftar **50 pencapaian**. Setelah dibahas, **ketiganya masuk**:
+Product Owner menyediakan daftar **52 pencapaian**. Setelah dibahas, **ketiganya masuk**:
 
 | Jenis | Jumlah | Contoh |
 |-------|-------:|--------|
 | Penghargaan ajang | ~36 | MAMA Best New Artist · Golden Disc Most Popular Artist · SMA Bonsang |
-| **Kemenangan acara musik** | 11 | *RUDE!* di M Countdown · *FOCUS* di Show Champion |
+| **Kemenangan acara musik** | 13 | *RUDE!* di M Countdown · *FOCUS* di Show Champion |
 | **Milestone platform** | 3 | YouTube Silver/Golden Play Button · TikTok Silver Award |
 | *(di antaranya)* pencapaian **individual member** | 4 | KGMA Individual Trend (Carmen) · ISAC relay (4 member) |
 
@@ -175,7 +175,7 @@ kelihatannya masuk akal" akan berhenti menjadi aturan.
 
 ## 8. Acceptance Criteria
 
-- [ ] `assets/data/awards.json` ada, ter-registrasi, valid, memuat **50 pencapaian**.
+- [ ] `assets/data/awards.json` ada, ter-registrasi, valid, memuat **52 pencapaian**.
 - [ ] UC-1: tampil dikelompokkan **per tahun** (terbaru di atas) dengan **header menempel**.
 - [ ] Badge membedakan `award` · `music-show` · `milestone`.
 - [ ] Pencapaian individual menampilkan **nama member**-nya.

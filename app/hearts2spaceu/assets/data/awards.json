@@ -1,5 +1,21 @@
 [
   {
+    "id": "lemon-tang-m-countdown",
+    "title": "1st Place",
+    "ceremony": "M Countdown",
+    "year": 2026,
+    "type": "music-show",
+    "work": "Lemon Tang"
+  },
+  {
+    "id": "lemon-tang-show-champion",
+    "title": "STAGE CHAMPION",
+    "ceremony": "Show Champion",
+    "year": 2026,
+    "type": "music-show",
+    "work": "Lemon Tang"
+  },
+  {
     "id": "kgma-2026-individual-artist-june-rookie-stella",
     "title": "Individual Artist of June Rookie",
     "ceremony": "KGMA",

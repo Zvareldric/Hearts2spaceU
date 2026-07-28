@@ -9,10 +9,10 @@
 **Current Status:** 🟡 Foundation Completed
 
 ### Current Phase
-Sprint 3 – Latest Updates
+🎉 MVP complete — all three MVP capabilities delivered
 
 ### Next Milestone
-Official Streaming Hub — the last MVP capability (see Roadmap)
+Early Growth — once the MVP's core value is validated (see Roadmap)
 
 The project foundation is complete. Sprints 1–3 deliver three MVP capabilities —
 **Official Information (Member Profiles)**, **Schedule (Upcoming Events)**, and
@@ -122,7 +122,7 @@ Current development focus:
 - ✅ Official Information — Member Profiles (MVP slice)
 - ✅ Schedule — Upcoming Events (MVP slice)
 - ✅ Latest Updates (MVP slice)
-- ⏳ Official Streaming Hub
+- ✅ Official Streaming Hub
 - ⏳ Personal Collection
 - ⏳ Additional capabilities (see Roadmap)
 

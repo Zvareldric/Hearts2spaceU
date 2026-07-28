@@ -1,0 +1,48 @@
+[
+  {
+    "id": "spotify",
+    "name": "Spotify",
+    "url": "https://open.spotify.com/artist/1ZLU77nRzQIaP23mVSYpCQ",
+    "category": "music"
+  },
+  {
+    "id": "apple-music",
+    "name": "Apple Music",
+    "url": "https://music.apple.com/us/artist/hearts2hearts/1793698498",
+    "category": "music"
+  },
+  {
+    "id": "youtube",
+    "name": "YouTube",
+    "url": "https://www.youtube.com/@hearts2hearts.official",
+    "category": "video",
+    "handle": "@hearts2hearts.official"
+  },
+  {
+    "id": "instagram",
+    "name": "Instagram",
+    "url": "https://www.instagram.com/hearts2hearts",
+    "category": "social",
+    "handle": "@hearts2hearts"
+  },
+  {
+    "id": "x",
+    "name": "X",
+    "url": "https://x.com/hearts2hearts",
+    "category": "social",
+    "handle": "@hearts2hearts"
+  },
+  {
+    "id": "tiktok",
+    "name": "TikTok",
+    "url": "https://www.tiktok.com/@hearts2hearts",
+    "category": "social",
+    "handle": "@hearts2hearts"
+  },
+  {
+    "id": "facebook",
+    "name": "Facebook",
+    "url": "https://www.facebook.com/hearts2heartsH2H",
+    "category": "social"
+  }
+]

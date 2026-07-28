@@ -4,12 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
-import '../../../../app/widgets/buttons/secondary_button.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/layout/meta_row.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
+import '../../../../shared/widgets/external_link_button.dart';
 import '../../domain/member.dart';
 import '../providers/member_providers.dart';
 
@@ -93,11 +93,9 @@ class _MemberDetail extends StatelessWidget {
                 ),
               if (member.officialProfileUrl != null) ...[
                 const SizedBox(height: AppSpacing.xl),
-                // Disabled for now: opening links needs url_launcher, which is
-                // still out of scope (docs/specs/official-information.md).
-                const SecondaryButton(
-                  label: 'Official profile (soon)',
-                  icon: Icons.open_in_new_rounded,
+                ExternalLinkButton(
+                  url: member.officialProfileUrl!,
+                  label: 'Official profile',
                 ),
               ],
               const SizedBox(height: AppSpacing.xxl),

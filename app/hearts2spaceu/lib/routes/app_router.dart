@@ -7,6 +7,7 @@ import '../features/official_information/presentation/pages/member_detail_page.d
 import '../features/official_information/presentation/pages/member_list_page.dart';
 import '../features/schedule/presentation/pages/event_detail_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
+import '../features/streaming_hub/presentation/pages/streaming_hub_page.dart';
 import 'app_routes.dart';
 
 /// Central place that maps route names to screens.
@@ -41,6 +42,8 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => UpdateDetailPage(updateId: updateId),
         );
+      case AppRoutes.streamingHub:
+        return MaterialPageRoute(builder: (_) => const StreamingHubPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

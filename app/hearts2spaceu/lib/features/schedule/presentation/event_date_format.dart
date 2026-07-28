@@ -6,6 +6,25 @@
 ///
 /// Presentation-only: the domain and data layers keep the raw [DateTime].
 /// (Manual for MVP; see the spec's Evolution Notes for the move to `intl`.)
+const _monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+
+/// Labels a month section, e.g. `August 2026`.
+String formatMonthLabel(int year, int month) =>
+    '${_monthNames[month - 1]} $year';
+
 String formatEventDateTime(DateTime dt, {bool allDay = false}) {
   final day = dt.day.toString().padLeft(2, '0');
   final month = dt.month.toString().padLeft(2, '0');

@@ -26,21 +26,17 @@ class ComingSoonCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  width: 44,
-                  height: 44,
-                  alignment: Alignment.center,
-                  decoration: const BoxDecoration(
-                    color: AppColors.surfaceTint,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(icon, color: AppColors.inkMuted, size: 22),
-                ),
-                const SoonBadge(),
-              ],
+            // Stacked rather than icon-and-badge side by side: two rigid
+            // children in a Row overflow as soon as the card gets narrow.
+            Container(
+              width: 44,
+              height: 44,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceTint,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(icon, color: AppColors.inkMuted, size: 22),
             ),
             const SizedBox(height: AppSpacing.md),
             Text(
@@ -49,6 +45,8 @@ class ComingSoonCard extends StatelessWidget {
                 context,
               ).textTheme.titleMedium?.copyWith(color: AppColors.inkMuted),
             ),
+            const SizedBox(height: AppSpacing.sm),
+            const SoonBadge(),
           ],
         ),
       ),

@@ -1,16 +1,16 @@
 [
   {
-    "id": "lemon-tang-m-countdown",
-    "title": "1st Place",
-    "ceremony": "M Countdown",
+    "id": "lemon-tang-show-champion",
+    "title": "STAGE CHAMPION",
+    "ceremony": "Show Champion",
     "year": 2026,
     "type": "music-show",
     "work": "Lemon Tang"
   },
   {
-    "id": "lemon-tang-show-champion",
-    "title": "STAGE CHAMPION",
-    "ceremony": "Show Champion",
+    "id": "lemon-tang-m-countdown",
+    "title": "1st Place",
+    "ceremony": "M Countdown",
     "year": 2026,
     "type": "music-show",
     "work": "Lemon Tang"
@@ -20,7 +20,9 @@
     "title": "Individual Artist of June Rookie",
     "ceremony": "KGMA",
     "year": 2026,
-    "members": ["Stella"]
+    "members": [
+      "Stella"
+    ]
   },
   {
     "id": "km-chart-awards-2026-ultimate-12",
@@ -131,7 +133,8 @@
     "id": "gda-2026-most-popular-artist",
     "title": "Most Popular Artist",
     "ceremony": "Golden Disc Awards",
-    "year": 2026
+    "year": 2026,
+    "awardedOn": "2026-01-10T00:00:00"
   },
   {
     "id": "first-brand-2026-vietnamese-rookie-female-idol",
@@ -152,46 +155,52 @@
     "year": 2026
   },
   {
-    "id": "mma-2025-new-artist-of-the-year",
-    "title": "New Artist of the Year",
-    "ceremony": "MMA Awards",
-    "year": 2025
-  },
-  {
-    "id": "mma-2025-berriz-global-fans-choice",
-    "title": "Berriz Global Fan's Choice",
-    "ceremony": "MMA Awards",
-    "year": 2025
-  },
-  {
-    "id": "mama-2025-olive-young-k-beauty-artist",
-    "title": "Olive Young K-Beauty Artist",
-    "ceremony": "MAMA Awards",
-    "year": 2025
-  },
-  {
-    "id": "mama-2025-fans-choice-female-top-10",
-    "title": "FANS' Choice Female Top 10 (Bonsang)",
-    "ceremony": "MAMA Awards",
-    "year": 2025
-  },
-  {
-    "id": "mama-2025-best-new-artist",
-    "title": "Best New Artist",
-    "ceremony": "MAMA Awards",
+    "id": "km-chart-2025-world-season-best-winter-best-rookie",
+    "title": "Best Rookie (Female)",
+    "ceremony": "KM Chart World Season Best Winter",
     "year": 2025
   },
   {
     "id": "hanteo-2025-rookie-of-the-year",
     "title": "Rookie of the Year",
     "ceremony": "Hanteo Music Awards",
-    "year": 2025
+    "year": 2025,
+    "awardedOn": "2026-02-15T00:00:00"
   },
   {
-    "id": "km-chart-2025-world-season-best-winter-best-rookie",
-    "title": "Best Rookie (Female)",
-    "ceremony": "KM Chart World Season Best Winter",
-    "year": 2025
+    "id": "mma-2025-new-artist-of-the-year",
+    "title": "New Artist of the Year",
+    "ceremony": "MMA Awards",
+    "year": 2025,
+    "awardedOn": "2025-12-20T00:00:00"
+  },
+  {
+    "id": "mma-2025-berriz-global-fans-choice",
+    "title": "Berriz Global Fan's Choice",
+    "ceremony": "MMA Awards",
+    "year": 2025,
+    "awardedOn": "2025-12-20T00:00:00"
+  },
+  {
+    "id": "mama-2025-olive-young-k-beauty-artist",
+    "title": "Olive Young K-Beauty Artist",
+    "ceremony": "MAMA Awards",
+    "year": 2025,
+    "awardedOn": "2025-11-28T00:00:00"
+  },
+  {
+    "id": "mama-2025-fans-choice-female-top-10",
+    "title": "FANS' Choice Female Top 10 (Bonsang)",
+    "ceremony": "MAMA Awards",
+    "year": 2025,
+    "awardedOn": "2025-11-28T00:00:00"
+  },
+  {
+    "id": "mama-2025-best-new-artist",
+    "title": "Best New Artist",
+    "ceremony": "MAMA Awards",
+    "year": 2025,
+    "awardedOn": "2025-11-28T00:00:00"
   },
   {
     "id": "duckad-itoty-2025",
@@ -204,7 +213,12 @@
     "title": "400M Relay Race",
     "ceremony": "ISAC Chuseok",
     "year": 2025,
-    "members": ["Carmen", "Juun", "A-na", "Ian"]
+    "members": [
+      "Carmen",
+      "Juun",
+      "A-na",
+      "Ian"
+    ]
   },
   {
     "id": "duckad-2025-10-best-idol-group",
@@ -269,14 +283,18 @@
     "title": "Individual Trend of the Year Rookie",
     "ceremony": "KGMA",
     "year": 2025,
-    "members": ["Carmen"]
+    "members": [
+      "Carmen"
+    ]
   },
   {
     "id": "kgma-2025-individual-trend-may-carmen",
     "title": "Individual Trend of May Rookie",
     "ceremony": "KGMA",
     "year": 2025,
-    "members": ["Carmen"]
+    "members": [
+      "Carmen"
+    ]
   },
   {
     "id": "brand-of-the-year-2025-rookie-indonesian",
@@ -313,7 +331,8 @@
     "id": "sma-2025-best-new-artist",
     "title": "Best New Artist",
     "ceremony": "Seoul Music Awards",
-    "year": 2025
+    "year": 2025,
+    "awardedOn": "2025-06-21T00:00:00"
   },
   {
     "id": "asea-2025-best-new-artist",

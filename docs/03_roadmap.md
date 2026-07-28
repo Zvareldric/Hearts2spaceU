@@ -44,6 +44,19 @@ flowchart LR
 
 > Perpindahan antar fase didasarkan pada **tercapainya tujuan fase sebelumnya**, bukan pada waktu ataupun jumlah fitur.
 
+### 📍 Status fase
+
+| Transisi | Status | Keterangan |
+|----------|--------|------------|
+| **MVP → Early Growth** | ✅ **Dibuka 2026-07-28** | Keputusan Product Owner. Ketiga kapabilitas MVP terkirim (`v0.1.0`–`v0.5.0`), diperkaya Design System V1 dan kapabilitas Awards. |
+| Early Growth → Future Expansion | ⏳ belum | — |
+
+> ⚠️ **Catatan kejujuran.** Kriteria di atas menuntut **bukti kualitatif dari Primary Users**.
+> Aplikasi belum dirilis ke publik, sehingga bukti semacam itu **belum ada**. Gerbang dibuka
+> atas penilaian Product Owner bahwa cakupan MVP sudah lengkap dan siap diperkuat —
+> **bukan** karena kriteria tervalidasi. Dicatat apa adanya agar keputusannya dapat ditinjau
+> ulang bila kelak umpan balik pengguna berkata lain.
+
 ## 3. Capability Mapping
 
 Pemetaan ini berada pada **tingkat konseptual**. Setiap *capability* dapat diwujudkan melalui **beberapa fitur** yang akan didefinisikan pada roadmap yang lebih rinci dan *product backlog* ([`10_backlog.md`](10_backlog.md)). Kolom **Supports Value** menautkan tiap kapabilitas ke *Value Proposition* di [`02_product_vision.md`](02_product_vision.md) agar hubungannya dapat ditelusuri.

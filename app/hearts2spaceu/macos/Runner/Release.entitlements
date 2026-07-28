@@ -4,5 +4,9 @@
 <dict>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
+	<!-- Outbound network. The sandbox blocks every request without this, so
+	     any capability fetching data (Latest Updates) fails on macOS. -->
+	<key>com.apple.security.network.client</key>
+	<true/>
 </dict>
 </plist>

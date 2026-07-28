@@ -5,11 +5,11 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
-import '../../../../app/widgets/buttons/secondary_button.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
+import '../../../../shared/widgets/external_link_button.dart';
 import '../../domain/update.dart';
 import '../providers/update_providers.dart';
 import '../update_date_format.dart';
@@ -77,11 +77,9 @@ class _UpdateDetail extends StatelessWidget {
                 ),
               if (update.sourceUrl != null) ...[
                 const SizedBox(height: AppSpacing.xl),
-                // Disabled for now: opening links needs url_launcher, which is
-                // still out of scope (docs/specs/latest-updates.md).
-                const SecondaryButton(
-                  label: 'Read the source (soon)',
-                  icon: Icons.open_in_new_rounded,
+                ExternalLinkButton(
+                  url: update.sourceUrl!,
+                  label: 'Read the source',
                 ),
               ],
               const SizedBox(height: AppSpacing.xxl),

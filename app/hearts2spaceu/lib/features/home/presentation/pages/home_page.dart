@@ -72,13 +72,30 @@ class HomePage extends ConsumerWidget {
                           ],
                         ),
                         const SizedBox(height: AppSpacing.md),
-                        CapabilityCard(
-                          icon: Icons.newspaper_rounded,
-                          title: 'Latest Updates',
-                          subtitle: "What's happening now",
-                          onTap: () => Navigator.of(
-                            context,
-                          ).pushNamed(AppRoutes.latestUpdates),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.newspaper_rounded,
+                                title: 'Latest Updates',
+                                subtitle: "What's happening now",
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.latestUpdates),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.play_circle_outline_rounded,
+                                title: 'Official Channels',
+                                subtitle: 'Listen, watch, follow',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.streamingHub),
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),
                         const SectionHeader(label: 'Up next'),
@@ -102,21 +119,6 @@ class HomePage extends ConsumerWidget {
                                 label: 'Gallery',
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: AppSpacing.md),
-                        const Row(
-                          children: [
-                            Expanded(
-                              child: ComingSoonCard(
-                                icon: Icons.music_note_rounded,
-                                label: 'Music',
-                              ),
-                            ),
-                            SizedBox(width: AppSpacing.md),
-                            // Empty slot: the grid stays 2-up and visibly has
-                            // room for what comes next.
-                            Expanded(child: SizedBox.shrink()),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),

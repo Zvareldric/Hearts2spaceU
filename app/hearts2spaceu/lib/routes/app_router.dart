@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../features/awards/presentation/pages/award_detail_page.dart';
 import '../features/awards/presentation/pages/awards_page.dart';
+import '../features/gallery/presentation/pages/album_page.dart';
+import '../features/gallery/presentation/pages/albums_page.dart';
+import '../features/gallery/presentation/pages/photo_viewer_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
 import '../features/latest_updates/presentation/pages/latest_updates_page.dart';
 import '../features/latest_updates/presentation/pages/update_detail_page.dart';
@@ -52,6 +55,17 @@ class AppRouter {
         final awardId = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => AwardDetailPage(awardId: awardId),
+        );
+      case AppRoutes.gallery:
+        return MaterialPageRoute(builder: (_) => const AlbumsPage());
+      case AppRoutes.album:
+        final albumId = settings.arguments as String;
+        return MaterialPageRoute(builder: (_) => AlbumPage(albumId: albumId));
+      case AppRoutes.photoViewer:
+        final (albumId, index) = settings.arguments as (String, int);
+        return MaterialPageRoute(
+          builder: (_) =>
+              PhotoViewerPage(albumId: albumId, initialIndex: index),
         );
       default:
         return MaterialPageRoute(

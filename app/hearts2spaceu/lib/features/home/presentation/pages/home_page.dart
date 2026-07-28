@@ -111,9 +111,16 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(width: AppSpacing.md),
-                            // Empty slot: the grid stays 2-up and visibly has
-                            // room for what comes next.
-                            const Expanded(child: SizedBox.shrink()),
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.photo_library_rounded,
+                                title: 'Gallery',
+                                subtitle: 'Photos by era',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.gallery),
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),
@@ -132,12 +139,9 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(width: AppSpacing.md),
-                            Expanded(
-                              child: ComingSoonCard(
-                                icon: Icons.photo_library_rounded,
-                                label: 'Gallery',
-                              ),
-                            ),
+                            // Empty slot: the grid stays 2-up and visibly has
+                            // room for what comes next.
+                            Expanded(child: SizedBox.shrink()),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),

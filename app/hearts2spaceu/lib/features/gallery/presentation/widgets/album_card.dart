@@ -26,15 +26,19 @@ class AlbumCard extends StatelessWidget {
         borderRadius: AppRadius.lgRadius,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
           children: [
-            ClipRRect(
-              borderRadius: AppRadius.lgRadius,
-              child: DecoratedBox(
-                decoration: BoxDecoration(boxShadow: AppShadows.sm),
-                child: AspectRatio(
-                  aspectRatio: 1,
-                  child: RemoteImage(url: album.coverUrl),
+            // Expanded, not a fixed AspectRatio: the cover takes whatever the
+            // grid cell leaves after the text, so the card can never overflow
+            // no matter what childAspectRatio or text scale is in play.
+            Expanded(
+              child: ClipRRect(
+                borderRadius: AppRadius.lgRadius,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(boxShadow: AppShadows.sm),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: RemoteImage(url: album.coverUrl),
+                  ),
                 ),
               ),
             ),

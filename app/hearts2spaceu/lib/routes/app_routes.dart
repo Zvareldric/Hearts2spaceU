@@ -13,4 +13,7 @@ class AppRoutes {
   static const String streamingHub = '/channels';
   static const String awards = '/awards';
   static const String awardDetail = '/awards/detail';
+  static const String gallery = '/gallery';
+  static const String album = '/gallery/album';
+  static const String photoViewer = '/gallery/photo';
 }

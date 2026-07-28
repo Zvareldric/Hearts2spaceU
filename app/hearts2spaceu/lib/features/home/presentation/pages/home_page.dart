@@ -71,6 +71,15 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(height: AppSpacing.md),
+                        CapabilityCard(
+                          icon: Icons.newspaper_rounded,
+                          title: 'Latest Updates',
+                          subtitle: "What's happening now",
+                          onTap: () => Navigator.of(
+                            context,
+                          ).pushNamed(AppRoutes.latestUpdates),
+                        ),
                         const SizedBox(height: AppSpacing.xxl),
                         const SectionHeader(label: 'Up next'),
                         const SizedBox(height: AppSpacing.md),
@@ -105,12 +114,9 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             SizedBox(width: AppSpacing.md),
-                            Expanded(
-                              child: ComingSoonCard(
-                                icon: Icons.newspaper_rounded,
-                                label: 'News',
-                              ),
-                            ),
+                            // Empty slot: the grid stays 2-up and visibly has
+                            // room for what comes next.
+                            Expanded(child: SizedBox.shrink()),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),

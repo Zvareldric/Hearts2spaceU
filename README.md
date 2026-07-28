@@ -9,15 +9,17 @@
 **Current Status:** 🟡 Foundation Completed
 
 ### Current Phase
-Release 0.3.0 – Design System V1
+Sprint 3 – Latest Updates
 
 ### Next Milestone
-Music Releases & Personal Collection (see Roadmap)
+Official Streaming Hub — the last MVP capability (see Roadmap)
 
-The project foundation is complete. Sprints 1–2 deliver the first two capabilities —
-**Official Information (Member Profiles)** and **Schedule (Upcoming Events)** — built on the
-documented Evolutionary Clean Architecture. Release 0.3.0 adds **Design System V1**: brand
-tokens, reusable components, and motion shared by every screen.
+The project foundation is complete. Sprints 1–3 deliver three MVP capabilities —
+**Official Information (Member Profiles)**, **Schedule (Upcoming Events)**, and
+**Latest Updates** — built on the documented Evolutionary Clean Architecture. Release 0.3.0
+added **Design System V1**: brand tokens, reusable components, and motion shared by every
+screen. Latest Updates is the first capability served over the network, proving the
+Data Source Boundary holds when the source changes.
 
 ---
 
@@ -119,7 +121,8 @@ Current development focus:
 - ✅ Project Foundation
 - ✅ Official Information — Member Profiles (MVP slice)
 - ✅ Schedule — Upcoming Events (MVP slice)
-- ⏳ Music Releases
+- ✅ Latest Updates (MVP slice)
+- ⏳ Official Streaming Hub
 - ⏳ Personal Collection
 - ⏳ Additional capabilities (see Roadmap)
 

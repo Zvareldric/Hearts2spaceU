@@ -8,4 +8,6 @@ class AppRoutes {
   static const String memberDetail = '/members/detail';
   static const String schedule = '/schedule';
   static const String eventDetail = '/schedule/detail';
+  static const String latestUpdates = '/updates';
+  static const String updateDetail = '/updates/detail';
 }

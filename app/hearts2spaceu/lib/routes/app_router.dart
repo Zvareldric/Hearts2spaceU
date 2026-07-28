@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../features/home/presentation/pages/home_page.dart';
+import '../features/latest_updates/presentation/pages/latest_updates_page.dart';
+import '../features/latest_updates/presentation/pages/update_detail_page.dart';
 import '../features/official_information/presentation/pages/member_detail_page.dart';
 import '../features/official_information/presentation/pages/member_list_page.dart';
 import '../features/schedule/presentation/pages/event_detail_page.dart';
@@ -31,6 +33,13 @@ class AppRouter {
         final eventId = settings.arguments as String;
         return MaterialPageRoute(
           builder: (_) => EventDetailPage(eventId: eventId),
+        );
+      case AppRoutes.latestUpdates:
+        return MaterialPageRoute(builder: (_) => const LatestUpdatesPage());
+      case AppRoutes.updateDetail:
+        final updateId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => UpdateDetailPage(updateId: updateId),
         );
       default:
         return MaterialPageRoute(

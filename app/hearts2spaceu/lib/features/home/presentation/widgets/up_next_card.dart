@@ -60,7 +60,10 @@ class UpNextCard extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
-                  formatEventDateTime(event.startDateTime),
+                  formatEventDateTime(
+                    event.startDateTime,
+                    allDay: event.allDay,
+                  ),
                   style: textTheme.bodyMedium?.copyWith(
                     color: AppColors.inkMuted,
                   ),

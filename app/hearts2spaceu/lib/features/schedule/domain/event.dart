@@ -8,6 +8,7 @@ class Event {
     required this.id,
     required this.title,
     required this.startDateTime,
+    this.allDay = false,
     this.type,
     this.location,
     this.description,
@@ -22,6 +23,13 @@ class Event {
 
   /// When the event starts. The key field for filtering and sorting.
   final DateTime startDateTime;
+
+  /// True when only the date is known, with no confirmed time.
+  ///
+  /// Most published schedules give a date alone. Rather than inventing a time
+  /// and rendering a misleading "00:00", the app states plainly that the time
+  /// is not known (docs/specs/schedule.md §4).
+  final bool allDay;
 
   /// Kind of event, e.g. `concert`, `broadcast` (kept a String for MVP).
   final String? type;

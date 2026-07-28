@@ -38,13 +38,16 @@ class EventCard extends StatelessWidget {
                   const SizedBox(height: AppSpacing.sm),
                 ],
                 Text(event.title, style: textTheme.titleMedium),
-                const SizedBox(height: AppSpacing.xs),
-                Text(
-                  _timeAndLocation(event),
-                  style: textTheme.bodyMedium?.copyWith(
-                    color: AppColors.inkMuted,
+                if (_timeAndLocation(event) case final subtitle
+                    when subtitle.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    subtitle,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: AppColors.inkMuted,
+                    ),
                   ),
-                ),
+                ],
               ],
             ),
           ),
@@ -54,11 +57,17 @@ class EventCard extends StatelessWidget {
     );
   }
 
+  /// Time and place, whichever are known. An all-day event has no time to
+  /// show, so it falls back to the location — or to nothing at all, in which
+  /// case the line is omitted rather than left blank.
   static String _timeAndLocation(Event event) {
-    final hour = event.startDateTime.hour.toString().padLeft(2, '0');
-    final minute = event.startDateTime.minute.toString().padLeft(2, '0');
-    final time = '$hour:$minute';
-    return event.location == null ? time : '$time · ${event.location}';
+    final parts = <String>[
+      if (!event.allDay)
+        '${event.startDateTime.hour.toString().padLeft(2, '0')}'
+            ':${event.startDateTime.minute.toString().padLeft(2, '0')}',
+      if (event.location != null) event.location!,
+    ];
+    return parts.join(' · ');
   }
 
   static String _monthAbbrev(int month) {

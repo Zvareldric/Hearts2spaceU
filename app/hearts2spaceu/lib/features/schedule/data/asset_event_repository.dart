@@ -44,6 +44,7 @@ class AssetEventRepository implements EventRepository {
       id: json['id'] as String,
       title: json['title'] as String,
       startDateTime: DateTime.parse(json['startDateTime'] as String),
+      allDay: json['allDay'] as bool? ?? false,
       type: json['type'] as String?,
       location: json['location'] as String?,
       description: json['description'] as String?,

@@ -60,6 +60,7 @@ Tujuan Sprint (validasi): membuktikan vertikal Data→Domain→Presentation **me
 | `id` | string | ✅ | pengenal unik & stabil |
 | `title` | string | ✅ | judul acara (dipakai di daftar) |
 | `startDateTime` | string (ISO 8601) | ✅ | **kunci** sort/filter; **disimpan ISO**, di-*parse* → `DateTime` di Data, **diformat hanya di Presentation** |
+| `allDay` | boolean | — | `true` bila acara **hanya punya tanggal**, tanpa jam pasti. Default `false`. *(ditambahkan 2026-07-28 — lihat catatan di bawah)* |
 | `type` | string | — | mis. `concert`, `broadcast`, `release`, `fanmeeting` (String dulu; *enum* = evolusi) |
 | `location` | string | — | lokasi/tempat |
 | `description` | string | — | deskripsi singkat |
@@ -80,6 +81,19 @@ Tujuan Sprint (validasi): membuktikan vertikal Data→Domain→Presentation **me
 ```
 
 > ⚠️ **Official-source-first:** isi `events.json` dikurasi Product Owner dari sumber resmi. Spec menetapkan **skema**, bukan nilai.
+
+> 📌 **Kenapa `allDay` ditambahkan (amandemen 2026-07-28).** Jadwal resmi nyata ternyata
+> sebagian besar hanya mencantumkan **tanggal**, tanpa jam. Karena `startDateTime` wajib
+> berisi tanggal *dan* jam, mengisinya `T00:00:00` membuat UI menampilkan **"00:00"** —
+> informasi yang **keliru**, seolah acaranya tengah malam. `allDay` membuat ketidaktahuan itu
+> **eksplisit** alih-alih menyamarkannya sebagai data palsu.
+>
+> Alternatif yang **ditolak**: menebak jam yang "masuk akal" per jenis acara — itu mengarang
+> data yang tidak ada di sumber, melanggar *Official-source-first*.
+>
+> **Batasan yang diketahui:** skema belum punya tanggal **selesai**, sehingga acara
+> multi-hari (mis. fansign 17–18 Sep) disimpan memakai **tanggal mulai** saja. Rentangnya
+> disebutkan di `description`. Lihat *Evolution Notes*.
 
 **Data Assumptions:**
 - `startDateTime` adalah ISO 8601 valid; bila field wajib (`id`/`title`/`startDateTime`) hilang atau `startDateTime` tak dapat di-parse → dianggap **error** (dilempar, ditangkap jadi Error state).
@@ -180,6 +194,11 @@ di balik `EventRepository` — Presentation & Provider **tidak berubah** (janji 
 **If event categories stabilize:**
 ```
 type: String  →  enum EventType
+```
+
+**If multi-day events need to show their full range:**
+```
+startDateTime only  →  + endDateTime (optional)
 ```
 
 **If date localization becomes necessary:**

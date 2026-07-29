@@ -148,6 +148,26 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(height: AppSpacing.md),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.insights_rounded,
+                                title: 'Statistics',
+                                subtitle: 'Their record so far',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.statistics),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            // The ninth card leaves an odd slot. An empty
+                            // Expanded keeps every card the same width instead
+                            // of letting this one stretch to the full row.
+                            const Expanded(child: SizedBox()),
+                          ],
+                        ),
                         const SizedBox(height: AppSpacing.xxl),
                         const SectionHeader(label: 'Up next'),
                         const SizedBox(height: AppSpacing.md),

@@ -9,10 +9,10 @@
 **Current Status:** 🟢 MVP complete
 
 ### Current Phase
-Sprint 7 – Gallery (Early Growth)
+Sprint 8 – Personal Collection (Early Growth)
 
 ### Next Milestone
-Personal Collection — the last Coming Soon card (see Roadmap)
+Statistics · Enhanced Fandom Support (see Roadmap)
 
 Sprints 1–4 deliver every MVP capability — **Official Information (Member Profiles)**,
 **Schedule (Upcoming Events)**, **Latest Updates**, and the **Official Streaming Hub** —
@@ -130,7 +130,7 @@ Current development focus:
 - ✅ Official Streaming Hub
 - ✅ Awards
 - ✅ Gallery
-- ⏳ Personal Collection
+- ✅ Personal Collection
 - ⏳ Additional capabilities (see Roadmap)
 
 For the complete roadmap, see **docs/03_roadmap.md**.

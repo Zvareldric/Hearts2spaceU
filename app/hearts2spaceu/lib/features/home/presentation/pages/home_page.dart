@@ -136,9 +136,16 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             const SizedBox(width: AppSpacing.md),
-                            // Empty slot: the grid stays 2-up and visibly has
-                            // room for what comes next.
-                            const Expanded(child: SizedBox.shrink()),
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.how_to_vote_rounded,
+                                title: 'Voting',
+                                subtitle: 'Support the group',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.voting),
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: AppSpacing.xxl),

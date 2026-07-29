@@ -17,4 +17,5 @@ class AppRoutes {
   static const String album = '/gallery/album';
   static const String photoViewer = '/gallery/photo';
   static const String collection = '/collection';
+  static const String voting = '/voting';
 }

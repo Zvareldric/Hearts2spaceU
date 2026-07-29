@@ -9,7 +9,7 @@
 **Current Status:** 🟢 MVP complete
 
 ### Current Phase
-Sprint 8 – Personal Collection (Early Growth)
+Sprint 9 – Voting Hub (Early Growth)
 
 ### Next Milestone
 Statistics · Enhanced Fandom Support (see Roadmap)
@@ -131,6 +131,7 @@ Current development focus:
 - ✅ Awards
 - ✅ Gallery
 - ✅ Personal Collection
+- ✅ Voting Hub
 - ⏳ Additional capabilities (see Roadmap)
 
 For the complete roadmap, see **docs/03_roadmap.md**.

@@ -7,6 +7,7 @@ import '../features/gallery/presentation/pages/album_page.dart';
 import '../features/gallery/presentation/pages/albums_page.dart';
 import '../features/gallery/presentation/pages/photo_viewer_page.dart';
 import '../features/home/presentation/pages/home_page.dart';
+import '../features/voting/presentation/pages/voting_hub_page.dart';
 import '../features/latest_updates/presentation/pages/latest_updates_page.dart';
 import '../features/latest_updates/presentation/pages/update_detail_page.dart';
 import '../features/official_information/presentation/pages/member_detail_page.dart';
@@ -70,6 +71,8 @@ class AppRouter {
         );
       case AppRoutes.collection:
         return MaterialPageRoute(builder: (_) => const CollectionPage());
+      case AppRoutes.voting:
+        return MaterialPageRoute(builder: (_) => const VotingHubPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../features/awards/presentation/pages/award_detail_page.dart';
 import '../features/awards/presentation/pages/awards_page.dart';
+import '../features/collection/presentation/pages/collection_page.dart';
 import '../features/gallery/presentation/pages/album_page.dart';
 import '../features/gallery/presentation/pages/albums_page.dart';
 import '../features/gallery/presentation/pages/photo_viewer_page.dart';
@@ -67,6 +68,8 @@ class AppRouter {
           builder: (_) =>
               PhotoViewerPage(albumId: albumId, initialIndex: index),
         );
+      case AppRoutes.collection:
+        return MaterialPageRoute(builder: (_) => const CollectionPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

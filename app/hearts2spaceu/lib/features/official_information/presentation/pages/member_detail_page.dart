@@ -10,6 +10,8 @@ import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
 import '../../../../shared/widgets/external_link_button.dart';
+import '../../../collection/domain/favorite.dart';
+import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../../domain/member.dart';
 import '../providers/member_providers.dart';
 
@@ -30,7 +32,9 @@ class MemberDetailPage extends ConsumerWidget {
       // The hero runs behind the (transparent) app bar, which is reduced to a
       // back button — the hero itself carries the page's identity.
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [FavoriteButton(type: Favorite.typeMember, id: memberId)],
+      ),
       body: membersAsync.when(
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(

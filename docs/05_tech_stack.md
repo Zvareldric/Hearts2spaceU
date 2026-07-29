@@ -91,6 +91,7 @@ Ditunda mengikuti **ADR-002 (Deferred System Architecture)** dan roadmap. Ditund
 | `flutter_riverpod` | State management + DI | ADR-001, Data Source Boundary, Testability | Follow latest stable major version | Provider, Bloc/Cubit | 2026-07-18 |
 | `http` | Networking (ambil data) | Kapabilitas Official Information/Latest Updates | Follow latest stable major version | `dio` | 2026-07-18 |
 | `url_launcher` | Buka platform resmi | Kapabilitas Official Streaming Hub | Follow latest stable major version | — | 2026-07-18 |
+| `shared_preferences` | Simpan favorit pengguna (JSON) | Kapabilitas Personal Collection; memenuhi pemicu ADR-002 **tanpa** database | Follow latest stable major version | `drift`/`isar` (berlebihan untuk daftar ID), `path_provider`+`dart:io` | 2026-07-29 |
 
 ---
 

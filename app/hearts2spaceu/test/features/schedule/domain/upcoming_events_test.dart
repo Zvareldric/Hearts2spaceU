@@ -20,6 +20,30 @@ void main() {
     expect(result.map((e) => e.id), ['nowish', 'future']);
   });
 
+  test('keeps an all-day event for the whole day it happens on', () {
+    // Regression: all-day events are stored at midnight, so comparing against
+    // the current instant made them disappear at 00:01 on their own day.
+    final today = _event('today', DateTime(2026, 6, 1));
+    final lateInTheDay = DateTime(2026, 6, 1, 23, 59);
+
+    expect(upcomingSorted([today], lateInTheDay), [today]);
+  });
+
+  test('keeps a timed event that already started today', () {
+    // Regression: a 19:00 concert vanished at 19:01, while it was still on.
+    final concert = _event('concert', DateTime(2026, 6, 1, 19));
+    final duringTheShow = DateTime(2026, 6, 1, 20, 30);
+
+    expect(upcomingSorted([concert], duringTheShow), [concert]);
+  });
+
+  test('drops an event once the day is over', () {
+    final yesterday = _event('yesterday', DateTime(2026, 5, 31, 19));
+    final nextMorning = DateTime(2026, 6, 1, 0, 1);
+
+    expect(upcomingSorted([yesterday], nextMorning), isEmpty);
+  });
+
   test('sorts ascending by startDateTime', () {
     final events = [
       _event('c', now.add(const Duration(days: 3))),

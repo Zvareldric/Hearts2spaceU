@@ -10,10 +10,15 @@ import 'event.dart';
 /// `List.sort` is not guaranteed stable, the original index is used as the
 /// tie-breaker to make the ordering stable and predictable.
 List<Event> upcomingSorted(List<Event> events, DateTime now) {
+  // Compare against the start of today, not the current instant: an event is
+  // still "upcoming" for the whole day it happens on. Comparing to `now` made
+  // an all-day event (stored at midnight) vanish at 00:01, and a 19:00 concert
+  // vanish at 19:01 while it was still going on.
+  final today = DateTime(now.year, now.month, now.day);
+
   final indexed = <(int, Event)>[];
   for (var i = 0; i < events.length; i++) {
-    // "Upcoming" includes events starting exactly at `now` (not yet past).
-    if (!events[i].startDateTime.isBefore(now)) {
+    if (!events[i].startDateTime.isBefore(today)) {
       indexed.add((i, events[i]));
     }
   }

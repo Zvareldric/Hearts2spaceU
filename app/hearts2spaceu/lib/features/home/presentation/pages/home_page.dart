@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
-import '../../../../app/widgets/cards/coming_soon_card.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
@@ -17,8 +16,8 @@ import '../widgets/up_next_card.dart';
 
 /// Landing screen — Design System V1 (docs/specs/home-layout.md).
 ///
-/// Checkpoint 3.5 (final): Hero + Capability Cards + Up Next + Coming Soon —
-/// Home Refresh complete. No AppBar — the Hero section carries brand identity.
+/// Hero + Capability Cards + Up Next. No AppBar — the Hero section carries
+/// brand identity.
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
@@ -123,27 +122,29 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
+                        const SizedBox(height: AppSpacing.md),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CapabilityCard(
+                                icon: Icons.favorite_rounded,
+                                title: 'My Collection',
+                                subtitle: 'Everything you saved',
+                                onTap: () => Navigator.of(
+                                  context,
+                                ).pushNamed(AppRoutes.collection),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpacing.md),
+                            // Empty slot: the grid stays 2-up and visibly has
+                            // room for what comes next.
+                            const Expanded(child: SizedBox.shrink()),
+                          ],
+                        ),
                         const SizedBox(height: AppSpacing.xxl),
                         const SectionHeader(label: 'Up next'),
                         const SizedBox(height: AppSpacing.md),
                         const _UpNextSection(),
-                        const SizedBox(height: AppSpacing.xxl),
-                        const SectionHeader(label: 'Coming soon'),
-                        const SizedBox(height: AppSpacing.md),
-                        const Row(
-                          children: [
-                            Expanded(
-                              child: ComingSoonCard(
-                                icon: Icons.collections_bookmark_rounded,
-                                label: 'Collection',
-                              ),
-                            ),
-                            SizedBox(width: AppSpacing.md),
-                            // Empty slot: the grid stays 2-up and visibly has
-                            // room for what comes next.
-                            Expanded(child: SizedBox.shrink()),
-                          ],
-                        ),
                         const SizedBox(height: AppSpacing.xxl),
                       ],
                     ),

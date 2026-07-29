@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/states/empty_view.dart';
+import '../../../collection/domain/favorite.dart';
+import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../providers/gallery_providers.dart';
 import '../widgets/remote_image.dart';
 
@@ -57,6 +59,14 @@ class _PhotoViewerPageState extends ConsumerState<PhotoViewerPage> {
           '${_index + 1} / ${album.photos.length}',
           style: const TextStyle(color: Colors.white, fontSize: 14),
         ),
+        actions: [
+          // A photo id is only unique inside its album, so the favourite key
+          // carries both.
+          FavoriteButton(
+            type: Favorite.typePhoto,
+            id: '${album.id}/${photo.id}',
+          ),
+        ],
       ),
       body: Column(
         children: [

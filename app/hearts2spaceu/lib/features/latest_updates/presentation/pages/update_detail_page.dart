@@ -10,6 +10,8 @@ import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
 import '../../../../shared/widgets/external_link_button.dart';
+import '../../../collection/domain/favorite.dart';
+import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../../domain/update.dart';
 import '../providers/update_providers.dart';
 import '../update_date_format.dart';
@@ -28,7 +30,9 @@ class UpdateDetailPage extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [FavoriteButton(type: Favorite.typeUpdate, id: updateId)],
+      ),
       body: updatesAsync.when(
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(

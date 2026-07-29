@@ -11,6 +11,8 @@ import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
 import '../../../../shared/widgets/external_link_button.dart';
+import '../../../collection/domain/favorite.dart';
+import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../../domain/award.dart';
 import '../providers/award_providers.dart';
 
@@ -26,7 +28,9 @@ class AwardDetailPage extends ConsumerWidget {
 
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
+      appBar: AppBar(
+        actions: [FavoriteButton(type: Favorite.typeAward, id: awardId)],
+      ),
       body: yearsAsync.when(
         loading: () => const LoadingView(),
         error: (error, _) => ErrorView(

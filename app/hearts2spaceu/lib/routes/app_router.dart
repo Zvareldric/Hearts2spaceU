@@ -14,6 +14,7 @@ import '../features/official_information/presentation/pages/member_detail_page.d
 import '../features/official_information/presentation/pages/member_list_page.dart';
 import '../features/schedule/presentation/pages/event_detail_page.dart';
 import '../features/schedule/presentation/pages/schedule_page.dart';
+import '../features/statistics/presentation/pages/statistics_page.dart';
 import '../features/streaming_hub/presentation/pages/streaming_hub_page.dart';
 import 'app_routes.dart';
 
@@ -73,6 +74,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CollectionPage());
       case AppRoutes.voting:
         return MaterialPageRoute(builder: (_) => const VotingHubPage());
+      case AppRoutes.statistics:
+        return MaterialPageRoute(builder: (_) => const StatisticsPage());
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

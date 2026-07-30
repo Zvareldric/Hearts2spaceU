@@ -58,12 +58,8 @@ void main() {
   testWidgets('Home shows nine cards and the odd one keeps a normal width', (
     tester,
   ) async {
-    // 600dp, not 360: the test font draws every glyph as a square the size of
-    // the font, so the 32px hero wordmark measures far wider here than in any
-    // real typeface. That is a measurement artifact, not a layout bug — so
-    // this test asks about card widths, and the row above proves the fit.
     tester.view
-      ..physicalSize = const Size(600, 2000)
+      ..physicalSize = const Size(360, 2000)
       ..devicePixelRatio = 1.0;
     addTearDown(tester.view.reset);
 
@@ -73,6 +69,9 @@ void main() {
       ),
     );
     await tester.pump();
+
+    // The whole page at real phone width, hero included.
+    expect(tester.takeException(), isNull);
 
     final cards = find.byType(CapabilityCard);
     expect(cards, findsNWidgets(9));

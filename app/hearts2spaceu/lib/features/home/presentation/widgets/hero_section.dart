@@ -52,7 +52,21 @@ class HeroSection extends StatelessWidget {
             children: [
               const _BrandMark(),
               const SizedBox(width: AppSpacing.sm),
-              Text('Hearts2spaceU', style: theme.textTheme.displaySmall),
+              // The wordmark must never clip: it is the app's name, on the
+              // first screen. scaleDown shrinks it only when the width really
+              // demands it and leaves it at full size everywhere else — so no
+              // font, text-scale setting, or screen width can cut it off.
+              Flexible(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Hearts2spaceU',
+                    maxLines: 1,
+                    style: theme.textTheme.displaySmall,
+                  ),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),

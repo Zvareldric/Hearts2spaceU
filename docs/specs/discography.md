@@ -8,6 +8,16 @@ sampai sekarang, beserta daftar lagunya.
 
 ---
 
+## 0. Konteks & Traceability
+
+- **Capability:** *Discography* — fase **🟡 Early Growth** ([`03`](../03_roadmap.md)
+  §3, Capability Mapping), menjawab irisan "musik" yang sudah disebut di
+  [`01`](../01_project_overview.md) §7 tapi belum digarap MVP.
+- **Why** → *Trusted Information* + *Centralized Experience*
+  ([`02`](../02_product_vision.md) §5) — nama rilis sebelumnya tersebar di Gallery
+  (era foto), Awards (`work`), dan Schedule (event rilis); tidak ada satu tempat
+  yang menjawab "apa saja diskografi mereka" (§1).
+
 ## 1. Tujuan
 
 Fan ingin tahu **apa saja yang pernah dirilis** dan **lagu apa saja di dalamnya**.

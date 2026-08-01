@@ -1,9 +1,15 @@
 # Spec · Home Layout — Release 0.3.0 (Design System V1, Checkpoint 3)
 
-> **Status:** 🟢 Disetujui — rev. 1 · **Dibuat:** 2026-07-21 · **Diperbarui:** 2026-07-21
+> **Status:** 🟣 Superseded oleh Design System V2 (2026-08-01) · **Dibuat:** 2026-07-21 · **Diperbarui:** 2026-07-21
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Product Owner)
 > **Epic:** Design System V1 · **Checkpoint:** 3 — Home Refresh
 > **Branch:** `feature/schedule` (lanjutan Release 0.3.0)
+
+> ⚠️ **Dokumen ini adalah catatan historis Checkpoint 3, dibiarkan apa adanya.**
+> Struktur Home yang berlaku sekarang (5-tab `TabShell`, Home sebagai *digest*
+> bukan direktori kapabilitas) ada di
+> [`design-system-v2.md`](../design-system-v2.md) §5 & §8. §7 di bawah ini
+> (Bottom Navigation) sudah **diputuskan** — lihat catatan di dalamnya.
 
 Final Layout Specification untuk Home — ditulis **sebelum** kode. Setelah disetujui,
 diimplementasikan bertahap dalam 4 sub-checkpoint, masing-masing mengikuti:
@@ -138,6 +144,12 @@ Schedule); Bottom Navigation sekarang berisiko banyak tab kosong/placeholder. **
 tetap menjadi pusat navigasi** untuk saat ini. Evaluasi ulang saat kapabilitas aktif
 mencapai **4–5 fitur nyata** — desain mengikuti kebutuhan produk, bukan sebaliknya.
 *(Keputusan produk, dicatat di memori proyek — bukan Acceptance Criteria checkpoint ini.)*
+
+> ✅ **Diputuskan 2026-08-01.** Syaratnya terpenuhi jauh lebih dari 4–5 fitur — sembilan
+> kapabilitas aktif saat penundaan ini ditulis kembali. Design System V2 menghadirkan
+> `TabShell` (5 tab: Home · Gallery · Schedule · Collection · More), lihat
+> [`design-system-v2.md`](../design-system-v2.md) §5. Penundaan di paragraf atas resmi
+> ditutup oleh keputusan ini, bukan diabaikan diam-diam.
 
 ## 8. Responsive Behavior
 

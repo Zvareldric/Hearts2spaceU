@@ -69,6 +69,7 @@ Pemetaan ini berada pada **tingkat konseptual**. Setiap *capability* dapat diwuj
 | **Personal Collection** | 🟡 Early Growth | Organized Fandom Experience |
 | **Gallery** | 🟡 Early Growth | Centralized Experience · Consistent & Enjoyable Experience |
 | **Statistics** | 🟡 Early Growth | Consistent & Enjoyable Experience |
+| **Discography** *(rilis & daftar lagu — irisan "musik" dari `01` §7 yang belum digarap MVP)* | 🟡 Early Growth | Trusted Information · Centralized Experience |
 | **Enhanced Fandom Support** | 🟡 Early Growth | Organized Fandom Experience · Consistent & Enjoyable Experience |
 | **Multilingual Support** | 🔵 Future Expansion | Consistent & Enjoyable Experience *(aksesibilitas global)* |
 | **Future Considerations** *(mis. marketplace, ticketing, atau kemampuan lain)* | 🔵 Future Expansion | *dievaluasi per item — wajib selaras Vision & Non-Goals* |

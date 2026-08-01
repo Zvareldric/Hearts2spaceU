@@ -80,7 +80,7 @@ Ditunda mengikuti **ADR-002 (Deferred System Architecture)** dan roadmap. Ditund
 | Monitoring | ⏸️ Deferred | ADR-002 |
 | Logging (terstruktur) | ⏸️ Deferred | ADR-002 |
 | Local Database | ⏸️ Deferred | Diperkenalkan saat dibutuhkan oleh salah satu dari: *Personal Collection*, *Offline capability*, atau *Caching* (tiga kebutuhan berbeda) |
-| CI/CD | ⏸️ Deferred | Diperkenalkan saat repository & pengujian matang |
+| CI/CD | ✅ **Diadopsi 2026-07-30** | Pemicunya terpenuhi: 180 test & 11 rilis bertag. Lihat §6. |
 
 ## 5. Dependency Policy
 
@@ -92,6 +92,30 @@ Ditunda mengikuti **ADR-002 (Deferred System Architecture)** dan roadmap. Ditund
 | `http` | Networking (ambil data) | Kapabilitas Official Information/Latest Updates | Follow latest stable major version | `dio` | 2026-07-18 |
 | `url_launcher` | Buka platform resmi | Kapabilitas Official Streaming Hub | Follow latest stable major version | — | 2026-07-18 |
 | `shared_preferences` | Simpan favorit pengguna (JSON) | Kapabilitas Personal Collection; memenuhi pemicu ADR-002 **tanpa** database | Follow latest stable major version | `drift`/`isar` (berlebihan untuk daftar ID), `path_provider`+`dart:io` | 2026-07-29 |
+| GitHub Actions + `subosito/flutter-action` | Menjalankan *checklist* `07` otomatis | Lihat §6 | Flutter di-pin ke versi pengembangan | Menjalankan manual (gagal karena bergantung ingatan), Codemagic/Bitrise (untuk *build & release*, bukan *check*) | 2026-07-30 |
+
+## 6. Continuous Integration
+
+**Diadopsi 2026-07-30.** `docs/05` menunda CI/CD sampai *"repository & pengujian matang"* —
+pemicu itu kini terpenuhi: **180 test** otomatis dan **11 rilis bertag**.
+
+**Masalah nyata yang dipecahkan:** [`07`](07_git_workflow.md) mewajibkan `dart format`,
+`flutter analyze`, dan test sebelum tiap merge — tetapi selama ini bergantung pada **ingatan**.
+Sebuah *check* yang bisa terlupakan bukan *quality gate*.
+
+**Lingkup sengaja dibatasi pada CI, belum CD:**
+
+| | |
+|---|---|
+| ✅ Diadopsi | `format` · `analyze` · `test` pada tiap *push* ke `main` dan tiap PR |
+| ⏸️ Masih ditunda | *build* artefak, *signing*, rilis ke store, *deployment* — semuanya membutuhkan **Deployment Strategy** yang masih ⏸️ Deferred (ADR-002) |
+
+**Versi Flutter di-pin** ke versi yang dipakai mengembangkan. Kalau CI memakai `latest`, ia
+bisa gagal atau lolos berbeda dari mesin lokal — dan CI yang tidak sepakat dengan mesin
+pengembang justru menambah keraguan, bukan mengurangi.
+
+**Tidak menjalankan `flutter build`.** Belum ada strategi rilis, jadi artefak build tidak
+akan dipakai siapa pun; menambahkannya hanya memperlambat setiap PR.
 
 ---
 

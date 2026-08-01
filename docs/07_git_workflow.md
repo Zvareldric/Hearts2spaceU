@@ -62,7 +62,9 @@ flowchart LR
 ## 5. Pull Request Conventions
 
 - Deskripsi PR menjelaskan **apa** & **mengapa**, serta tautan ke item/konteks terkait bila ada.
-- PR wajib **lolos checklist `06`** sebelum di-*merge*.
+- PR wajib **lolos checklist `06`** sebelum di-*merge*. Sejak 2026-07-30 checklist ini
+  dijalankan otomatis oleh **CI** (`.github/workflows/ci.yml`, lihat [`05`](05_tech_stack.md) §6)
+  — bukan lagi bergantung pada ingatan.
 - **Small Pull Requests** — usahakan setiap PR tetap **kecil dan berfokus pada satu tujuan** agar review lebih mudah (selaras filosofi *feature branch* pendek).
 - **Hindari menggabungkan beberapa fitur yang tidak berkaitan** dalam satu PR.
 - Riwayat dijaga tetap bersih (mis. *squash* commit kecil bila perlu).

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
@@ -22,28 +23,49 @@ class VotingHubPage extends ConsumerWidget {
     final votesAsync = ref.watch(openVotesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Voting')),
-      body: AnimatedSwitcher(
-        duration: AppMotion.of(context, AppMotion.base),
-        child: votesAsync.when(
-          loading: () => const LoadingView(key: ValueKey('loading')),
-          error: (error, _) => ErrorView(
-            key: const ValueKey('error'),
-            message: "Couldn't reach the votes.\nCheck your connection.",
-            onRetry: () => ref.invalidate(openVotesProvider),
-          ),
-          data: (votes) {
-            if (votes.isEmpty) {
-              // Off-season is the normal state, not a failure — say so.
-              return const EmptyView(
-                key: ValueKey('empty'),
-                message:
-                    'No votes running right now.\nThey usually open around award season.',
-                icon: Icons.how_to_vote_rounded,
-              );
-            }
-            return _VotingList(key: const ValueKey('data'), votes: votes);
-          },
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                AppSpacing.lg,
+                AppSpacing.screenPadding,
+                0,
+              ),
+              child: PageHeading.sub(title: 'Voting'),
+            ),
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: AppMotion.of(context, AppMotion.base),
+                child: votesAsync.when(
+                  loading: () => const LoadingView(key: ValueKey('loading')),
+                  error: (error, _) => ErrorView(
+                    key: const ValueKey('error'),
+                    message:
+                        "Couldn't reach the votes.\nCheck your connection.",
+                    onRetry: () => ref.invalidate(openVotesProvider),
+                  ),
+                  data: (votes) {
+                    if (votes.isEmpty) {
+                      // Off-season is the normal state, not a failure — say so.
+                      return const EmptyView(
+                        key: ValueKey('empty'),
+                        message:
+                            'No votes running right now.\nThey usually open around award season.',
+                        icon: Icons.how_to_vote_rounded,
+                      );
+                    }
+                    return _VotingList(
+                      key: const ValueKey('data'),
+                      votes: votes,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

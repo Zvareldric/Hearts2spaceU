@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
+import '../../../../app/widgets/cards/capability_card.dart';
 import '../../domain/official_platform.dart';
 
 /// One official channel — tapping it leaves the app.
 ///
-/// The trailing "open in new" icon is the honest signal that this navigates
-/// somewhere external rather than to another screen (unlike every other card
-/// in the app, which uses a chevron).
+/// Design System V2 gives each category its own gradient tile, so the list is
+/// scannable by color the way the rest of the app is. The trailing "open in new"
+/// icon is the honest signal that this navigates somewhere external rather than
+/// to another screen (unlike every other card in the app, which uses a chevron).
 class PlatformCard extends StatelessWidget {
   const PlatformCard({super.key, required this.platform, this.onTap});
 
@@ -22,21 +24,16 @@ class PlatformCard extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.md,
+      ),
       child: Row(
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceTint,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              _iconFor(platform.category),
-              color: AppColors.primaryStrong,
-              size: 20,
-            ),
+          IconTile(
+            icon: _iconFor(platform.category),
+            gradient: _gradientFor(platform.category),
+            size: 42,
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
@@ -46,28 +43,31 @@ class PlatformCard extends StatelessWidget {
               children: [
                 Text(
                   platform.name,
-                  style: textTheme.titleMedium,
+                  style: textTheme.bodyLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
-                if (platform.handle != null) ...[
-                  const SizedBox(height: AppSpacing.xs),
+                if (platform.handle case final handle?)
                   Text(
-                    platform.handle!,
-                    style: textTheme.bodyMedium?.copyWith(
+                    handle,
+                    style: textTheme.labelSmall?.copyWith(
                       color: AppColors.inkMuted,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w400,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                ],
               ],
             ),
           ),
+          const SizedBox(width: AppSpacing.sm),
           const Icon(
             Icons.open_in_new_rounded,
-            size: 20,
-            color: AppColors.inkMuted,
+            size: 18,
+            color: AppColors.navIdle,
           ),
         ],
       ),
@@ -88,6 +88,21 @@ class PlatformCard extends StatelessWidget {
         return Icons.forum_rounded;
       default:
         return Icons.link_rounded;
+    }
+  }
+
+  static List<Color> _gradientFor(String category) {
+    switch (category) {
+      case 'music':
+        return CapabilityGradients.music;
+      case 'video':
+        return CapabilityGradients.statistics;
+      case 'social':
+        return CapabilityGradients.members;
+      case 'community':
+        return CapabilityGradients.updates;
+      default:
+        return AppColors.heroGradient;
     }
   }
 }

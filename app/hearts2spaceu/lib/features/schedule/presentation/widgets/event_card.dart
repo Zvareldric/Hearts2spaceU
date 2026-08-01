@@ -4,9 +4,16 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
+import '../../../collection/domain/favorite.dart';
+import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../../domain/event.dart';
+import 'event_date_block.dart';
 
-/// Design System V1 event card — prominent date, title, and a [TypeBadge].
+/// Design System V2 event card — tinted date block, title, then the type pill
+/// and place on one line, with a save button at the end.
+///
+/// Title before the pill on purpose: the title is what you scan for, so it sits
+/// at the top of the row where the eye lands first.
 ///
 /// Built from generic Design System building blocks ([AppCard], [TypeBadge]);
 /// lives here (not `app/widgets/`) because it depends on the [Event] domain
@@ -20,38 +27,62 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final start = event.startDateTime;
+    final meta = _timeAndLocation(event);
 
     return AppCard(
       onTap: onTap,
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.md,
+        AppSpacing.sm,
+        AppSpacing.md,
+      ),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _DateBlock(day: start.day, month: _monthAbbrev(start.month)),
-          const SizedBox(width: AppSpacing.lg),
+          EventDateBlock(event: event),
+          const SizedBox(width: AppSpacing.md),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
-                if (event.type != null) ...[
-                  TypeBadge(type: event.type!),
-                  const SizedBox(height: AppSpacing.sm),
-                ],
-                Text(event.title, style: textTheme.titleMedium),
-                if (_timeAndLocation(event) case final subtitle
-                    when subtitle.isNotEmpty) ...[
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    subtitle,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: AppColors.inkMuted,
-                    ),
+                Text(
+                  event.title,
+                  style: textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    height: 1.3,
                   ),
-                ],
+                ),
+                const SizedBox(height: AppSpacing.xs),
+                Row(
+                  children: [
+                    if (event.type case final type?) ...[
+                      TypeBadge(type: type),
+                      const SizedBox(width: AppSpacing.sm),
+                    ],
+                    if (meta.isNotEmpty)
+                      Expanded(
+                        child: Text(
+                          meta,
+                          style: textTheme.labelSmall?.copyWith(
+                            color: AppColors.inkMuted,
+                            letterSpacing: 0,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.inkMuted),
+          // Replaces the chevron: tapping the card already opens the detail
+          // page, so the row's one affordance is the thing you cannot do from
+          // anywhere else — save it. This is what makes Collection's "tap the
+          // heart on anything" true from the list, not just the detail page.
+          FavoriteButton(type: Favorite.typeEvent, id: event.id),
         ],
       ),
     );
@@ -68,61 +99,5 @@ class EventCard extends StatelessWidget {
       if (event.location != null) event.location!,
     ];
     return parts.join(' · ');
-  }
-
-  static String _monthAbbrev(int month) {
-    const months = [
-      'Jan',
-      'Feb',
-      'Mar',
-      'Apr',
-      'May',
-      'Jun',
-      'Jul',
-      'Aug',
-      'Sep',
-      'Oct',
-      'Nov',
-      'Dec',
-    ];
-    return months[month - 1];
-  }
-}
-
-/// The prominent day/month block on the left of an [EventCard].
-class _DateBlock extends StatelessWidget {
-  const _DateBlock({required this.day, required this.month});
-
-  final int day;
-  final String month;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 52,
-      padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceTint,
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Column(
-        children: [
-          Text(
-            '$day',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-              color: AppColors.primaryStrong,
-              height: 1,
-            ),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            month.toUpperCase(),
-            style: Theme.of(
-              context,
-            ).textTheme.labelSmall?.copyWith(color: AppColors.inkMuted),
-          ),
-        ],
-      ),
-    );
   }
 }

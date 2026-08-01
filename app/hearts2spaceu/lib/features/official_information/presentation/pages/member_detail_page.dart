@@ -5,7 +5,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
-import '../../../../app/widgets/layout/meta_row.dart';
+import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
@@ -13,9 +13,12 @@ import '../../../../shared/widgets/external_link_button.dart';
 import '../../../collection/domain/favorite.dart';
 import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../../domain/member.dart';
+import '../member_palette.dart';
 import '../providers/member_providers.dart';
+import '../widgets/member_card.dart';
 
-/// UC-2 — one member's details. Design System V1 (Checkpoint 6).
+/// UC-2 — one member's details, as a single centered profile card
+/// (Design System V2).
 ///
 /// Reuses the cached [membersProvider] (no refetch) and selects by id, which
 /// also exercises the same Loading/Empty/Error views as the list.
@@ -29,25 +32,51 @@ class MemberDetailPage extends ConsumerWidget {
     final membersAsync = ref.watch(membersProvider);
 
     return Scaffold(
-      // The hero runs behind the (transparent) app bar, which is reduced to a
-      // back button — the hero itself carries the page's identity.
-      extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        actions: [FavoriteButton(type: Favorite.typeMember, id: memberId)],
-      ),
-      body: membersAsync.when(
-        loading: () => const LoadingView(),
-        error: (error, _) => ErrorView(
-          message: "Couldn't load the member.",
-          onRetry: () => ref.invalidate(membersProvider),
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                AppSpacing.lg,
+                AppSpacing.sm,
+                0,
+              ),
+              child: PageHeading.sub(
+                title: '',
+                trailing: FavoriteButton(
+                  type: Favorite.typeMember,
+                  id: memberId,
+                ),
+              ),
+            ),
+            Expanded(
+              child: membersAsync.when(
+                loading: () => const LoadingView(),
+                error: (error, _) => ErrorView(
+                  message: "Couldn't load the member.",
+                  onRetry: () => ref.invalidate(membersProvider),
+                ),
+                data: (members) {
+                  final matches = members.where((m) => m.id == memberId);
+                  if (matches.isEmpty) {
+                    return const EmptyView(message: 'Member not found.');
+                  }
+                  // Same roster the list ranks against, so the avatar keeps its
+                  // colour through the Hero flight.
+                  return _MemberDetail(
+                    member: matches.first,
+                    color: memberColor(
+                      memberId,
+                      members.map((m) => m.id).toList(),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-        data: (members) {
-          final matches = members.where((m) => m.id == memberId);
-          if (matches.isEmpty) {
-            return const EmptyView(message: 'Member not found.');
-          }
-          return _MemberDetail(member: matches.first);
-        },
       ),
     );
   }
@@ -56,134 +85,146 @@ class MemberDetailPage extends ConsumerWidget {
 /// Renders a member. Only non-null optional fields are shown, and the date is
 /// formatted here (presentation) — the domain keeps the raw [DateTime].
 class _MemberDetail extends StatelessWidget {
-  const _MemberDetail({required this.member});
+  const _MemberDetail({required this.member, required this.color});
 
   final Member member;
-
-  @override
-  Widget build(BuildContext context) {
-    final hasMeta = member.fullName != null || member.birthDate != null;
-
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        _MemberHero(member: member),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: AppSpacing.screenPadding,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: AppSpacing.xl),
-              if (hasMeta)
-                AppCard(
-                  child: Column(
-                    children: [
-                      if (member.fullName != null)
-                        MetaRow(
-                          icon: Icons.badge_rounded,
-                          label: 'Full name',
-                          value: member.fullName!,
-                        ),
-                      if (member.birthDate != null)
-                        MetaRow(
-                          icon: Icons.cake_rounded,
-                          label: 'Born',
-                          value: _formatDate(member.birthDate!),
-                        ),
-                    ],
-                  ),
-                ),
-              if (member.officialProfileUrl != null) ...[
-                const SizedBox(height: AppSpacing.xl),
-                ExternalLinkButton(
-                  url: member.officialProfileUrl!,
-                  label: 'Official profile',
-                ),
-              ],
-              const SizedBox(height: AppSpacing.xxl),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-
-  static String _formatDate(DateTime date) {
-    final d = date.day.toString().padLeft(2, '0');
-    final m = date.month.toString().padLeft(2, '0');
-    return '$d/$m/${date.year}';
-  }
-}
-
-/// Full-bleed gradient header with a large avatar carrying the member's
-/// identity.
-class _MemberHero extends StatelessWidget {
-  const _MemberHero({required this.member});
-
-  final Member member;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final topInset = MediaQuery.of(context).padding.top;
-    final positions = member.positions.join(' · ');
 
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.fromLTRB(
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenPadding,
+        0,
+        AppSpacing.screenPadding,
         AppSpacing.xl,
-        topInset + kToolbarHeight + AppSpacing.lg,
-        AppSpacing.xl,
-        AppSpacing.xxl,
       ),
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: AppColors.heroGradient,
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(AppRadius.xl),
-          bottomRight: Radius.circular(AppRadius.xl),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Receives the avatar flying in from the list's MemberCard.
-          Hero(
-            tag: 'member-avatar-${member.id}',
-            child: Container(
-              width: 96,
-              height: 96,
-              padding: const EdgeInsets.all(3),
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                color: AppColors.surface,
-              ),
-              child: const CircleAvatar(
-                backgroundColor: AppColors.surfaceTint,
-                child: Icon(
-                  Icons.person_rounded,
-                  color: AppColors.primaryStrong,
-                  size: 44,
+      children: [
+        AppCard(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpacing.xl,
+            vertical: AppSpacing.xxl,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Receives the avatar flying in from the list's MemberCard.
+              Center(
+                child: Hero(
+                  tag: 'member-avatar-${member.id}',
+                  child: MemberAvatar(member: member, size: 96, color: color),
                 ),
               ),
-            ),
+              const SizedBox(height: AppSpacing.lg),
+              Text(
+                member.stageName,
+                textAlign: TextAlign.center,
+                style: textTheme.headlineSmall,
+              ),
+              if (member.fullName case final fullName?) ...[
+                const SizedBox(height: 2),
+                Text(
+                  fullName,
+                  textAlign: TextAlign.center,
+                  style: textTheme.labelMedium?.copyWith(
+                    color: AppColors.inkMuted,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ],
+              if (member.positions.isNotEmpty) ...[
+                const SizedBox(height: AppSpacing.lg),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: AppSpacing.sm,
+                  runSpacing: AppSpacing.sm,
+                  children: [
+                    for (final position in member.positions)
+                      _PositionPill(label: position),
+                  ],
+                ),
+              ],
+              if (member.birthDate case final birthDate?) ...[
+                const SizedBox(height: AppSpacing.xl),
+                Divider(
+                  height: 1,
+                  color: AppColors.primaryStrong.withValues(alpha: 0.22),
+                ),
+                const SizedBox(height: AppSpacing.lg),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Birthday',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: AppColors.inkMuted,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      _formatDate(birthDate),
+                      style: textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ],
           ),
+        ),
+        if (member.officialProfileUrl case final url?) ...[
           const SizedBox(height: AppSpacing.lg),
-          Text(member.stageName, style: textTheme.headlineSmall),
-          if (positions.isNotEmpty) ...[
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              positions,
-              style: textTheme.bodyLarge?.copyWith(color: AppColors.inkMuted),
-            ),
-          ],
+          ExternalLinkButton(url: url, label: 'Official profile'),
         ],
+      ],
+    );
+  }
+
+  static const _months = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
+
+  static String _formatDate(DateTime date) =>
+      '${_months[date.month - 1]} ${date.day}, ${date.year}';
+}
+
+/// One role, as a lavender pill.
+class _PositionPill extends StatelessWidget {
+  const _PositionPill({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.md,
+        vertical: AppSpacing.xs + 1,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.5),
+        borderRadius: AppRadius.pillRadius,
+      ),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+          color: AppColors.primaryStrong,
+          fontWeight: FontWeight.w600,
+        ),
       ),
     );
   }

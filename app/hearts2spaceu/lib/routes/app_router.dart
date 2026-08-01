@@ -6,7 +6,10 @@ import '../features/collection/presentation/pages/collection_page.dart';
 import '../features/gallery/presentation/pages/album_page.dart';
 import '../features/gallery/presentation/pages/albums_page.dart';
 import '../features/gallery/presentation/pages/photo_viewer_page.dart';
-import '../features/home/presentation/pages/home_page.dart';
+import '../app/tab_shell.dart';
+import '../features/discography/presentation/pages/discography_page.dart';
+import '../features/discography/presentation/pages/release_detail_page.dart';
+import '../features/more/presentation/pages/more_page.dart';
 import '../features/voting/presentation/pages/voting_hub_page.dart';
 import '../features/latest_updates/presentation/pages/latest_updates_page.dart';
 import '../features/latest_updates/presentation/pages/update_detail_page.dart';
@@ -27,8 +30,12 @@ class AppRouter {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      // Home is a tab inside the shell now, not a page of its own: `/` opens
+      // the shell, which starts on the Home tab.
       case AppRoutes.home:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(builder: (_) => const TabShell());
+      case AppRoutes.more:
+        return MaterialPageRoute(builder: (_) => const MorePage());
       case AppRoutes.memberList:
         return MaterialPageRoute(builder: (_) => const MemberListPage());
       case AppRoutes.memberDetail:
@@ -76,6 +83,13 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const VotingHubPage());
       case AppRoutes.statistics:
         return MaterialPageRoute(builder: (_) => const StatisticsPage());
+      case AppRoutes.discography:
+        return MaterialPageRoute(builder: (_) => const DiscographyPage());
+      case AppRoutes.releaseDetail:
+        final releaseId = settings.arguments as String;
+        return MaterialPageRoute(
+          builder: (_) => ReleaseDetailPage(releaseId: releaseId),
+        );
       default:
         return MaterialPageRoute(
           builder: (_) => Scaffold(

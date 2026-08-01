@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/glass/glass_nav_bar.dart';
+import '../../../../app/widgets/glass/glass_surface.dart';
+import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
@@ -14,7 +17,8 @@ import '../event_date_format.dart';
 import '../providers/event_providers.dart';
 import '../widgets/event_card.dart';
 
-/// UC-1 — the list of upcoming events. Design System V1 (Checkpoint 4).
+/// UC-1 — the list of upcoming events. A tab root, so it carries a large inline
+/// title instead of an AppBar (Design System V2).
 ///
 /// Presentation only: it watches [upcomingEventsProvider] and renders the
 /// matching state. Loading, filtering, and sorting live in the provider and the
@@ -27,29 +31,47 @@ class SchedulePage extends ConsumerWidget {
     final eventsAsync = ref.watch(upcomingEventsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Schedule')),
-      // Cross-fades between loading/empty/error/data instead of snapping.
-      body: AnimatedSwitcher(
-        duration: AppMotion.of(context, AppMotion.base),
-        child: eventsAsync.when(
-          loading: () => const LoadingView(key: ValueKey('loading')),
-          error: (error, _) => ErrorView(
-            key: const ValueKey('error'),
-            message: 'Failed to load the schedule.',
-            onRetry: () => ref.invalidate(upcomingEventsProvider),
-          ),
-          data: (events) {
-            if (events.isEmpty) {
-              return const EmptyView(
-                key: ValueKey('empty'),
-                message: 'No upcoming events.',
-              );
-            }
-            return _MonthlySchedule(
-              key: const ValueKey('data'),
-              months: groupByMonth(events),
-            );
-          },
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                AppSpacing.lg,
+                AppSpacing.screenPadding,
+                0,
+              ),
+              child: PageHeading(title: 'Schedule'),
+            ),
+            Expanded(
+              // Cross-fades between loading/empty/error/data instead of
+              // snapping.
+              child: AnimatedSwitcher(
+                duration: AppMotion.of(context, AppMotion.base),
+                child: eventsAsync.when(
+                  loading: () => const LoadingView(key: ValueKey('loading')),
+                  error: (error, _) => ErrorView(
+                    key: const ValueKey('error'),
+                    message: 'Failed to load the schedule.',
+                    onRetry: () => ref.invalidate(upcomingEventsProvider),
+                  ),
+                  data: (events) {
+                    if (events.isEmpty) {
+                      return const EmptyView(
+                        key: ValueKey('empty'),
+                        message: 'No upcoming events.',
+                      );
+                    }
+                    return _MonthlySchedule(
+                      key: const ValueKey('data'),
+                      months: groupByMonth(events),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -102,7 +124,10 @@ class _MonthlySchedule extends StatelessWidget {
             ),
           ),
         ],
-        const SliverToBoxAdapter(child: SizedBox(height: AppSpacing.xl)),
+        // Clear the floating nav bar this list scrolls underneath.
+        const SliverToBoxAdapter(
+          child: SizedBox(height: GlassNavBar.reservedSpace),
+        ),
       ],
     );
   }
@@ -110,14 +135,15 @@ class _MonthlySchedule extends StatelessWidget {
 
 /// A pinned month heading.
 ///
-/// Its background is opaque on purpose: a pinned header floats above the list,
-/// so cards would otherwise show through as they slide underneath.
+/// It blurs rather than covers: a pinned header floats above the list, and the
+/// ambient wash means there is no opaque color left to fill it with. The blur is
+/// what keeps cards from reading through legibly as they slide underneath.
 class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
   const _MonthHeaderDelegate({required this.label});
 
   final String label;
 
-  static const _height = 44.0;
+  static const _height = 40.0;
 
   @override
   double get minExtent => _height;
@@ -127,12 +153,18 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlaps) {
-    return Container(
-      height: _height,
-      alignment: Alignment.centerLeft,
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
-      child: SectionHeader(label: label),
+    return GlassSurface(
+      borderRadius: BorderRadius.zero,
+      border: false,
+      blur: 18,
+      child: Container(
+        height: _height,
+        alignment: Alignment.centerLeft,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSpacing.screenPadding,
+        ),
+        child: SectionHeader(label: label),
+      ),
     );
   }
 

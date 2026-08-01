@@ -19,11 +19,21 @@ class AppTypography {
         letterSpacing: -0.2,
         color: ink,
       ),
+      // Tab page title — the large inline heading that replaced the AppBar in
+      // Design System V2 (Gallery, Schedule, My Collection, More).
+      headlineMedium: TextStyle(
+        fontSize: 26,
+        height: 32 / 26,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.3,
+        color: ink,
+      ),
+      // Sub-page title, next to the round back button.
       headlineSmall: TextStyle(
-        fontSize: 24,
-        height: 30 / 24,
-        fontWeight: FontWeight.w600,
-        letterSpacing: -0.2,
+        fontSize: 22,
+        height: 28 / 22,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.3,
         color: ink,
       ),
       titleMedium: TextStyle(

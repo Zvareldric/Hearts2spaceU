@@ -26,6 +26,7 @@ class AppTheme {
       onSecondaryContainer: AppColors.onPrimary,
       surface: AppColors.surface,
       onSurface: AppColors.ink,
+      onSurfaceVariant: AppColors.inkMuted,
       surfaceContainerHighest: AppColors.surfaceTint,
       error: AppColors.error,
       onError: Colors.white,
@@ -35,7 +36,6 @@ class AppTheme {
     return _themeFrom(
       colorScheme: colorScheme,
       textTheme: AppTypography.light,
-      scaffoldBackground: AppColors.background,
       ink: AppColors.ink,
     );
   }
@@ -52,6 +52,7 @@ class AppTheme {
       onSecondaryContainer: AppColors.darkOnPrimary,
       surface: AppColors.darkSurface,
       onSurface: AppColors.darkInk,
+      onSurfaceVariant: AppColors.darkInkMuted,
       surfaceContainerHighest: AppColors.darkSurfaceTint,
       error: AppColors.error,
       onError: Colors.white,
@@ -61,7 +62,6 @@ class AppTheme {
     return _themeFrom(
       colorScheme: colorScheme,
       textTheme: AppTypography.dark,
-      scaffoldBackground: AppColors.darkBackground,
       ink: AppColors.darkInk,
     );
   }
@@ -69,13 +69,15 @@ class AppTheme {
   static ThemeData _themeFrom({
     required ColorScheme colorScheme,
     required TextTheme textTheme,
-    required Color scaffoldBackground,
     required Color ink,
   }) {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: scaffoldBackground,
+      // Transparent: the ambient pastel wash is painted once behind the whole
+      // navigator (see `AmbientBackground` in app.dart) and must read through
+      // every Scaffold, including nested ones inside the tab shell.
+      scaffoldBackgroundColor: Colors.transparent,
       textTheme: textTheme,
       appBarTheme: AppBarTheme(
         backgroundColor: Colors.transparent,

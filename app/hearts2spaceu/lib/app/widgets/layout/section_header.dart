@@ -7,9 +7,13 @@ import '../../theme/app_colors.dart';
 /// Generic and domain-agnostic — just renders a String, uppercased, in the
 /// `labelSmall` role (Design System V1). Callers pass natural-case text.
 class SectionHeader extends StatelessWidget {
-  const SectionHeader({super.key, required this.label});
+  const SectionHeader({super.key, required this.label, this.color});
 
   final String label;
+
+  /// Overrides the muted default — for a header sitting on a tinted card, where
+  /// the muted grey loses contrast against the fill.
+  final Color? color;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +21,7 @@ class SectionHeader extends StatelessWidget {
       label.toUpperCase(),
       style: Theme.of(
         context,
-      ).textTheme.labelSmall?.copyWith(color: AppColors.inkMuted),
+      ).textTheme.labelSmall?.copyWith(color: color ?? AppColors.inkMuted),
     );
   }
 }

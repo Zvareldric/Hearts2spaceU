@@ -1,0 +1,57 @@
+[
+  {
+    "id": "iconic-heart",
+    "title": "Iconic Heart",
+    "year": 2026,
+    "type": "single",
+    "releaseDate": "2026-08-12",
+    "note": "Japanese debut single",
+    "coverUrl": "https://pbs.twimg.com/media/HLJL7SnbIAADVVR.jpg",
+    "tracks": []
+  },
+  {
+    "id": "lemon-tang",
+    "title": "Lemon Tang",
+    "year": 2026,
+    "type": "mini-album",
+    "releaseDate": "2026-06-01",
+    "note": "Second mini album",
+    "coverUrl": "https://pbs.twimg.com/media/HLJL5bmacAA3HPi.jpg",
+    "tracks": []
+  },
+  {
+    "id": "rude",
+    "title": "RUDE!",
+    "year": 2026,
+    "coverUrl": "https://pbs.twimg.com/media/HBrvh8_b0AAw7J1.jpg",
+    "tracks": []
+  },
+  {
+    "id": "focus",
+    "title": "FOCUS",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/G3TqcKmasAASmf2.jpg",
+    "tracks": []
+  },
+  {
+    "id": "pretty-please",
+    "title": "Pretty Please",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/G1mTox3bcAAjJLp.jpg",
+    "tracks": []
+  },
+  {
+    "id": "style",
+    "title": "STYLE",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/GtodnLxa0AI8iGT.jpg",
+    "tracks": []
+  },
+  {
+    "id": "the-chase",
+    "title": "The Chase",
+    "year": 2025,
+    "coverUrl": "https://pbs.twimg.com/media/GkJKuKQbAAAZZ6H.jpg",
+    "tracks": []
+  }
+]

@@ -212,12 +212,24 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('2'), findsWidgets); // the headline total
-      expect(find.text('achievements in total'), findsOneWidget);
+      // Design System V2 shows the totals as four labelled tiles rather than
+      // one headline number with a caption.
+      expect(find.text('Total achievements'), findsOneWidget);
+      expect(find.text('Music show wins'), findsOneWidget);
       expect(find.text('2026'), findsOneWidget);
       expect(find.text('2025'), findsOneWidget);
+
+      // The 2×2 tile grid pushes the rest of the page down, so the wins list
+      // and the honesty note now start below the fold — scroll to them rather
+      // than assume they are on screen.
+      await tester.dragUntilVisible(
+        find.text('RUDE!'),
+        find.byType(ListView),
+        const Offset(0, -100),
+      );
       expect(find.text('RUDE!'), findsOneWidget);
-      // The honesty note is an acceptance criterion, not decoration. It sits
-      // below the fold, so scroll to it rather than assume it is on screen.
+
+      // The honesty note is an acceptance criterion, not decoration.
       await tester.dragUntilVisible(
         find.textContaining('may not be complete'),
         find.byType(ListView),

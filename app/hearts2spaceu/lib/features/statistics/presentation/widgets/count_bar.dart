@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 
-/// A label, a proportional bar, and a count.
+/// A label and its count on one line, with a proportional bar underneath.
 ///
-/// The bar is a plain [FractionallySizedBox] — a charting package would be a
-/// whole dependency for one rectangle (docs/specs/statistics.md §5).
+/// Design System V2 stacks them rather than putting label | bar | count in a
+/// row: the bar gets the full width, so the difference between two years is
+/// visible instead of squeezed into the middle third.
+///
+/// The bar is a plain [AnimatedFractionallySizedBox] — a charting package would
+/// be a whole dependency for one rectangle (docs/specs/statistics.md §5).
 class CountBar extends StatelessWidget {
   const CountBar({
     super.key,
@@ -26,7 +31,6 @@ class CountBar extends StatelessWidget {
   final VoidCallback? onTap;
 
   static const _barHeight = 8.0;
-  static const _labelWidth = 64.0;
 
   @override
   Widget build(BuildContext context) {
@@ -35,58 +39,72 @@ class CountBar extends StatelessWidget {
     // invisible sliver rather than a full bar.
     final fraction = max <= 0 ? 0.0 : (count / max).clamp(0.0, 1.0);
 
-    final row = Padding(
+    final content = Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
-            width: _labelWidth,
-            child: Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: theme.textTheme.bodyMedium,
-            ),
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Container(
-              height: _barHeight,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.surfaceContainerHighest,
-                borderRadius: AppRadius.pillRadius,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: theme.textTheme.labelMedium?.copyWith(
+                    color: AppColors.inkSoft,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: AnimatedFractionallySizedBox(
-                  duration: AppMotion.of(context, AppMotion.slow),
-                  curve: AppMotion.enter,
-                  widthFactor: fraction,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary,
-                      borderRadius: AppRadius.pillRadius,
+              Text(
+                '$count',
+                style: theme.textTheme.labelMedium?.copyWith(
+                  color: AppColors.inkMuted,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Container(
+            height: _barHeight,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.25),
+              borderRadius: AppRadius.pillRadius,
+            ),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: AnimatedFractionallySizedBox(
+                duration: AppMotion.of(context, AppMotion.slow),
+                curve: AppMotion.enter,
+                widthFactor: fraction,
+                // heightFactor is required, not decoration: without it the
+                // child's height constraint stays loose, a DecoratedBox with no
+                // child collapses to zero height, and the fill vanishes —
+                // leaving every bar looking identically full.
+                heightFactor: 1,
+                child: const DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: AppColors.heroGradient),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(AppRadius.pill),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-          const SizedBox(width: AppSpacing.md),
-          SizedBox(
-            width: 28,
-            child: Text(
-              '$count',
-              textAlign: TextAlign.right,
-              style: theme.textTheme.labelMedium,
-            ),
-          ),
         ],
       ),
     );
 
-    if (onTap == null) return row;
+    if (onTap == null) return content;
 
-    return InkWell(onTap: onTap, borderRadius: AppRadius.smRadius, child: row);
+    return InkWell(
+      onTap: onTap,
+      borderRadius: AppRadius.smRadius,
+      child: content,
+    );
   }
 }

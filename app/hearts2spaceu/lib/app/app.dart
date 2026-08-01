@@ -4,6 +4,7 @@ import '../core/constants/app_constants.dart';
 import '../routes/app_router.dart';
 import '../routes/app_routes.dart';
 import 'theme/app_theme.dart';
+import 'widgets/layout/ambient_background.dart';
 
 /// Root widget of the application.
 ///
@@ -22,6 +23,11 @@ class App extends StatelessWidget {
       themeMode: ThemeMode.system,
       initialRoute: AppRoutes.home,
       onGenerateRoute: AppRouter.onGenerateRoute,
+      // Wrapping the navigator (not each page) paints the pastel wash once for
+      // the whole app: it stays put while routes slide over it, and every
+      // Scaffold is transparent so it shows through. See `AmbientBackground`.
+      builder: (context, child) =>
+          AmbientBackground(child: child ?? const SizedBox.shrink()),
     );
   }
 }

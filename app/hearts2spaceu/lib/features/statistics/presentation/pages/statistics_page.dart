@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
+import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
@@ -26,28 +28,48 @@ class StatisticsPage extends ConsumerWidget {
     final statsAsync = ref.watch(careerStatsProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Statistics')),
-      body: AnimatedSwitcher(
-        duration: AppMotion.of(context, AppMotion.base),
-        child: statsAsync.when(
-          loading: () => const LoadingView(key: ValueKey('loading')),
-          error: (error, _) => ErrorView(
-            key: const ValueKey('error'),
-            message: "Couldn't load the statistics.",
-            onRetry: () => ref.invalidate(careerStatsProvider),
-          ),
-          data: (stats) {
-            // A wall of zeros would read as a real result. Say there is nothing
-            // to summarise instead.
-            if (stats.isEmpty) {
-              return const EmptyView(
-                key: ValueKey('empty'),
-                message: 'No achievements recorded yet.',
-                icon: Icons.insights_rounded,
-              );
-            }
-            return _StatsBody(key: const ValueKey('data'), stats: stats);
-          },
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                AppSpacing.lg,
+                AppSpacing.screenPadding,
+                0,
+              ),
+              child: PageHeading.sub(title: 'Fan Statistics'),
+            ),
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: AppMotion.of(context, AppMotion.base),
+                child: statsAsync.when(
+                  loading: () => const LoadingView(key: ValueKey('loading')),
+                  error: (error, _) => ErrorView(
+                    key: const ValueKey('error'),
+                    message: "Couldn't load the statistics.",
+                    onRetry: () => ref.invalidate(careerStatsProvider),
+                  ),
+                  data: (stats) {
+                    // A wall of zeros would read as a real result. Say there is
+                    // nothing to summarise instead.
+                    if (stats.isEmpty) {
+                      return const EmptyView(
+                        key: ValueKey('empty'),
+                        message: 'No achievements recorded yet.',
+                        icon: Icons.insights_rounded,
+                      );
+                    }
+                    return _StatsBody(
+                      key: const ValueKey('data'),
+                      stats: stats,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -62,24 +84,29 @@ class _StatsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.all(AppSpacing.screenPadding),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenPadding,
+        0,
+        AppSpacing.screenPadding,
+        AppSpacing.xl,
+      ),
       children: [
         StaggeredItem(index: 0, child: _Overview(stats: stats)),
-        const SizedBox(height: AppSpacing.xl),
+        const SizedBox(height: AppSpacing.lg),
         StaggeredItem(index: 1, child: _ByYear(stats: stats)),
         if (stats.musicShowWinsByWork.isNotEmpty) ...[
-          const SizedBox(height: AppSpacing.xl),
+          const SizedBox(height: AppSpacing.lg),
           StaggeredItem(index: 2, child: _MusicShowWins(stats: stats)),
         ],
-        const SizedBox(height: AppSpacing.xl),
+        const SizedBox(height: AppSpacing.lg),
         const _SourceNote(),
-        const SizedBox(height: AppSpacing.xl),
       ],
     );
   }
 }
 
-/// The headline totals — everything readable in about five seconds.
+/// The headline totals as a 2×2 grid of tiles — everything readable in about
+/// five seconds.
 class _Overview extends StatelessWidget {
   const _Overview({required this.stats});
 
@@ -87,72 +114,26 @@ class _Overview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final tiles = [
+      (value: stats.total, label: 'Total achievements'),
+      (value: stats.musicShowWins, label: 'Music show wins'),
+      (value: stats.ceremonyAwards, label: 'Ceremony awards'),
+      (value: stats.milestones, label: 'Milestones'),
+    ];
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return GridView.count(
+      // Inside a ListView: let the grid size to its content instead of taking a
+      // viewport of its own.
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      padding: EdgeInsets.zero,
+      crossAxisCount: 2,
+      crossAxisSpacing: AppSpacing.md,
+      mainAxisSpacing: AppSpacing.md,
+      childAspectRatio: 1.9,
       children: [
-        const SectionHeader(label: 'Career so far'),
-        const SizedBox(height: AppSpacing.md),
-        AppCard(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '${stats.total}',
-                style: theme.textTheme.displaySmall?.copyWith(
-                  color: theme.colorScheme.primary,
-                ),
-              ),
-              Text(
-                'achievements in total',
-                style: theme.textTheme.bodyLarge?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              const Divider(height: 1),
-              const SizedBox(height: AppSpacing.lg),
-              // Two rows of two rather than a four-across row: at 360dp a
-              // four-across row leaves each label about 70px wide.
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: StatTile(
-                      value: stats.ceremonyAwards,
-                      label: 'Award wins',
-                    ),
-                  ),
-                  Expanded(
-                    child: StatTile(
-                      value: stats.musicShowWins,
-                      label: 'Music show wins',
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: StatTile(
-                      value: stats.distinctCeremonies,
-                      label: 'Ceremonies & shows',
-                    ),
-                  ),
-                  Expanded(
-                    child: StatTile(
-                      value: stats.distinctWorks,
-                      label: 'Awarded releases',
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
+        for (final tile in tiles)
+          StatTile(value: tile.value, label: tile.label),
       ],
     );
   }
@@ -166,30 +147,27 @@ class _ByYear extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SectionHeader(label: 'By year'),
-        const SizedBox(height: AppSpacing.md),
-        AppCard(
-          child: Column(
-            children: [
-              for (final year in stats.byYear)
-                CountBar(
-                  label: '${year.year}',
-                  count: year.count,
-                  max: stats.busiestYearCount,
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(AppRoutes.awards),
-                ),
-            ],
-          ),
-        ),
-      ],
+    return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SectionHeader(label: 'Achievements by year'),
+          for (final year in stats.byYear)
+            CountBar(
+              label: '${year.year}',
+              count: year.count,
+              max: stats.busiestYearCount,
+              onTap: () => Navigator.of(context).pushNamed(AppRoutes.awards),
+            ),
+        ],
+      ),
     );
   }
 }
 
+/// Wins per release as a plain ranked list: with five entries the ranking is the
+/// point, and five more bars would just repeat the card above.
 class _MusicShowWins extends StatelessWidget {
   const _MusicShowWins({required this.stats});
 
@@ -197,22 +175,50 @@ class _MusicShowWins extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final top = stats.musicShowWinsByWork.first.count;
+    final theme = Theme.of(context);
+    final works = stats.musicShowWinsByWork;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        const SectionHeader(label: 'Music show wins by release'),
-        const SizedBox(height: AppSpacing.md),
-        AppCard(
-          child: Column(
-            children: [
-              for (final work in stats.musicShowWinsByWork)
-                CountBar(label: work.work, count: work.count, max: top),
-            ],
-          ),
-        ),
-      ],
+    return AppCard(
+      padding: const EdgeInsets.all(AppSpacing.lg),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          const SectionHeader(label: 'Music show wins by release'),
+          const SizedBox(height: AppSpacing.xs),
+          for (final (index, work) in works.indexed)
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
+              decoration: BoxDecoration(
+                border: index == works.length - 1
+                    ? null
+                    : Border(
+                        bottom: BorderSide(
+                          color: AppColors.primary.withValues(alpha: 0.35),
+                        ),
+                      ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      work.work,
+                      style: theme.textTheme.bodyMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  Text(
+                    '${work.count}×',
+                    style: theme.textTheme.bodyMedium?.copyWith(
+                      color: AppColors.primaryStrong,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
     );
   }
 }
@@ -229,18 +235,19 @@ class _SourceNote extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
+        const Icon(
           Icons.info_outline_rounded,
-          size: 16,
-          color: theme.colorScheme.onSurfaceVariant,
+          size: 15,
+          color: AppColors.inkMuted,
         ),
         const SizedBox(width: AppSpacing.sm),
         Expanded(
           child: Text(
             'Counted from the achievements recorded in this app. '
             'The list is curated from public sources, so it may not be complete.',
-            style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+            style: theme.textTheme.labelMedium?.copyWith(
+              color: AppColors.inkMuted,
+              fontWeight: FontWeight.w400,
             ),
           ),
         ),

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
@@ -22,26 +23,46 @@ class AwardsPage extends ConsumerWidget {
     final yearsAsync = ref.watch(awardsByYearProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Awards')),
-      body: AnimatedSwitcher(
-        duration: AppMotion.of(context, AppMotion.base),
-        child: yearsAsync.when(
-          loading: () => const LoadingView(key: ValueKey('loading')),
-          error: (error, _) => ErrorView(
-            key: const ValueKey('error'),
-            message: "Couldn't load the awards.",
-            onRetry: () => ref.invalidate(awardsByYearProvider),
-          ),
-          data: (years) {
-            if (years.isEmpty) {
-              return const EmptyView(
-                key: ValueKey('empty'),
-                message: 'No awards yet.',
-                icon: Icons.emoji_events_rounded,
-              );
-            }
-            return _AwardsByYear(key: const ValueKey('data'), years: years);
-          },
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                AppSpacing.lg,
+                AppSpacing.screenPadding,
+                0,
+              ),
+              child: PageHeading.sub(title: 'Awards'),
+            ),
+            Expanded(
+              child: AnimatedSwitcher(
+                duration: AppMotion.of(context, AppMotion.base),
+                child: yearsAsync.when(
+                  loading: () => const LoadingView(key: ValueKey('loading')),
+                  error: (error, _) => ErrorView(
+                    key: const ValueKey('error'),
+                    message: "Couldn't load the awards.",
+                    onRetry: () => ref.invalidate(awardsByYearProvider),
+                  ),
+                  data: (years) {
+                    if (years.isEmpty) {
+                      return const EmptyView(
+                        key: ValueKey('empty'),
+                        message: 'No awards yet.',
+                        icon: Icons.emoji_events_rounded,
+                      );
+                    }
+                    return _AwardsByYear(
+                      key: const ValueKey('data'),
+                      years: years,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

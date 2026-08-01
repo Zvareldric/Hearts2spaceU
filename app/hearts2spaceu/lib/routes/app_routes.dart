@@ -4,6 +4,7 @@ class AppRoutes {
   const AppRoutes._();
 
   static const String home = '/';
+  static const String more = '/more';
   static const String memberList = '/members';
   static const String memberDetail = '/members/detail';
   static const String schedule = '/schedule';
@@ -19,4 +20,6 @@ class AppRoutes {
   static const String collection = '/collection';
   static const String voting = '/voting';
   static const String statistics = '/statistics';
+  static const String discography = '/discography';
+  static const String releaseDetail = '/discography/release';
 }

@@ -7,7 +7,11 @@ import '../../../../app/widgets/cards/app_card.dart';
 import '../../domain/update.dart';
 import '../update_date_format.dart';
 
-/// A single update in the list — category badge, headline, and teaser.
+/// A single update — category pill and date on one line, then the headline and
+/// its teaser.
+///
+/// Design System V2 drops the chevron: the whole card is the tap target, and the
+/// pill/date line is what the eye uses to place the item in time.
 ///
 /// Built from generic Design System blocks ([AppCard], [TypeBadge]); lives here
 /// because it depends on the [Update] domain entity.
@@ -23,38 +27,47 @@ class UpdateCard extends StatelessWidget {
 
     return AppCard(
       onTap: onTap,
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.lg,
+        vertical: AppSpacing.lg,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
             children: [
-              if (update.category != null) ...[
-                TypeBadge(type: update.category!),
-                const SizedBox(width: AppSpacing.sm),
-              ],
-              Expanded(
-                child: Text(
-                  formatPublishedDate(update.publishedAt),
-                  style: textTheme.labelMedium?.copyWith(
-                    color: AppColors.inkMuted,
-                  ),
+              if (update.category case final category?)
+                TypeBadge(type: category),
+              const Spacer(),
+              Text(
+                formatPublishedDate(update.publishedAt),
+                style: textTheme.labelSmall?.copyWith(
+                  color: AppColors.inkMuted,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w400,
                 ),
-              ),
-              const Icon(
-                Icons.chevron_right_rounded,
-                color: AppColors.inkMuted,
               ),
             ],
           ),
           const SizedBox(height: AppSpacing.sm),
-          Text(update.title, style: textTheme.titleMedium),
-          if (update.summary != null) ...[
+          Text(
+            update.title,
+            style: textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+              height: 1.35,
+            ),
+          ),
+          if (update.summary case final summary?) ...[
             const SizedBox(height: AppSpacing.xs),
             Text(
-              update.summary!,
-              style: textTheme.bodyMedium?.copyWith(color: AppColors.inkMuted),
-              maxLines: 2,
+              summary,
+              style: textTheme.labelMedium?.copyWith(
+                color: AppColors.inkSoft,
+                fontWeight: FontWeight.w400,
+                height: 1.5,
+              ),
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
           ],

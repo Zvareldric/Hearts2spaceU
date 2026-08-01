@@ -90,9 +90,10 @@ void main() {
 
     // The music-show entry is badged; plain awards are not, so the badge does
     // not become visual noise on the majority of the list.
-    // (TypeBadge prints the raw type, matching how Schedule shows "concert".)
-    expect(find.text(Award.typeMusicShow), findsOneWidget);
-    expect(find.text(Award.typeAward), findsNothing);
+    // TypeBadge renders an unmapped type uppercased, with hyphens opened up —
+    // so `music-show` shows as "MUSIC SHOW".
+    expect(find.text('MUSIC SHOW'), findsOneWidget);
+    expect(find.text(Award.typeAward.toUpperCase()), findsNothing);
   });
 
   testWidgets('Empty — shows the empty state when there are no awards', (

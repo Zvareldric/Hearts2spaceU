@@ -245,7 +245,8 @@ void main() {
       );
       await tester.pumpAndSettle();
 
-      expect(find.text('upcoming'), findsOneWidget);
+      // TypeBadge renders the status uppercased.
+      expect(find.text('UPCOMING'), findsOneWidget);
 
       await tester.tap(find.text('not-yet'));
       await tester.pumpAndSettle();

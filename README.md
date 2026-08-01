@@ -9,15 +9,18 @@
 **Current Status:** 🟢 MVP complete
 
 ### Current Phase
-Sprint 10 – Statistics (Early Growth)
+Release 1.0.0 – Design System V2 (Early Growth)
 
 ### Next Milestone
-Statistics · Enhanced Fandom Support (see Roadmap)
+Discography track lists · Enhanced Fandom Support (see Roadmap)
 
 Sprints 1–4 deliver every MVP capability — **Official Information (Member Profiles)**,
 **Schedule (Upcoming Events)**, **Latest Updates**, and the **Official Streaming Hub** —
 built on the documented Evolutionary Clean Architecture. Release 0.3.0 added
 **Design System V1**: brand tokens, reusable components, and motion shared by every screen.
+Release 1.0.0 rebuilds the app on **Design System V2** — a five-tab shell, glass surfaces over
+a single ambient wash, and an accessibility pass that brought every badge, label, and avatar
+colour up to AA.
 
 Sprints 5–6 added all-day events with the real 2026 schedule, and **Awards** — 52
 achievements grouped by year.
@@ -133,6 +136,8 @@ Current development focus:
 - ✅ Personal Collection
 - ✅ Voting Hub
 - ✅ Statistics
+- ✅ Discography
+- ✅ Design System V2
 - ⏳ Additional capabilities (see Roadmap)
 
 For the complete roadmap, see **docs/03_roadmap.md**.

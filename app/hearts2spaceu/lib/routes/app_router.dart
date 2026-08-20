@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../features/agenda/presentation/pages/agenda_page.dart';
 import '../features/awards/presentation/pages/award_detail_page.dart';
 import '../features/awards/presentation/pages/awards_page.dart';
 import '../features/collection/presentation/pages/collection_page.dart';
@@ -81,6 +82,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CollectionPage());
       case AppRoutes.voting:
         return MaterialPageRoute(builder: (_) => const VotingHubPage());
+      case AppRoutes.agenda:
+        return MaterialPageRoute(builder: (_) => const AgendaPage());
       case AppRoutes.statistics:
         return MaterialPageRoute(builder: (_) => const StatisticsPage());
       case AppRoutes.discography:

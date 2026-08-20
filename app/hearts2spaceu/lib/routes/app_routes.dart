@@ -19,6 +19,7 @@ class AppRoutes {
   static const String photoViewer = '/gallery/photo';
   static const String collection = '/collection';
   static const String voting = '/voting';
+  static const String agenda = '/agenda';
   static const String statistics = '/statistics';
   static const String discography = '/discography';
   static const String releaseDetail = '/discography/release';

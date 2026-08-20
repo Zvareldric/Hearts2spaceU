@@ -104,7 +104,7 @@ class _QuickActions extends StatelessWidget {
           icon: Icons.music_note_rounded,
           label: 'Music',
           gradient: CapabilityGradients.music,
-          route: AppRoutes.streamingHub,
+          route: AppRoutes.discography,
         ),
         (
           icon: Icons.insights_rounded,

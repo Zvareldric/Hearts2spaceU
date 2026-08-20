@@ -43,7 +43,7 @@ class StreamingHubPage extends ConsumerWidget {
                 AppSpacing.screenPadding,
                 0,
               ),
-              child: PageHeading.sub(title: 'Music'),
+              child: PageHeading.sub(title: 'Official Channels'),
             ),
             Expanded(
               child: AnimatedSwitcher(

@@ -69,6 +69,23 @@ class VotingCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),
+                // The note is curated by the Product Owner and changes how a
+                // vote is acted on — "Daily voting" means come back tomorrow.
+                // Parsing it but never showing it left that instruction
+                // unread.
+                if (campaign.note case final note? when note.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    note,
+                    style: textTheme.labelSmall?.copyWith(
+                      color: AppColors.inkMuted,
+                      letterSpacing: 0,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
               ],
             ),
           ),

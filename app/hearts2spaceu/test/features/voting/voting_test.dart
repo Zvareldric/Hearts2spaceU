@@ -12,15 +12,20 @@ import 'package:hearts2spaceu/features/voting/presentation/providers/voting_prov
 import 'package:hearts2spaceu/features/voting/presentation/widgets/voting_card.dart';
 import 'package:hearts2spaceu/shared/services/url_opener.dart';
 
-VotingCampaign _campaign(String id, DateTime closesAt, {DateTime? opensAt}) =>
-    VotingCampaign(
-      id: id,
-      title: id,
-      organizer: 'Awards',
-      url: 'https://example.com/$id',
-      closesAt: closesAt,
-      opensAt: opensAt,
-    );
+VotingCampaign _campaign(
+  String id,
+  DateTime closesAt, {
+  DateTime? opensAt,
+  String? note,
+}) => VotingCampaign(
+  id: id,
+  title: id,
+  organizer: 'Awards',
+  url: 'https://example.com/$id',
+  closesAt: closesAt,
+  opensAt: opensAt,
+  note: note,
+);
 
 class _FakeRepository implements VotingRepository {
   _FakeRepository(this.campaigns);
@@ -195,6 +200,45 @@ void main() {
       expect(formatRemaining(const Duration(hours: 5)), 'in 5 hours');
       expect(formatRemaining(const Duration(minutes: 30)), 'in 30 min');
       expect(formatRemaining(const Duration(seconds: 20)), 'very soon');
+    });
+  });
+
+  group('VotingCard', () {
+    Widget card(VotingCampaign campaign) => MaterialApp(
+      home: Scaffold(
+        body: VotingCard(campaign: campaign, now: now),
+      ),
+    );
+
+    testWidgets('shows the curated note', (tester) async {
+      await tester.pumpWidget(
+        card(
+          _campaign(
+            'c',
+            now.add(const Duration(days: 3)),
+            note: 'Daily voting',
+          ),
+        ),
+      );
+
+      expect(find.text('Daily voting'), findsOneWidget);
+    });
+
+    testWidgets('leaves out the note line when there is none', (tester) async {
+      await tester.pumpWidget(card(_campaign('c', now.add(Duration(days: 3)))));
+
+      // Title and the organiser/deadline line, and nothing blank after them.
+      expect(find.byType(Text), findsNWidgets(2));
+    });
+
+    testWidgets('leaves out an empty note rather than an empty line', (
+      tester,
+    ) async {
+      await tester.pumpWidget(
+        card(_campaign('c', now.add(const Duration(days: 3)), note: '')),
+      );
+
+      expect(find.byType(Text), findsNWidgets(2));
     });
   });
 

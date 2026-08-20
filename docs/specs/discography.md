@@ -40,9 +40,10 @@ dan menambah tab keenam membuatnya padat.
 
 | Pintu masuk | Bentuk |
 |-------------|--------|
-| **Home** | `ReleaseStrip` — deretan cover horizontal + "See all" (UC-3) |
-| **More** | tile "Discography · Every release & track" |
-| **Release detail** | baris "Listen on official platforms" → Streaming Hub |
+| **Home** | `ReleaseStrip` — deretan cover horizontal + "See all" (UC-3), dan quick action "Music" |
+| **More** | tile "Music · Releases & platforms" — **satu-satunya** pintu ke kapabilitas ini |
+| **Halaman Music** | baris "Listen on official platforms" → Official Channels |
+| **Release detail** | baris yang sama, lewat `ListenOnCard` yang dipakai bersama |
 
 Strip di Home dipilih karena dua alasan: mengisi ruang kosong Home dengan sesuatu
 yang **konten**, bukan tombol, dan cover album adalah hal paling berwarna yang
@@ -50,6 +51,23 @@ dimiliki app ini.
 
 Daftar penuhnya berbentuk **list**, bukan grid — Gallery sudah memiliki grid cover
 2 kolom, dan grid kedua akan terbaca sebagai layar yang sama.
+
+### Satu pintu untuk "Music" *(2026-08-20)*
+
+More sempat punya **dua** tile untuk satu kapabilitas: "Discography" (rilisnya) dan
+"Music" (tujuh link keluar). Sejak §7 dieksekusi, keduanya menjadi satu tile **Music**
+yang membuka halaman rilis — isi sebenarnya dari kapabilitas itu — dengan platform resmi
+satu tap di dalamnya.
+
+Alternatif yang ditimbang: **satu halaman Music berisi dua section** (rilis + platform
+dalam satu scroll). Ditolak karena halaman itu harus menggabungkan dua `AsyncValue` dari
+dua fitur berbeda, sehingga satu sumber gagal memaksa keputusan "layar ini state-nya apa"
+— dan `StreamingHubPage` yang sudah bekerja akan jadi duplikat. Bentuk yang dipakai
+memisahkan keduanya sebagai dua layar, masing-masing memiliki state-nya sendiri.
+
+Konsekuensi yang dijaga test: barisnya berada **di luar** `AnimatedSwitcher` state rilis,
+jadi platform resmi tetap terjangkau saat daftar rilis sedang memuat atau gagal. Satu
+kapabilitas tidak boleh jatuh seluruhnya karena separuhnya gagal.
 
 ## 4. Data yang Dibutuhkan — dan Batasnya
 
@@ -145,9 +163,12 @@ features/discography/
 - **Link per rilis** (mis. Spotify URL tiap album) sengaja belum ada — saat ini
   detail mengarah ke Streaming Hub, agar Product Owner tidak perlu merawat
   tujuh set link.
-- **Menggabungkan ke tab Music** adalah langkah berikutnya yang wajar: "Music"
-  saat ini hanya tujuh link keluar, dan discography-lah isi sebenarnya dari
-  kapabilitas itu. Dibiarkan terpisah dulu supaya diff-nya fokus.
+- ~~**Menggabungkan ke tab Music**~~ — **terlaksana 2026-08-20.** More kini punya satu
+  tile "Music" yang membuka daftar rilis, dan `StreamingHubPage` berganti judul menjadi
+  **"Official Channels"** karena nama "Music" pindah ke halaman di atasnya — lagipula
+  isinya bukan cuma musik (video · social · community). Route `/discography` dan
+  `/channels` **dua-duanya tetap ada**; yang berubah pintu masuknya, bukan alamatnya.
+  Rinciannya di §3.
 
 ## 8. Dokumen Terkait
 

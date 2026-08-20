@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../app/tab_shell.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -204,9 +203,11 @@ class _UpNextSection extends ConsumerWidget {
       children: [
         _SectionHeaderRow(
           label: 'Up next',
-          // Switches to the Schedule tab instead of pushing a second copy of it
-          // over the shell.
-          onSeeAll: () => TabSwitcher.go(context, TabShell.scheduleTab),
+          // Opens the Agenda, not the Schedule tab: the slot shows the next
+          // event, but "see all" means every deadline — votes included
+          // (docs/specs/agenda.md §5). The Schedule is still one tap away on
+          // the nav bar, so no route is lost.
+          onSeeAll: () => Navigator.of(context).pushNamed(AppRoutes.agenda),
         ),
         const SizedBox(height: AppSpacing.sm),
         // Cross-fades between states; every state is the same height, so the

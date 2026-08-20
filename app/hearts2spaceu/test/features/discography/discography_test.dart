@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hearts2spaceu/app/theme/app_theme.dart';
 import 'package:hearts2spaceu/app/widgets/states/empty_view.dart';
+import 'package:hearts2spaceu/app/widgets/states/error_view.dart';
 import 'package:hearts2spaceu/features/discography/data/asset_release_repository.dart';
 import 'package:hearts2spaceu/features/discography/domain/newest_first.dart';
 import 'package:hearts2spaceu/features/discography/domain/release.dart';
@@ -10,6 +11,7 @@ import 'package:hearts2spaceu/features/discography/domain/release_repository.dar
 import 'package:hearts2spaceu/features/discography/presentation/pages/discography_page.dart';
 import 'package:hearts2spaceu/features/discography/presentation/providers/release_providers.dart';
 import 'package:hearts2spaceu/features/discography/presentation/release_format.dart';
+import 'package:hearts2spaceu/routes/app_routes.dart';
 
 class _FakeReleaseRepository implements ReleaseRepository {
   _FakeReleaseRepository(this.releases);
@@ -18,6 +20,11 @@ class _FakeReleaseRepository implements ReleaseRepository {
 
   @override
   Future<List<Release>> getReleases() async => releases;
+}
+
+class _ThrowingReleaseRepository implements ReleaseRepository {
+  @override
+  Future<List<Release>> getReleases() async => throw Exception('bad asset');
 }
 
 Release _release(
@@ -35,10 +42,18 @@ Release _release(
   tracks: tracks,
 );
 
-Widget _app(ReleaseRepository repository) => ProviderScope(
-  overrides: [releaseRepositoryProvider.overrideWithValue(repository)],
-  child: MaterialApp(theme: AppTheme.light, home: const DiscographyPage()),
-);
+Widget _app(ReleaseRepository repository, {List<String>? pushed}) =>
+    ProviderScope(
+      overrides: [releaseRepositoryProvider.overrideWithValue(repository)],
+      child: MaterialApp(
+        theme: AppTheme.light,
+        home: const DiscographyPage(),
+        onGenerateRoute: (settings) {
+          pushed?.add(settings.name!);
+          return MaterialPageRoute(builder: (_) => const SizedBox.shrink());
+        },
+      ),
+    );
 
 void main() {
   group('newestFirst', () {
@@ -191,6 +206,42 @@ void main() {
 
       expect(find.byType(EmptyView), findsOneWidget);
       expect(find.text('No releases recorded yet.'), findsOneWidget);
+    });
+
+    testWidgets('is the Music screen — one door for the whole capability', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_app(_FakeReleaseRepository(const [])));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Music'), findsOneWidget);
+    });
+
+    testWidgets('the official platforms are one tap from the releases', (
+      tester,
+    ) async {
+      final pushed = <String>[];
+      await tester.pumpWidget(
+        _app(_FakeReleaseRepository([_release('RUDE!')]), pushed: pushed),
+      );
+      await tester.pumpAndSettle();
+
+      await tester.tap(find.text('Listen on official platforms'));
+      await tester.pumpAndSettle();
+
+      expect(pushed, [AppRoutes.streamingHub]);
+    });
+
+    testWidgets('the official platforms survive a failed release load', (
+      tester,
+    ) async {
+      // Music now covers both halves, so a broken discography must not take the
+      // official channels down with it.
+      await tester.pumpWidget(_app(_ThrowingReleaseRepository()));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ErrorView), findsOneWidget);
+      expect(find.text('Listen on official platforms'), findsOneWidget);
     });
   });
 

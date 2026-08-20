@@ -71,7 +71,7 @@ informasinya tersebar.
 | `url` | string | ✅ | tautan voting resmi (**wajib `https://`**) |
 | `closesAt` | string (ISO 8601) | ✅ | **kunci** urutan & penyembunyian |
 | `opensAt` | string (ISO 8601) | — | bila belum dibuka, tampil sebagai *upcoming* |
-| `note` | string | — | keterangan, mis. `Daily voting` |
+| `note` | string | — | keterangan, mis. `Daily voting` — **tampil di kartu** |
 
 ```json
 [
@@ -97,6 +97,10 @@ informasinya tersebar.
 - Isi dikurasi Product Owner dari pengumuman resmi.
 - ⚠️ **Daftar kosong itu normal.** Voting penghargaan umumnya terpusat di akhir tahun;
   di luar musim itu, `EmptyView` adalah keadaan yang benar, bukan kegagalan.
+- ⚠️ **Gagal mengurai bukan gagal jaringan** *(amandemen 2026-08-20)*. `voting.json` yang
+  rusak — bukan array, URL non-`https`, `closesAt` hilang — adalah kesalahan **di pihak
+  kita**. Menyuruh pengguna "periksa koneksi Anda" mengarahkan mereka ke kerusakan yang
+  tidak bisa mereka perbaiki, sekaligus menyembunyikan kesalahannya dari kita.
 
 ## 5. Arsitektur
 
@@ -121,6 +125,11 @@ waktu terdekat dulu**, dengan *stable tie-break* memakai urutan sumber.
 
 **Sisa waktu** dihitung & diformat **di Presentation** — domain hanya menyimpan `DateTime`.
 
+**`votingErrorMessage(error)`** — fungsi murni di Presentation yang memilih kalimat error
+berdasarkan **jenis kegagalannya**: `FormatException`/`TypeError` dari `parseCampaigns`
+berarti datanya rusak, sisanya berarti jaringannya. Cukup satu fungsi kecil; *Failure
+Abstraction* belum dibutuhkan ([`06`](../06_coding_guidelines.md) §7).
+
 **Reuse (tanpa komponen baru):** `AppCard`, `TypeBadge`, `SectionHeader`,
 `LoadingView`/`EmptyView`/`ErrorView`, `StaggeredItem`, `UrlOpener`.
 
@@ -140,6 +149,10 @@ terakhir.
 - [ ] URL non-`https` dan entri tanpa `closesAt` **ditolak saat parsing**.
 - [ ] State **Loading / Empty / Error** tertangani; `EmptyView` menjelaskan bahwa **belum ada
       voting berlangsung**, bukan terkesan rusak.
+- [ ] Kegagalan **data** dibedakan dari kegagalan **jaringan**: `voting.json` yang tak bisa
+      diurai **tidak** menyuruh pengguna memeriksa koneksinya *(ada test-nya)*.
+- [ ] `note` yang dikurasi **tampil di kartu**; entri tanpa `note` **tidak** menyisakan baris
+      kosong *(ada test-nya)*.
 - [ ] Home menampilkan **8 Capability Card**; tidak *overflow* di 360dp **(dibuktikan test)**.
 
 ## 7. Definition of Done (Sprint 9)
@@ -149,8 +162,8 @@ terakhir.
 - [ ] Seluruh **Acceptance Criteria** terpenuhi.
 - [ ] `dart format` rapi & `flutter analyze` bersih.
 - [ ] **Test:** unit (`parseCampaigns`: https, `closesAt` wajib; `openAndUpcoming`: tutup
-      dibuang, urutan, tie-break, batas tepat `now`) + widget (state, tap membuka URL yang
-      di-*mock*, penanda upcoming).
+      dibuang, urutan, tie-break, batas tepat `now`; `votingErrorMessage`: data vs jaringan)
+      + widget (state, tap membuka URL yang di-*mock*, penanda upcoming, `note` tampil).
 - [ ] **Data dikurasi PO** — atau `[]` bila memang tak ada voting berlangsung.
 - [ ] **Verifikasi runtime oleh PO.**
 - [ ] **GitHub Flow**: merge → hapus branch → tag `v0.10.0`.

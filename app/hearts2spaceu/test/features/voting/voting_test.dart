@@ -27,6 +27,17 @@ VotingCampaign _campaign(
   note: note,
 );
 
+/// Runs [body] and hands back whatever it threw, so a test can assert on the
+/// real failure the parser produces instead of a hand-built stand-in.
+Object _thrownBy(void Function() body) {
+  try {
+    body();
+  } catch (error) {
+    return error;
+  }
+  fail('Expected $body to throw.');
+}
+
 class _FakeRepository implements VotingRepository {
   _FakeRepository(this.campaigns);
 
@@ -39,6 +50,13 @@ class _FakeRepository implements VotingRepository {
 class _ThrowingRepository implements VotingRepository {
   @override
   Future<List<VotingCampaign>> getCampaigns() async => throw Exception('down');
+}
+
+/// Fails the way a broken `voting.json` really fails — by parsing it.
+class _MalformedRepository implements VotingRepository {
+  @override
+  Future<List<VotingCampaign>> getCampaigns() async =>
+      HttpVotingRepository.parseCampaigns('{"not":"an array"}');
 }
 
 class _RecordingUrlOpener implements UrlOpener {
@@ -203,6 +221,52 @@ void main() {
     });
   });
 
+  group('votingErrorMessage', () {
+    test('blames the connection when the network failed', () {
+      expect(
+        votingErrorMessage(Exception('down')),
+        contains('Check your connection'),
+      );
+    });
+
+    test('blames our data when the list is not an array', () {
+      // The reader cannot fix our JSON, so we must not send them to their WiFi.
+      final message = votingErrorMessage(
+        _thrownBy(() => HttpVotingRepository.parseCampaigns('{"a":1}')),
+      );
+
+      expect(message, contains('on our side'));
+      expect(message, isNot(contains('Check your connection')));
+    });
+
+    test('blames our data when a required field is missing', () {
+      // A missing `closesAt` surfaces as a TypeError, not a FormatException —
+      // both are still our mistake, not the reader's.
+      final message = votingErrorMessage(
+        _thrownBy(
+          () => HttpVotingRepository.parseCampaigns(
+            '[{"id":"a","title":"T","organizer":"O","url":"https://e.com"}]',
+          ),
+        ),
+      );
+
+      expect(message, contains('on our side'));
+    });
+
+    test('blames our data when a url is not https', () {
+      final message = votingErrorMessage(
+        _thrownBy(
+          () => HttpVotingRepository.parseCampaigns(
+            '[{"id":"a","title":"T","organizer":"O","url":"http://e.com",'
+            '"closesAt":"2026-11-20T15:00:00Z"}]',
+          ),
+        ),
+      );
+
+      expect(message, contains('on our side'));
+    });
+  });
+
   group('VotingCard', () {
     Widget card(VotingCampaign campaign) => MaterialApp(
       home: Scaffold(
@@ -251,11 +315,35 @@ void main() {
       expect(find.textContaining('No votes running'), findsOneWidget);
     });
 
-    testWidgets('Error — shows the error state', (tester) async {
+    testWidgets('Error — a network failure points at the connection', (
+      tester,
+    ) async {
       await tester.pumpWidget(_app(_ThrowingRepository()));
       await tester.pumpAndSettle();
 
       expect(find.byType(ErrorView), findsOneWidget);
+      expect(find.textContaining('Check your connection'), findsOneWidget);
+    });
+
+    testWidgets('Error — broken data does not blame the connection', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_app(_MalformedRepository()));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ErrorView), findsOneWidget);
+      expect(find.textContaining('on our side'), findsOneWidget);
+      expect(find.textContaining('Check your connection'), findsNothing);
+    });
+
+    testWidgets('Empty is not the error state', (tester) async {
+      // The two must never be confusable: off-season shows no error styling
+      // and no Retry, a failure shows both.
+      await tester.pumpWidget(_app(_FakeRepository(const [])));
+      await tester.pumpAndSettle();
+
+      expect(find.byType(ErrorView), findsNothing);
+      expect(find.text('Retry'), findsNothing);
     });
 
     testWidgets('Data — shows open votes and opens the link on tap', (

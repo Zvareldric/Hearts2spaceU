@@ -43,8 +43,7 @@ class VotingHubPage extends ConsumerWidget {
                   loading: () => const LoadingView(key: ValueKey('loading')),
                   error: (error, _) => ErrorView(
                     key: const ValueKey('error'),
-                    message:
-                        "Couldn't reach the votes.\nCheck your connection.",
+                    message: votingErrorMessage(error),
                     onRetry: () => ref.invalidate(openVotesProvider),
                   ),
                   data: (votes) {
@@ -70,6 +69,21 @@ class VotingHubPage extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// What to say about a failed load, told apart by what actually went wrong.
+///
+/// A `voting.json` we cannot read is a fault in the data we publish, not in
+/// the reader's connection — sending them to check their signal points them at
+/// something they have no way to fix, and hides the fault from us.
+/// `parseCampaigns` surfaces bad data as a [FormatException] (not an array, a
+/// non-`https` url) or a [TypeError] (a required field missing); anything
+/// else — a timeout, a dead host, a non-200 — really is the network.
+String votingErrorMessage(Object error) {
+  if (error is FormatException || error is TypeError) {
+    return "Couldn't read the voting list.\nThe problem is on our side, not your connection.";
+  }
+  return "Couldn't reach the votes.\nCheck your connection.";
 }
 
 class _VotingList extends ConsumerWidget {

@@ -1,6 +1,6 @@
 # 07 · Git Workflow
 
-> **Status:** 🟢 Terisi · **Dibuat:** 2026-07-17 · **Diperbarui:** 2026-07-18
+> **Status:** 🟢 Terisi · **Dibuat:** 2026-07-17 · **Diperbarui:** 2026-08-20
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Project Owner)
 
 Dokumen ini mengatur cara mengelola versi kode. **Git** adalah langkah terakhir pada alur kerja proyek ([`08`](08_ai_guidelines.md)), tetapi aturannya disepakati lebih awal agar konsisten.
@@ -30,7 +30,15 @@ Dokumen ini mengatur cara mengelola versi kode. **Git** adalah langkah terakhir 
 
 > 🔄 Sesuai *Evolutionary Architecture*: bila kompleksitas tim atau proses rilis meningkat, strategi ini dapat dievaluasi kembali. Tidak menambah `develop` branch atau Git Flow sebelum ada kebutuhan nyata.
 
-**Penamaan branch** (untuk konsistensi): `feature/latest-updates` · `fix/navigation` · `docs/architecture` · `refactor/home-module`.
+**Penamaan branch** — **wajib** salah satu prefix berikut, diikuti nama pekerjaan dalam
+`kebab-case`: `feature/latest-updates` · `fix/navigation` · `docs/architecture` ·
+`refactor/home-module`.
+
+> ⚠️ **Nama branch menyebut pekerjaannya, bukan alat yang dipakai** *(amandemen 2026-08-20)*.
+> Prefix di atas memberi tahu pembaca **jenis perubahannya** sebelum ia membuka satu berkas
+> pun. Nama IDE, editor, atau asisten yang kebetulan dipakai tidak menjelaskan apa-apa
+> tentang isi branch — jadi tidak dipakai sebagai prefix maupun disisipkan di dalam nama.
+> Alat bisa berganti; yang dicatat riwayat adalah pekerjaannya.
 
 ## 3. Merge Workflow
 
@@ -58,6 +66,19 @@ flowchart LR
 - Tipe umum: `feat`, `fix`, `docs`, `refactor`, `chore`, `test`, `style`, `build`.
 - **Bahasa commit: Inggris** — konsisten dengan repo publik/global & tujuan portofolio.
 - Subject ringkas & imperatif (mis. `feat(home): add latest updates section`).
+
+**Kepemilikan commit** *(amandemen 2026-08-20)*. Proyek ini dikerjakan **solo**: seluruh
+commit tercatat atas nama Project Owner, pada **author maupun committer**. Commit **tidak**
+memuat trailer atribusi pihak lain — `Co-Authored-By:`, `*-Session:`, dan sejenisnya —
+termasuk atribusi alat bantu. Aturan yang sama berlaku untuk **judul & deskripsi PR**.
+Sebelum commit pertama di sebuah klon, pastikan `git config user.name` dan `user.email`
+menunjuk identitas Project Owner.
+
+> 📌 **Kenapa ini perlu diatur?** GitHub menyusun daftar *Contributors* dari **author commit
+> di default branch** — dan juga membaca trailer `Co-Authored-By:`. Satu trailer yang lolos
+> sudah cukup untuk menambahkan akun asing ke halaman repo. Membersihkannya menuntut
+> penulisan ulang riwayat (`git filter-branch` lalu `push --force`) beserta seluruh risikonya;
+> mencegahnya hanya menuntut satu baris `git config`.
 
 ## 5. Pull Request Conventions
 

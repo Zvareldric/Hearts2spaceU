@@ -4,15 +4,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
+import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
 import '../../../../app/widgets/states/loading_view.dart';
 import '../../../../routes/app_routes.dart';
 import '../providers/release_providers.dart';
+import '../widgets/listen_on_card.dart';
 import '../widgets/release_card.dart';
 
-/// UC-1 — every Hearts2Hearts release, newest first.
+/// The Music screen — UC-1, every Hearts2Hearts release, newest first, plus the
+/// way out to the official channels.
+///
+/// This is the whole of the "Music" capability behind one door: the releases are
+/// its content, and the official platforms are one tap away instead of a second
+/// menu entry competing with it (docs/specs/discography.md §7).
 ///
 /// Presentation only: it watches [discographyProvider] and renders the matching
 /// state. Loading and ordering live in the provider and the pure `newestFirst`.
@@ -28,6 +35,9 @@ class DiscographyPage extends ConsumerWidget {
         bottom: false,
         child: Column(
           children: [
+            // Outside the state switch on purpose: the official channels are
+            // half of what "Music" promises, so they stay reachable even while
+            // the release list is loading or has failed.
             const Padding(
               padding: EdgeInsets.fromLTRB(
                 AppSpacing.screenPadding,
@@ -35,7 +45,16 @@ class DiscographyPage extends ConsumerWidget {
                 AppSpacing.screenPadding,
                 0,
               ),
-              child: PageHeading.sub(title: 'Discography'),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PageHeading.sub(title: 'Music'),
+                  ListenOnCard(),
+                  SizedBox(height: AppSpacing.lg),
+                  SectionHeader(label: 'Releases'),
+                  SizedBox(height: AppSpacing.sm),
+                ],
+              ),
             ),
             Expanded(
               child: AnimatedSwitcher(

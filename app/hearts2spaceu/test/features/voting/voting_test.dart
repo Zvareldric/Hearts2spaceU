@@ -9,6 +9,7 @@ import 'package:hearts2spaceu/features/voting/domain/voting_campaign.dart';
 import 'package:hearts2spaceu/features/voting/domain/voting_repository.dart';
 import 'package:hearts2spaceu/features/voting/presentation/pages/voting_hub_page.dart';
 import 'package:hearts2spaceu/features/voting/presentation/providers/voting_providers.dart';
+import 'package:hearts2spaceu/features/voting/presentation/voting_error_message.dart';
 import 'package:hearts2spaceu/features/voting/presentation/widgets/voting_card.dart';
 import 'package:hearts2spaceu/shared/services/url_opener.dart';
 

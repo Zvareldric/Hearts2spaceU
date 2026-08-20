@@ -136,6 +136,8 @@ features/streaming_hub/
 - `home_page.dart` — **Capability Card keempat** ("Official Channels"). Empat kartu → tata
   letak 2×2, dan **`Music` dikeluarkan dari Coming Soon** karena kapabilitas ini yang
   memenuhinya (menyelesaikan ketidakselarasan label yang tercatat di Sprint 3).
+  *(Home sejak Design System V2 memakai quick action, dan sejak 2026-08-20 quick action
+  "Music" menuju halaman Music — lihat §11.)*
 - 3 halaman detail — tombol `SecondaryButton` "(soon)" menjadi aktif.
 
 ## 6. Keamanan Tautan
@@ -211,7 +213,35 @@ generic Material icons  →  bundled brand assets (mind trademark usage terms)
 category: String  →  enum PlatformCategory
 ```
 
-## 11. Dokumen Terkait
+---
+
+## 11. Perubahan Setelah Rilis
+
+### Judul "Music" → "Official Channels", dan pintu masuknya *(2026-08-20)*
+
+Kapabilitas *Discography* membuat kata "Music" dipakai dua kali: More punya tile
+"Discography" (rilis) **dan** tile "Music" (halaman ini). Dua pintu untuk satu
+kapabilitas, padahal rilis-lah isi sebenarnya dari "Music"
+([`discography.md`](discography.md) §7).
+
+Yang berubah pada hub ini:
+
+| | Sebelum | Sesudah |
+|---|---------|---------|
+| Judul halaman | "Music" | **"Official Channels"** |
+| Pintu masuk More | tile "Music" | *(tidak ada — lewat halaman Music)* |
+| Pintu masuk Home | quick action "Music" | *(tidak ada — lewat halaman Music)* |
+| Pintu masuk lain | Release detail | Release detail **+ halaman Music** |
+
+Judul barunya lebih jujur terhadap isinya: halaman ini mengelompokkan **music · video ·
+social · community** (§4), jadi "Music" selalu menamai terlalu sempit — dan sekarang nama
+itu sudah menamai layar lain.
+
+**Ruang lingkup dan Non-Goal §2 tidak berubah.** Hub ini tetap *link out*, tetap tanpa
+halaman detail platform, dan tetap bukan pemutar konten. Route **`/channels` tetap ada**
+dan tetap dipanggil dengan nama; yang hilang hanya tile-nya di More.
+
+## 12. Dokumen Terkait
 
 | Hubungan | Dokumen |
 |----------|---------|

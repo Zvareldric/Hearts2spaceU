@@ -33,19 +33,15 @@ class MorePage extends StatelessWidget {
           gradient: CapabilityGradients.members,
           route: AppRoutes.memberList,
         ),
-        (
-          icon: Icons.album_rounded,
-          title: 'Discography',
-          subtitle: 'Every release & track',
-          gradient: CapabilityGradients.discography,
-          route: AppRoutes.discography,
-        ),
+        // One door for one capability: the releases are what Music is, and the
+        // official channels sit one tap inside it rather than as a second tile
+        // competing for the same word (docs/specs/discography.md §7).
         (
           icon: Icons.music_note_rounded,
           title: 'Music',
-          subtitle: 'Official platforms',
+          subtitle: 'Releases & platforms',
           gradient: CapabilityGradients.music,
-          route: AppRoutes.streamingHub,
+          route: AppRoutes.discography,
         ),
         (
           icon: Icons.insights_rounded,

@@ -8,10 +8,10 @@ import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/states/empty_view.dart';
-import '../../../../routes/app_routes.dart';
 import '../../domain/release.dart';
 import '../providers/release_providers.dart';
 import '../release_format.dart';
+import '../widgets/listen_on_card.dart';
 import '../widgets/release_cover.dart';
 
 /// UC-2 — one release: its cover, what it is, and what is on it.
@@ -103,7 +103,7 @@ class _ReleaseBody extends StatelessWidget {
         else
           _TrackList(release: release),
         const SizedBox(height: AppSpacing.lg),
-        _ListenOn(),
+        const ListenOnCard(),
       ],
     );
   }
@@ -217,45 +217,6 @@ class _NoTracksYet extends StatelessWidget {
                 fontWeight: FontWeight.w400,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Sends the user to the platforms the app already knows about, rather than
-/// storing a per-release link the Product Owner would have to maintain seven
-/// times over.
-class _ListenOn extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return AppCard(
-      onTap: () => Navigator.of(context).pushNamed(AppRoutes.streamingHub),
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.lg,
-        vertical: AppSpacing.md,
-      ),
-      child: Row(
-        children: [
-          const Icon(
-            Icons.headphones_rounded,
-            color: AppColors.primaryStrong,
-            size: 20,
-          ),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Text(
-              'Listen on official platforms',
-              style: Theme.of(
-                context,
-              ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-            ),
-          ),
-          const Icon(
-            Icons.chevron_right_rounded,
-            color: AppColors.navIdle,
-            size: 20,
           ),
         ],
       ),

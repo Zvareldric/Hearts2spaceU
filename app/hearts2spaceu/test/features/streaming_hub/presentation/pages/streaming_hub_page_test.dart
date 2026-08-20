@@ -67,6 +67,18 @@ List<OfficialPlatform> _platforms() => const [
 ];
 
 void main() {
+  testWidgets('is titled for what it holds — channels, not just music', (
+    tester,
+  ) async {
+    // "Music" now names the releases screen; this page covers video, social and
+    // community too, so it must not answer to the same word.
+    await tester.pumpWidget(_app(_FakePlatformRepository(_platforms())));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Official Channels'), findsOneWidget);
+    expect(find.text('Music'), findsNothing);
+  });
+
   testWidgets('Data — shows a card per platform, grouped by category', (
     tester,
   ) async {

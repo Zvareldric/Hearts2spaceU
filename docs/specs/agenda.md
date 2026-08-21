@@ -340,7 +340,7 @@ Voting.
       tombol favorit, `allDay`, penanda upcoming).
 - [ ] **Verifikasi runtime oleh PO.**
 - [ ] **GitHub Flow** ([`07`](../07_git_workflow.md)): PR → merge → hapus branch → tag
-      **`v1.2.0`** *(SemVer minor di atas `v1.1.0`; penomoran final tetap keputusan PO)*.
+      **`v1.3.0`** *(SemVer minor di atas `v1.2.0`; penomoran final tetap keputusan PO)*.
 
 ## 8. Evolution Notes
 

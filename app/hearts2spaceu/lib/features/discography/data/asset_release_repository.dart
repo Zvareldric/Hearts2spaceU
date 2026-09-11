@@ -71,8 +71,29 @@ class AssetReleaseRepository implements ReleaseRepository {
           (json) => Track(
             title: json['title'] as String,
             isTitleTrack: json['isTitleTrack'] as bool? ?? false,
+            duration: _parseDuration(json['duration']),
           ),
         )
         .toList(growable: false);
+  }
+
+  /// Reads a `m:ss` running time, the form every source prints it in.
+  ///
+  /// Rejected here rather than rendered, for the same reason as [coverUrl]: a
+  /// typo like `2:6` should fail the asset test on a laptop, not quietly show a
+  /// wrong running time on a fan's phone.
+  static Duration? _parseDuration(Object? value) {
+    if (value == null) return null;
+    if (value is! String) {
+      throw FormatException('Track duration must be a "m:ss" string: $value');
+    }
+    final match = RegExp(r'^(\d{1,2}):([0-5]\d)$').firstMatch(value);
+    if (match == null) {
+      throw FormatException('Track duration must look like "2:43": $value');
+    }
+    return Duration(
+      minutes: int.parse(match.group(1)!),
+      seconds: int.parse(match.group(2)!),
+    );
   }
 }

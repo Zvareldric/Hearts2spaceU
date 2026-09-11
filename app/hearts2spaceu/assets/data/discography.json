@@ -1,5 +1,13 @@
 [
   {
+    "id": "moonride",
+    "title": "Moonride",
+    "year": 2026,
+    "type": "single",
+    "releaseDate": "2026-09-09",
+    "tracks": []
+  },
+  {
     "id": "iconic-heart",
     "title": "Iconic Heart",
     "year": 2026,
@@ -8,9 +16,9 @@
     "note": "Japanese debut single",
     "coverUrl": "https://pbs.twimg.com/media/HLJL7SnbIAADVVR.jpg",
     "tracks": [
-      { "title": "Iconic Heart" },
-      { "title": "Lemon Tang - Japanese Ver." },
-      { "title": "RUDE! - Japanese Ver." }
+      { "title": "Iconic Heart", "isTitleTrack": true, "duration": "3:09" },
+      { "title": "Lemon Tang - Japanese Ver.", "duration": "2:43" },
+      { "title": "RUDE! - Japanese Ver.", "duration": "3:20" }
     ]
   },
   {
@@ -22,34 +30,37 @@
     "note": "Second mini album",
     "coverUrl": "https://pbs.twimg.com/media/HLJL5bmacAA3HPi.jpg",
     "tracks": [
-      { "title": "Lemon Tang" },
-      { "title": "15-LOVE" },
-      { "title": "Baby Steps" },
-      { "title": "heart emoji (♡)" },
-      { "title": "Secret Recipe" },
-      { "title": "RUDE!" }
+      { "title": "Lemon Tang", "isTitleTrack": true, "duration": "2:43" },
+      { "title": "15-LOVE", "duration": "2:35" },
+      { "title": "Baby Steps", "duration": "2:51" },
+      { "title": "heart emoji (♡)", "duration": "2:59" },
+      { "title": "Secret Recipe", "duration": "2:51" },
+      { "title": "RUDE!", "duration": "3:20" }
     ]
   },
   {
     "id": "rude",
     "title": "RUDE!",
     "year": 2026,
+    "type": "single",
+    "releaseDate": "2026-02-20",
     "coverUrl": "https://pbs.twimg.com/media/HBrvh8_b0AAw7J1.jpg",
-    "tracks": []
+    "tracks": [{ "title": "RUDE!", "isTitleTrack": true, "duration": "3:20" }]
   },
   {
     "id": "focus",
     "title": "FOCUS",
     "year": 2025,
     "type": "mini-album",
+    "releaseDate": "2025-10-20",
     "note": "First mini album",
     "coverUrl": "https://pbs.twimg.com/media/G3TqcKmasAASmf2.jpg",
     "tracks": [
-      { "title": "FOCUS" },
-      { "title": "Apple Pie" },
-      { "title": "Pretty Please" },
-      { "title": "Flutter" },
-      { "title": "Blue Moon" }
+      { "title": "FOCUS", "isTitleTrack": true, "duration": "2:58" },
+      { "title": "Apple Pie", "duration": "3:07" },
+      { "title": "Pretty Please", "duration": "3:25" },
+      { "title": "Flutter", "duration": "3:06" },
+      { "title": "Blue Moon", "duration": "2:58" }
     ]
   },
   {
@@ -57,22 +68,30 @@
     "title": "Pretty Please",
     "year": 2025,
     "coverUrl": "https://pbs.twimg.com/media/G1mTox3bcAAjJLp.jpg",
-    "tracks": []
+    "tracks": [
+      { "title": "Pretty Please", "isTitleTrack": true, "duration": "3:25" }
+    ]
   },
   {
     "id": "style",
     "title": "STYLE",
     "year": 2025,
     "type": "single",
+    "releaseDate": "2025-06-18",
     "coverUrl": "https://pbs.twimg.com/media/GtodnLxa0AI8iGT.jpg",
-    "tracks": [{ "title": "STYLE" }]
+    "tracks": [{ "title": "STYLE", "isTitleTrack": true, "duration": "3:30" }]
   },
   {
     "id": "the-chase",
     "title": "The Chase",
     "year": 2025,
     "type": "single",
+    "releaseDate": "2025-02-24",
+    "note": "Debut single",
     "coverUrl": "https://pbs.twimg.com/media/GkJKuKQbAAAZZ6H.jpg",
-    "tracks": [{ "title": "The Chase" }, { "title": "Butterflies" }]
+    "tracks": [
+      { "title": "The Chase", "isTitleTrack": true, "duration": "2:59" },
+      { "title": "Butterflies", "duration": "2:58" }
+    ]
   }
 ]

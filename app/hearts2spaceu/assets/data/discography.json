@@ -7,7 +7,11 @@
     "releaseDate": "2026-08-12",
     "note": "Japanese debut single",
     "coverUrl": "https://pbs.twimg.com/media/HLJL7SnbIAADVVR.jpg",
-    "tracks": []
+    "tracks": [
+      { "title": "Iconic Heart" },
+      { "title": "Lemon Tang - Japanese Ver." },
+      { "title": "RUDE! - Japanese Ver." }
+    ]
   },
   {
     "id": "lemon-tang",
@@ -17,7 +21,14 @@
     "releaseDate": "2026-06-01",
     "note": "Second mini album",
     "coverUrl": "https://pbs.twimg.com/media/HLJL5bmacAA3HPi.jpg",
-    "tracks": []
+    "tracks": [
+      { "title": "Lemon Tang" },
+      { "title": "15-LOVE" },
+      { "title": "Baby Steps" },
+      { "title": "heart emoji (♡)" },
+      { "title": "Secret Recipe" },
+      { "title": "RUDE!" }
+    ]
   },
   {
     "id": "rude",
@@ -30,8 +41,16 @@
     "id": "focus",
     "title": "FOCUS",
     "year": 2025,
+    "type": "mini-album",
+    "note": "First mini album",
     "coverUrl": "https://pbs.twimg.com/media/G3TqcKmasAASmf2.jpg",
-    "tracks": []
+    "tracks": [
+      { "title": "FOCUS" },
+      { "title": "Apple Pie" },
+      { "title": "Pretty Please" },
+      { "title": "Flutter" },
+      { "title": "Blue Moon" }
+    ]
   },
   {
     "id": "pretty-please",
@@ -44,14 +63,16 @@
     "id": "style",
     "title": "STYLE",
     "year": 2025,
+    "type": "single",
     "coverUrl": "https://pbs.twimg.com/media/GtodnLxa0AI8iGT.jpg",
-    "tracks": []
+    "tracks": [{ "title": "STYLE" }]
   },
   {
     "id": "the-chase",
     "title": "The Chase",
     "year": 2025,
+    "type": "single",
     "coverUrl": "https://pbs.twimg.com/media/GkJKuKQbAAAZZ6H.jpg",
-    "tracks": []
+    "tracks": [{ "title": "The Chase" }, { "title": "Butterflies" }]
   }
 ]

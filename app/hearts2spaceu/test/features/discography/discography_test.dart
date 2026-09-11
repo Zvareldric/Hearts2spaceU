@@ -255,6 +255,19 @@ void main() {
     for (final release in releases) {
       expect(release.id, isNotEmpty, reason: 'every release needs an id');
       expect(release.title, isNotEmpty, reason: '${release.id} has no title');
+      for (final track in release.tracks) {
+        expect(
+          track.title,
+          isNotEmpty,
+          reason: '${release.id} has a track with no title',
+        );
+      }
+      // titleTrack reads the first match, so a second one would be invisible.
+      expect(
+        release.tracks.where((t) => t.isTitleTrack).length,
+        lessThan(2),
+        reason: '${release.id} marks more than one title track',
+      );
     }
     // Ids must be unique — they are what the detail route looks up.
     final ids = releases.map((r) => r.id).toList();

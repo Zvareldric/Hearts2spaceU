@@ -84,33 +84,40 @@ untuk gagal).
 | `releaseDate` | — | ISO date; mengalahkan `year` saat sorting |
 | `note` | — | mis. `Japanese debut single` |
 | `coverUrl` | — | wajib `https` (ditolak saat parse) |
-| `tracks[]` | — | `{ "title": …, "isTitleTrack": bool }` |
+| `tracks[]` | — | `{ "title": …, "isTitleTrack": bool, "duration": "m:ss" }` |
+| `tracks[].duration` | — | format `m:ss`; ditolak saat parse kalau tidak cocok |
 
-> ### ✅ Tracklist terisi *(2026-09-12)*
+> ### ✅ Data terkurasi *(2026-09-12)*
 >
-> Lima rilis sekarang membawa daftar lagunya: **Iconic Heart, Lemon Tang, FOCUS,
-> STYLE, The Chase**. Sumbernya adalah bagian *Discography* di
-> [heartsflix.carrd.co](https://heartsflix.carrd.co) — indeks konten yang
-> dikelola fan, satu-satunya tempat yang menuliskan tracklist lengkap dalam satu
-> halaman. `type` untuk FOCUS/STYLE/The Chase ikut terisi karena sumber yang sama
-> menyebut formatnya secara eksplisit.
+> **Tracklist** — lima rilis membawa daftar lagunya: Iconic Heart, Lemon Tang,
+> FOCUS, STYLE, The Chase. Sumber: bagian *Discography* di
+> [heartsflix.carrd.co](https://heartsflix.carrd.co), indeks konten yang dikelola
+> fan dan satu-satunya tempat yang menuliskan tracklist lengkap dalam satu halaman.
+> Durasi tiap lagu ikut dari sana.
 >
-> **`isTitleTrack` sengaja dibiarkan kosong di semua rilis.** Sumbernya tidak
-> pernah menandai lagu mana yang dipromosikan; menebaknya — misalnya dengan
-> menganggap lagu pertama selalu title track — akan mencetak klaim yang tidak
-> pernah dikatakan sumber manapun. Prinsipnya sama dengan `Award.year`.
+> **Title track** — ditandai untuk setiap rilis, tapi **tidak** ditebak dari urutan
+> lagu. Dasarnya entri `… MV Release` / `… Single Release` di
+> [h2hcalendar.com](https://h2hcalendar.com): lagu yang dipromosikan adalah lagu
+> yang dapat MV pada tanggal rilisnya. Contoh: `'FOCUS' Album Release` dan
+> `'FOCUS' Music Video Release` sama-sama 2025-10-20, sedangkan *Pretty Please*
+> sudah punya MV sebulan sebelumnya — jadi ia pre-release, bukan title track album.
+>
+> **`releaseDate`** — empat rilis yang sebelumnya hanya punya tahun kini punya
+> tanggal, semuanya dari entri rilis di kalender yang sama: RUDE! 2026-02-20,
+> FOCUS 2025-10-20, STYLE 2025-06-18, The Chase 2025-02-24.
+>
+> **Temuan yang membalik dugaan:** kalender mencatat `'RUDE!' Single Release`
+> 2026-02-20, berbulan-bulan sebelum mini album *Lemon Tang* yang juga memuatnya.
+> RUDE! memang rilis tersendiri, bukan sekadar lagu — jadi entrinya di
+> `discography.json` benar, dan tampil di dua tempat itu memang faktanya.
 >
 > ### ⚠️ Yang masih terbuka
 >
 > | Hal | Status |
 > |-----|--------|
-> | `RUDE!` & `Pretty Please` sebagai entri rilis | Sumber mencatat keduanya sebagai **lagu di dalam** Lemon Tang dan FOCUS, bukan rilis tersendiri — jadi sekarang keduanya muncul dua kali dengan arti berbeda. Menunggu keputusan PO. |
-> | `Moonride` | Single yang dirilis 2026-09-09 menurut h2hcalendar.com; belum ada di `discography.json`. |
-> | Durasi lagu | Sumber mencantumkannya (mis. `2:43`); `Track` belum punya field durasi. Perubahan skema aditif, menunggu keputusan PO. |
-> | `releaseDate` untuk FOCUS/STYLE/The Chase | Sumber hanya menyebut tahun. Tetap kosong. |
->
-> UI tetap jujur untuk rilis tanpa tracklist — **"Track list not recorded yet."**,
-> bukan panel kosong, dan kartunya tidak menulis "0 tracks".
+> | Tracklist `Moonride` | Rilis 2026-09-09; belum ada sumber yang menerbitkan daftar lagunya, jadi `tracks` kosong dan UI bilang *"Track list not recorded yet."* Cover art juga belum ada. |
+> | `Pretty Please` sebagai rilis | Kalender hanya punya `'Pretty Please' MV` (2025-09-24), tanpa entri rilis — kemungkinan pre-release single dari FOCUS. `releaseDate`-nya dibiarkan kosong. |
+> | Tracklist B-side rilis single | RUDE!, STYLE, Pretty Please tercatat satu lagu masing-masing; kalau sumber menyebut B-side, tinggal ditambah. |
 
 Melengkapi atau menambah tracklist cukup mengisi array `tracks`, tanpa perubahan kode:
 

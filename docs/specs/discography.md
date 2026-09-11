@@ -1,6 +1,6 @@
 # Spec · Discography
 
-> **Status:** 🟠 Draft (menunggu kurasi data Product Owner) · **Dibuat:** 2026-07-30
+> **Status:** 🟢 Aktif · **Dibuat:** 2026-07-30 · **Tracklist terkurasi:** 2026-09-12
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Product Owner)
 
 Perwujudan kapabilitas **Discography** — setiap rilis Hearts2Hearts dari debut
@@ -86,28 +86,33 @@ untuk gagal).
 | `coverUrl` | — | wajib `https` (ditolak saat parse) |
 | `tracks[]` | — | `{ "title": …, "isTitleTrack": bool }` |
 
-> ### ⚠️ Yang belum terisi
+> ### ✅ Tracklist terisi *(2026-09-12)*
 >
-> File yang di-commit berisi **7 rilis pada level rilis saja** — judul, tahun, dan
-> cover, diambil dari data yang sudah ada di repo (`gallery.json`). `tracks` masih
-> **kosong untuk semuanya**, dan `type`/`releaseDate` hanya terisi untuk dua rilis
-> yang bisa disandarkan ke data repo:
+> Lima rilis sekarang membawa daftar lagunya: **Iconic Heart, Lemon Tang, FOCUS,
+> STYLE, The Chase**. Sumbernya adalah bagian *Discography* di
+> [heartsflix.carrd.co](https://heartsflix.carrd.co) — indeks konten yang
+> dikelola fan, satu-satunya tempat yang menuliskan tracklist lengkap dalam satu
+> halaman. `type` untuk FOCUS/STYLE/The Chase ikut terisi karena sumber yang sama
+> menyebut formatnya secara eksplisit.
 >
-> | Rilis | Dasar |
-> |-------|-------|
-> | Lemon Tang | `updates.json` — "Second mini album … released", 2026-06-01 |
-> | Iconic Heart | `events.json` — Album & MV Release, 2026-08-12 |
+> **`isTitleTrack` sengaja dibiarkan kosong di semua rilis.** Sumbernya tidak
+> pernah menandai lagu mana yang dipromosikan; menebaknya — misalnya dengan
+> menganggap lagu pertama selalu title track — akan mencetak klaim yang tidak
+> pernah dikatakan sumber manapun. Prinsipnya sama dengan `Award.year`.
 >
-> **Daftar lagu harus dikurasi Product Owner.** Tracklist tidak di-generate dan
-> tidak dikira-kira: menuliskan lagu yang salah di app fan sama saja menyebarkan
-> informasi keliru, dan itu lebih buruk daripada kolom kosong.
+> ### ⚠️ Yang masih terbuka
 >
-> UI-nya jujur soal ini — rilis tanpa tracklist menampilkan **"Track list not
-> recorded yet."**, bukan panel kosong, dan kartunya tidak menulis "0 tracks"
-> (yang akan terbaca sebagai rilis tanpa lagu). Prinsip yang sama dengan
-> `Award.year`: jangan pernah mencetak hari yang tidak pernah disebut sumbernya.
+> | Hal | Status |
+> |-----|--------|
+> | `RUDE!` & `Pretty Please` sebagai entri rilis | Sumber mencatat keduanya sebagai **lagu di dalam** Lemon Tang dan FOCUS, bukan rilis tersendiri — jadi sekarang keduanya muncul dua kali dengan arti berbeda. Menunggu keputusan PO. |
+> | `Moonride` | Single yang dirilis 2026-09-09 menurut h2hcalendar.com; belum ada di `discography.json`. |
+> | Durasi lagu | Sumber mencantumkannya (mis. `2:43`); `Track` belum punya field durasi. Perubahan skema aditif, menunggu keputusan PO. |
+> | `releaseDate` untuk FOCUS/STYLE/The Chase | Sumber hanya menyebut tahun. Tetap kosong. |
+>
+> UI tetap jujur untuk rilis tanpa tracklist — **"Track list not recorded yet."**,
+> bukan panel kosong, dan kartunya tidak menulis "0 tracks".
 
-Mengisinya cukup menambah array `tracks`, tanpa perubahan kode:
+Melengkapi atau menambah tracklist cukup mengisi array `tracks`, tanpa perubahan kode:
 
 ```json
 {

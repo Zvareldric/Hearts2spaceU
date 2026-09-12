@@ -21,6 +21,8 @@ class AgendaItem {
     this.isAllDay = false,
     this.isUpcomingVote = false,
     this.url,
+    this.zoneLabel,
+    this.zoneOffset,
   });
 
   final AgendaKind kind;
@@ -45,4 +47,10 @@ class AgendaItem {
 
   /// Where a vote is cast. Null for events, which open their own detail page.
   final String? url;
+
+  /// The clock [dueAt] is written on, carried through from the event so the
+  /// Agenda prints the same time the Schedule does. Null for votes, whose
+  /// deadlines the app has always shown on the reader's own clock.
+  final String? zoneLabel;
+  final Duration? zoneOffset;
 }

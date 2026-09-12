@@ -170,4 +170,36 @@ void main() {
     expect(find.text('Future Show'), findsOneWidget);
     expect(find.text('Past Show'), findsNothing);
   });
+
+  testWidgets('a dual-zone time and a place still fit a card at 360dp', (
+    tester,
+  ) async {
+    // The card's meta line grew from "18:00" to "16:00 WIB (18:00 KST)" when
+    // zones arrived. The narrowest phone width is where that has to hold.
+    tester.view
+      ..physicalSize = const Size(360, 800)
+      ..devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    final now = DateTime.now();
+    await tester.pumpWidget(
+      _app(
+        _FakeEventRepository([
+          Event(
+            id: 'tokyo',
+            title: "'ICONIC HEART' Fansign Event in Tokyo Day 1",
+            startDateTime: now.add(const Duration(days: 2)),
+            type: 'fansign',
+            location: 'Tokyo, Japan',
+            zoneLabel: 'JST',
+            zoneOffset: now.timeZoneOffset + const Duration(hours: 2),
+          ),
+        ]),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(EventCard), findsOneWidget);
+  });
 }

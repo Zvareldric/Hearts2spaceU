@@ -149,8 +149,7 @@ class AgendaRow extends StatelessWidget {
   /// gave a date (docs/specs/schedule.md §4).
   static String _meta(AgendaItem item) {
     final parts = <String>[
-      if (item.kind == AgendaKind.event)
-        formatEventDateTime(item.dueAt, allDay: item.isAllDay),
+      if (item.kind == AgendaKind.event) _whenLine(item),
       if (item.subtitle case final subtitle? when subtitle.isNotEmpty) subtitle,
     ];
     return parts.join(' · ');
@@ -173,4 +172,17 @@ String agendaDueLabel(AgendaItem item, DateTime now) {
     AgendaKind.vote => 'Closes $left',
     AgendaKind.event => left,
   };
+}
+
+/// The row's date line — the same string the Schedule prints, so one event
+/// never shows two different times across the two screens.
+String _whenLine(AgendaItem item) {
+  final date = formatEventDateTime(item.dueAt, allDay: true);
+  final clock = formatClock(
+    published: item.dueAt,
+    allDay: item.isAllDay,
+    zoneLabel: item.zoneLabel,
+    zoneOffset: item.zoneOffset,
+  );
+  return clock.isEmpty ? date : '$date · $clock';
 }

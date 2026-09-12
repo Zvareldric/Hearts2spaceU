@@ -1,6 +1,6 @@
 # Spec · Schedule — Sprint 2 (Upcoming Events)
 
-> **Status:** 🟢 Disetujui — rev. 1 · **Dibuat:** 2026-07-18 · **Diperbarui:** 2026-07-18
+> **Status:** 🟢 Disetujui — rev. 2 · **Dibuat:** 2026-07-18 · **Diperbarui:** 2026-09-12
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Product Owner)
 > **Tahap:** Specification (sebelum kode) · **Branch:** `feature/schedule`
 
@@ -51,7 +51,8 @@ Tujuan Sprint (validasi): membuktikan vertikal Data→Domain→Presentation **me
 
 ## 4. Data yang Dibutuhkan
 
-**Sumber:** `assets/data/events.json` (dibundel).
+**Sumber:** API publik [h2hcalendar.com](https://h2hcalendar.com) *(sejak 2026-09-12 — lihat
+amandemen di bawah)*. Sebelumnya `assets/data/events.json` (dibundel).
 
 **Skema `Event`:**
 
@@ -64,7 +65,9 @@ Tujuan Sprint (validasi): membuktikan vertikal Data→Domain→Presentation **me
 | `type` | string | — | mis. `concert`, `broadcast`, `release`, `fanmeeting` (String dulu; *enum* = evolusi) |
 | `location` | string | — | lokasi/tempat |
 | `description` | string | — | deskripsi singkat |
-| `officialUrl` | string | — | tautan resmi (disimpan; **membuka** ditunda) |
+| `officialUrl` | string | — | tautan resmi; **wajib `https`**, kalau bukan → dibuang (event-nya tetap) |
+| `zoneLabel` | string | — | nama jam yang dipakai `startDateTime`, mis. `KST`. *(2026-09-12)* |
+| `zoneOffset` | Duration | — | selisih `zoneLabel` terhadap UTC. Kosong = zona tidak bisa dipastikan, jam tidak dikonversi. *(2026-09-12)* |
 
 ```json
 [
@@ -95,9 +98,31 @@ Tujuan Sprint (validasi): membuktikan vertikal Data→Domain→Presentation **me
 > multi-hari (mis. fansign 17–18 Sep) disimpan memakai **tanggal mulai** saja. Rentangnya
 > disebutkan di `description`. Lihat *Evolution Notes*.
 
+> 📌 **Kenapa sumbernya pindah ke API kalender (amandemen 2026-09-12, keputusan PO).**
+> `events.json` berisi 20 event hasil kurasi manual dari sebuah gambar jadwal, dan tidak
+> pernah diperbarui lagi. [h2hcalendar.com](https://h2hcalendar.com) — dikelola S2U
+> Philippines — membuka API JSON publik berisi **1.452 baris**, diperbarui harian, lengkap
+> dengan jam dan zona waktu per event. PO memilih **fetch langsung** ke API mereka.
+>
+> **Risiko yang disampaikan sebelum keputusan, dan tetap berlaku:** app kita jadi bergantung
+> pada server fan lain tanpa kontrak apa pun; skema mereka bisa berubah kapan saja dan
+> servernya bisa mati. Yang meredam risiko itu ada di §5 — satu baris rusak tidak
+> menjatuhkan tab, dan salinan terakhir disimpan lokal.
+>
+> **Aturan impor:**
+>
+> | Kasus | Perlakuan | Alasan |
+> |-------|-----------|--------|
+> | `yearly: true` | dilewati | Ulang tahun member disimpan pada tanggal **kejadian pertama** (2006–2010), jadi tanggalnya tidak berarti apa-apa. Ulang tahun sudah ada di Member Detail. |
+> | Baris tanpa `id`/`title`/`date` valid | dilewati | Feed milik orang lain; satu baris rusak tidak boleh mengosongkan Schedule. |
+> | `time` kosong | `allDay: true` | Aturan `allDay` yang sudah ada — jangan mencetak 00:00 yang tidak pernah disebut sumber. |
+> | `source` bukan `https` | tautan dibuang, event tetap | Tautan adalah bagian paling tidak penting di baris itu. |
+> | Payload bukan array | **error** | Ini "kalendernya sedang down", bukan "satu baris rusak". |
+> | `cat` tak dikenal app | diteruskan apa adanya | `TypeBadge` sudah menangani tipe asing dengan pill netral. |
+
 **Data Assumptions:**
-- `startDateTime` adalah ISO 8601 valid; bila field wajib (`id`/`title`/`startDateTime`) hilang atau `startDateTime` tak dapat di-parse → dianggap **error** (dilempar, ditangkap jadi Error state).
-- Semua `startDateTime` diasumsikan pada **satu zona waktu** (tanpa tz per-event untuk MVP); nilai dipakai apa adanya.
+- Bila **seluruh payload** tidak bisa dibaca → **error** (ditangkap jadi Error state). Bila **satu baris** tidak bisa dibaca → baris itu dilewati, sisanya tetap tampil.
+- `startDateTime` adalah **jam dinding di zona `zoneLabel`**, bukan instant absolut. Konversi ke jam pembaca dilakukan di presentation lewat `toReaderClock`.
 - `id` diasumsikan **unik** (sumber bersih; tanpa deduplikasi).
 - **Urutan dalam file bermakna** — dipakai sebagai *tie-break* stabil saat dua event berwaktu sama.
 - Field opsional boleh `null`/absen.
@@ -185,11 +210,18 @@ features/schedule/
 
 Peta evolusi yang diantisipasi (arsitektur sekarang sengaja dibuat dapat berevolusi):
 
-**If the schedule becomes remote:**
+**✅ Sudah terjadi (2026-09-12) — the schedule became remote:**
 ```
-AssetEventRepository  →  HttpEventRepository
+AssetEventRepository  →  CalendarEventRepository + CachedEventRepository
 ```
-di balik `EventRepository` — Presentation & Provider **tidak berubah** (janji Data Source Boundary).
+Janji Data Source Boundary **ditepati**: `EventRepository` hanya bertambah satu parameter
+opsional (`forceRefresh`), dan `upcomingSorted` / `groupByMonth` / `EventCard` / Agenda /
+Home tidak berubah sama sekali. Yang berubah hanya isi `eventRepositoryProvider`.
+
+> ⚠️ **Utang yang ditinggalkan:** `AssetEventRepository` dan `assets/data/events.json`
+> (20 event kurasi PO) **tidak lagi dipakai** app, tapi belum dihapus — menghapus data
+> kurasi PO bukan keputusan yang boleh diambil sendiri. Pilihannya: hapus, atau pakai
+> sebagai bekal offline saat kalender tidak bisa dihubungi dan cache masih kosong.
 
 **If event categories stabilize:**
 ```
@@ -205,6 +237,22 @@ startDateTime only  →  + endDateTime (optional)
 ```
 Manual formatting  →  intl
 ```
+
+**If the calendar starts using a zone with daylight saving:**
+```
+tabel offset tetap  →  paket `timezone`
+```
+Sekarang hanya `Europe/Paris` (1 dari 1.452 baris) yang tidak bisa dikonversi, dan event
+seperti itu ditampilkan apa adanya dengan labelnya. Kalau jumlahnya bertambah banyak,
+barulah sebuah paket tz sepadan dengan bobotnya.
+
+**If the reader wants to filter the feed:**
+```
+semua kategori  →  filter chip per kategori
+```
+PO memutuskan **semua 1.452 event masuk** (2026-09-12). Dalam praktiknya `upcomingSorted`
+sudah memangkasnya jadi ~29 event mendatang, jadi kekhawatiran "Schedule berubah jadi feed"
+belum terbukti. Filter baru diperlukan kalau kalender mulai mengisi jauh ke depan.
 
 ## 10. Dokumen Terkait
 

@@ -170,7 +170,11 @@ class _CollectionList extends ConsumerWidget {
             ).pushNamed(AppRoutes.photoViewer, arguments: (albumId, index)),
             child: ClipRRect(
               borderRadius: AppRadius.mdRadius,
-              child: RemoteImage(url: album.photos[index].url),
+              child: RemoteImage(
+                url: album.photos[index].url,
+                semanticLabel:
+                    album.photos[index].caption ?? 'Photo from ${album.title}',
+              ),
             ),
           ),
         );

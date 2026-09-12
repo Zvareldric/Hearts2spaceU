@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:hearts2spaceu/features/schedule/domain/event.dart';
 import 'package:hearts2spaceu/features/schedule/domain/event_repository.dart';
 import 'package:hearts2spaceu/app/widgets/states/empty_view.dart';
@@ -202,5 +203,53 @@ void main() {
 
     expect(tester.takeException(), isNull);
     expect(find.byType(EventCard), findsOneWidget);
+  });
+
+  testWidgets('a schedule card remains usable at 200% text scale', (
+    tester,
+  ) async {
+    SharedPreferences.setMockInitialValues({});
+    tester.view
+      ..physicalSize = const Size(360, 800)
+      ..devicePixelRatio = 1.0;
+    addTearDown(tester.view.reset);
+
+    final now = DateTime.now();
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          eventRepositoryProvider.overrideWithValue(
+            _FakeEventRepository([
+              Event(
+                id: 'large-text',
+                title: 'A very long activity title remains readable',
+                startDateTime: now.add(const Duration(days: 2)),
+                type: 'fanmeeting',
+                location: 'Tokyo, Japan',
+                zoneLabel: 'JST',
+                zoneOffset: now.timeZoneOffset + const Duration(hours: 2),
+              ),
+            ]),
+          ),
+        ],
+        child: MaterialApp(
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: const TextScaler.linear(2)),
+            child: child!,
+          ),
+          home: const SchedulePage(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(
+      find.text('A very long activity title remains readable'),
+      findsOneWidget,
+    );
   });
 }

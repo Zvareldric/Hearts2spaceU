@@ -87,6 +87,20 @@ TypeStyle typeStyleFor(String? type) {
       );
 }
 
+/// Dark surfaces need a different ink/tint pair from the pastel light palette.
+/// The category label stays the same, but readability must win over preserving
+/// seven barely-visible pastel pills in dark mode.
+TypeStyle typeStyleForBrightness(String? type, Brightness brightness) {
+  final light = typeStyleFor(type);
+  if (brightness == Brightness.light) return light;
+
+  return (
+    background: AppColors.darkSurfaceTint,
+    foreground: AppColors.darkInk,
+    label: light.label,
+  );
+}
+
 /// Just the display label for [type] — for callers that need the words without
 /// the pill (e.g. Home's "Up next" fallback when an event has no location).
 String typeLabelFor(String? type) => typeStyleFor(type).label;
@@ -104,7 +118,7 @@ class TypeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = typeStyleFor(type);
+    final style = typeStyleForBrightness(type, theme.brightness);
 
     return Container(
       padding: const EdgeInsets.symmetric(

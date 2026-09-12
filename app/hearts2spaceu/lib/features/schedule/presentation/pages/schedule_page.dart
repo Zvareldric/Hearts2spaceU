@@ -147,6 +147,8 @@ class _MonthlySchedule extends StatelessWidget {
     // One running index so the entry animation cascades down the page rather
     // than restarting inside every month.
     var animationIndex = 0;
+    final textScale = MediaQuery.textScalerOf(context).scale(1);
+    final headerHeight = 40 * textScale.clamp(1.0, 2.0);
 
     return CustomScrollView(
       slivers: [
@@ -155,6 +157,7 @@ class _MonthlySchedule extends StatelessWidget {
             pinned: true,
             delegate: _MonthHeaderDelegate(
               label: formatMonthLabel(month.year, month.month),
+              height: headerHeight,
             ),
           ),
           SliverPadding(
@@ -196,17 +199,16 @@ class _MonthlySchedule extends StatelessWidget {
 /// ambient wash means there is no opaque color left to fill it with. The blur is
 /// what keeps cards from reading through legibly as they slide underneath.
 class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
-  const _MonthHeaderDelegate({required this.label});
+  const _MonthHeaderDelegate({required this.label, required this.height});
 
   final String label;
-
-  static const _height = 40.0;
-
-  @override
-  double get minExtent => _height;
+  final double height;
 
   @override
-  double get maxExtent => _height;
+  double get minExtent => height;
+
+  @override
+  double get maxExtent => height;
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlaps) {
@@ -215,7 +217,7 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
       border: false,
       blur: 18,
       child: Container(
-        height: _height,
+        height: height,
         alignment: Alignment.centerLeft,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.screenPadding,

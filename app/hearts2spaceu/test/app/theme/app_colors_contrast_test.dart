@@ -177,6 +177,17 @@ void main() {
         );
       }
     });
+
+    test('type badges switch to a readable dark-surface pair', () {
+      final style = typeStyleForBrightness('broadcast', Brightness.dark);
+
+      expect(style.background, AppColors.darkSurfaceTint);
+      expect(style.foreground, AppColors.darkInk);
+      expect(
+        _contrast(style.foreground, style.background),
+        greaterThanOrEqualTo(4.5),
+      );
+    });
   });
 
   group('member avatars', () {

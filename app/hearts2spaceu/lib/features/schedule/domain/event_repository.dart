@@ -7,5 +7,9 @@ import 'event.dart';
 /// the data source — the Data Source Boundary (docs/04).
 abstract interface class EventRepository {
   /// Loads all events. Throws if the source cannot be read or parsed.
-  Future<List<Event>> getEvents();
+  ///
+  /// [forceRefresh] asks a source that keeps a copy to go past it and fetch a
+  /// new one. Sources with nothing to bypass — a bundled asset, a plain HTTP
+  /// call — ignore it.
+  Future<List<Event>> getEvents({bool forceRefresh = false});
 }

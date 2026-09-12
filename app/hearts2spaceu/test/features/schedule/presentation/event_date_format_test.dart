@@ -76,4 +76,42 @@ void main() {
       expect(line, startsWith('18:28 '));
     });
   });
+
+  group('formatFetchedAt', () {
+    final now = DateTime(2026, 9, 12, 12);
+
+    test('says how old the copy on screen is, coarsely', () {
+      expect(
+        formatFetchedAt(now.subtract(const Duration(seconds: 20)), now),
+        'Updated just now',
+      );
+      expect(
+        formatFetchedAt(now.subtract(const Duration(minutes: 5)), now),
+        'Updated 5 minutes ago',
+      );
+      expect(
+        formatFetchedAt(now.subtract(const Duration(hours: 3)), now),
+        'Updated 3 hours ago',
+      );
+      expect(
+        formatFetchedAt(now.subtract(const Duration(days: 2)), now),
+        'Updated 2 days ago',
+      );
+    });
+
+    test('says "1 hour", not "1 hours"', () {
+      expect(
+        formatFetchedAt(now.subtract(const Duration(hours: 1)), now),
+        'Updated 1 hour ago',
+      );
+    });
+
+    test('a stamp from the future reads as fresh, not as nonsense', () {
+      // Device clocks get set wrong. "Updated in -3 hours" helps nobody.
+      expect(
+        formatFetchedAt(now.add(const Duration(hours: 3)), now),
+        'Updated just now',
+      );
+    });
+  });
 }

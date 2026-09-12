@@ -93,3 +93,24 @@ String formatEventWhen(Event event) {
   final clock = formatEventClock(event);
   return clock.isEmpty ? date : '$date · $clock';
 }
+
+/// How long ago the schedule on screen was fetched, e.g. `Updated 3 hours ago`.
+///
+/// The schedule is served from the last copy the app managed to download, so
+/// the reader is owed a plain statement of how old it is. Rounded down and kept
+/// coarse on purpose: the point is "is this current?", not the exact minute.
+String formatFetchedAt(DateTime fetchedAt, DateTime now) {
+  final elapsed = now.difference(fetchedAt);
+
+  return switch (elapsed) {
+    // A clock that has gone backwards reads as fresh rather than as nonsense.
+    _ when elapsed.isNegative || elapsed.inMinutes < 1 => 'Updated just now',
+    _ when elapsed.inHours < 1 =>
+      'Updated ${_ago(elapsed.inMinutes, 'minute')}',
+    _ when elapsed.inDays < 1 => 'Updated ${_ago(elapsed.inHours, 'hour')}',
+    _ => 'Updated ${_ago(elapsed.inDays, 'day')}',
+  };
+}
+
+String _ago(int count, String unit) =>
+    '$count $unit${count == 1 ? '' : 's'} ago';

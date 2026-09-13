@@ -42,7 +42,10 @@ class AlbumCard extends StatelessWidget {
               Expanded(
                 child: SizedBox(
                   width: double.infinity,
-                  child: RemoteImage(url: album.coverUrl),
+                  child: RemoteImage(
+                    url: album.coverUrl,
+                    semanticLabel: '${album.title} album cover',
+                  ),
                 ),
               ),
               Padding(

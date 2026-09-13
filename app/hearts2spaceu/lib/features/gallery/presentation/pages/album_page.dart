@@ -73,7 +73,12 @@ class AlbumPage extends ConsumerWidget {
                               child: Stack(
                                 fit: StackFit.expand,
                                 children: [
-                                  RemoteImage(url: photo.url),
+                                  RemoteImage(
+                                    url: photo.url,
+                                    semanticLabel:
+                                        photo.caption ??
+                                        'Photo ${index + 1} from ${album.title}',
+                                  ),
                                   // A photo id is only unique inside its album,
                                   // so the favourite key carries both (see
                                   // CollectionPage).

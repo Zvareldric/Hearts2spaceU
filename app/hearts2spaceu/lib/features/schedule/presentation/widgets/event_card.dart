@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -27,7 +26,6 @@ class EventCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final meta = _timeAndLocation(event);
 
     return AppCard(
@@ -38,54 +36,7 @@ class EventCard extends StatelessWidget {
         AppSpacing.sm,
         AppSpacing.md,
       ),
-      child: Row(
-        children: [
-          EventDateBlock(event: event),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  event.title,
-                  style: textTheme.bodyMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    height: 1.3,
-                  ),
-                ),
-                const SizedBox(height: AppSpacing.xs),
-                Row(
-                  children: [
-                    if (event.type case final type?) ...[
-                      TypeBadge(type: type),
-                      const SizedBox(width: AppSpacing.sm),
-                    ],
-                    if (meta.isNotEmpty)
-                      Expanded(
-                        child: Text(
-                          meta,
-                          style: textTheme.labelSmall?.copyWith(
-                            color: AppColors.inkMuted,
-                            letterSpacing: 0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          // Replaces the chevron: tapping the card already opens the detail
-          // page, so the row's one affordance is the thing you cannot do from
-          // anywhere else — save it. This is what makes Collection's "tap the
-          // heart on anything" true from the list, not just the detail page.
-          FavoriteButton(type: Favorite.typeEvent, id: event.id),
-        ],
-      ),
+      child: _EventCardBody(event: event, meta: meta),
     );
   }
 
@@ -99,5 +50,79 @@ class EventCard extends StatelessWidget {
       if (event.location != null) event.location!,
     ];
     return parts.join(' · ');
+  }
+}
+
+class _EventCardBody extends StatelessWidget {
+  const _EventCardBody({required this.event, required this.meta});
+
+  final Event event;
+  final String meta;
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final details = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          event.title,
+          style: textTheme.bodyMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+            height: 1.3,
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.xs,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            if (event.type case final type?) TypeBadge(type: type),
+            if (meta.isNotEmpty)
+              Text(
+                meta,
+                style: textTheme.labelSmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w400,
+                ),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
+          ],
+        ),
+      ],
+    );
+    final favorite = FavoriteButton(type: Favorite.typeEvent, id: event.id);
+    final scaled = MediaQuery.textScalerOf(context).scale(1);
+
+    if (scaled >= 1.3) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              EventDateBlock(event: event),
+              favorite,
+            ],
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          details,
+        ],
+      );
+    }
+
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        EventDateBlock(event: event),
+        const SizedBox(width: AppSpacing.md),
+        Expanded(child: details),
+        favorite,
+      ],
+    );
   }
 }

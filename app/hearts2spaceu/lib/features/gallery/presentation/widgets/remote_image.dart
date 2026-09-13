@@ -12,6 +12,7 @@ class RemoteImage extends StatelessWidget {
     required this.url,
     this.fit = BoxFit.cover,
     this.fallback,
+    this.semanticLabel,
   });
 
   final String url;
@@ -22,13 +23,18 @@ class RemoteImage extends StatelessWidget {
   /// release cover falls back to the brand gradient — pass their own.
   final Widget? fallback;
 
+  /// Spoken description for meaningful images. Leave null only when the caller
+  /// deliberately treats the image as decorative.
+  final String? semanticLabel;
+
   @override
   Widget build(BuildContext context) {
     final placeholder = fallback ?? const _DefaultFallback();
 
-    return Image.network(
+    final image = Image.network(
       url,
       fit: fit,
+      semanticLabel: semanticLabel,
       // frameBuilder, not loadingBuilder: loadingBuilder reports
       // `progress == null` both when the load is finished *and* before the
       // first chunk arrives, so keying off it renders an empty image for the
@@ -40,6 +46,10 @@ class RemoteImage extends StatelessWidget {
       },
       errorBuilder: (context, error, stackTrace) => placeholder,
     );
+
+    return semanticLabel == null
+        ? image
+        : Semantics(label: semanticLabel, image: true, child: image);
   }
 }
 
@@ -48,12 +58,12 @@ class _DefaultFallback extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const ColoredBox(
+    return ColoredBox(
       color: AppColors.surfaceTint,
       child: Center(
         child: Icon(
           Icons.broken_image_rounded,
-          color: AppColors.inkMuted,
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
           size: 28,
         ),
       ),

@@ -79,7 +79,13 @@ class _PhotoViewerPageState extends ConsumerState<PhotoViewerPage> {
                 final current = album.photos[index];
                 return Hero(
                   tag: 'photo-${album.id}-${current.id}',
-                  child: RemoteImage(url: current.url, fit: BoxFit.contain),
+                  child: RemoteImage(
+                    url: current.url,
+                    fit: BoxFit.contain,
+                    semanticLabel:
+                        current.caption ??
+                        'Photo ${index + 1} from ${album.title}',
+                  ),
                 );
               },
             ),

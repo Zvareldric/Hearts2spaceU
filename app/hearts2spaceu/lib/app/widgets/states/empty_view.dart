@@ -38,14 +38,18 @@ class EmptyView extends StatelessWidget {
                 color: AppColors.surfaceTint,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 20, color: AppColors.primaryStrong),
+              child: Icon(
+                icon,
+                size: 20,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
             const SizedBox(width: AppSpacing.md),
             Expanded(
               child: Text(
                 message,
                 style: textTheme.bodyMedium?.copyWith(
-                  color: AppColors.inkMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               ),
             ),
@@ -67,13 +71,19 @@ class EmptyView extends StatelessWidget {
                 color: AppColors.surfaceTint,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 32, color: AppColors.primaryStrong),
+              child: Icon(
+                icon,
+                size: 32,
+                color: Theme.of(context).colorScheme.primary,
+              ),
             ),
             const SizedBox(height: AppSpacing.lg),
             Text(
               message,
               textAlign: TextAlign.center,
-              style: textTheme.bodyMedium?.copyWith(color: AppColors.inkMuted),
+              style: textTheme.bodyMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ),

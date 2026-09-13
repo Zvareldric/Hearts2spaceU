@@ -25,7 +25,7 @@ const Map<String, TypeStyle> _styles = {
   ),
   'broadcast': (
     background: Color(0x8CF8AFCB),
-    foreground: Color(0xFF9E3563),
+    foreground: Color(0xFF9B3461),
     label: 'Broadcast',
   ),
   // Teal, not the periwinkle it was: violet is out of the palette, and teal is
@@ -37,7 +37,7 @@ const Map<String, TypeStyle> _styles = {
   ),
   'release': (
     background: Color(0x8CFAC8DC),
-    foreground: Color(0xFFA83A6B),
+    foreground: Color(0xFFA53969),
     label: 'Release',
   ),
   // Slate, not the blue it was: `concert` took the brand sky blue, and two blue

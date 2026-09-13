@@ -64,6 +64,8 @@ List<AgendaItem> buildAgenda({
         subtitle: event.location,
         dueAt: event.startDateTime,
         isAllDay: event.allDay,
+        zoneLabel: event.zoneLabel,
+        zoneOffset: event.zoneOffset,
       ),
     ));
   }

@@ -86,10 +86,7 @@ class _EventDetail extends StatelessWidget {
                       MetaRow(
                         icon: Icons.schedule_rounded,
                         label: 'When',
-                        value: formatEventDateTime(
-                          event.startDateTime,
-                          allDay: event.allDay,
-                        ),
+                        value: formatEventWhen(event),
                       ),
                       if (event.location != null)
                         MetaRow(
@@ -174,7 +171,7 @@ class _EventHero extends StatelessWidget {
           Text(event.title, style: textTheme.headlineSmall),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            formatEventDateTime(event.startDateTime, allDay: event.allDay),
+            formatEventWhen(event),
             style: textTheme.bodyLarge?.copyWith(color: AppColors.inkMuted),
           ),
         ],

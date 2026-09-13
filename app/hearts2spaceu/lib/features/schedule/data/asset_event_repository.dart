@@ -19,7 +19,7 @@ class AssetEventRepository implements EventRepository {
   final String assetPath;
 
   @override
-  Future<List<Event>> getEvents() async {
+  Future<List<Event>> getEvents({bool forceRefresh = false}) async {
     final raw = await rootBundle.loadString(assetPath);
     return parseEvents(raw);
   }

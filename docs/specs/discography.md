@@ -1,6 +1,6 @@
 # Spec · Discography
 
-> **Status:** 🟠 Draft (menunggu kurasi data Product Owner) · **Dibuat:** 2026-07-30
+> **Status:** 🟢 Aktif · **Dibuat:** 2026-07-30 · **Tracklist terkurasi:** 2026-09-12
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Product Owner)
 
 Perwujudan kapabilitas **Discography** — setiap rilis Hearts2Hearts dari debut
@@ -84,30 +84,42 @@ untuk gagal).
 | `releaseDate` | — | ISO date; mengalahkan `year` saat sorting |
 | `note` | — | mis. `Japanese debut single` |
 | `coverUrl` | — | wajib `https` (ditolak saat parse) |
-| `tracks[]` | — | `{ "title": …, "isTitleTrack": bool }` |
+| `tracks[]` | — | `{ "title": …, "isTitleTrack": bool, "duration": "m:ss" }` |
+| `tracks[].duration` | — | format `m:ss`; ditolak saat parse kalau tidak cocok |
 
-> ### ⚠️ Yang belum terisi
+> ### ✅ Data terkurasi *(2026-09-12)*
 >
-> File yang di-commit berisi **7 rilis pada level rilis saja** — judul, tahun, dan
-> cover, diambil dari data yang sudah ada di repo (`gallery.json`). `tracks` masih
-> **kosong untuk semuanya**, dan `type`/`releaseDate` hanya terisi untuk dua rilis
-> yang bisa disandarkan ke data repo:
+> **Tracklist** — lima rilis membawa daftar lagunya: Iconic Heart, Lemon Tang,
+> FOCUS, STYLE, The Chase. Sumber: bagian *Discography* di
+> [heartsflix.carrd.co](https://heartsflix.carrd.co), indeks konten yang dikelola
+> fan dan satu-satunya tempat yang menuliskan tracklist lengkap dalam satu halaman.
+> Durasi tiap lagu ikut dari sana.
 >
-> | Rilis | Dasar |
-> |-------|-------|
-> | Lemon Tang | `updates.json` — "Second mini album … released", 2026-06-01 |
-> | Iconic Heart | `events.json` — Album & MV Release, 2026-08-12 |
+> **Title track** — ditandai untuk setiap rilis, tapi **tidak** ditebak dari urutan
+> lagu. Dasarnya entri `… MV Release` / `… Single Release` di
+> [h2hcalendar.com](https://h2hcalendar.com): lagu yang dipromosikan adalah lagu
+> yang dapat MV pada tanggal rilisnya. Contoh: `'FOCUS' Album Release` dan
+> `'FOCUS' Music Video Release` sama-sama 2025-10-20, sedangkan *Pretty Please*
+> sudah punya MV sebulan sebelumnya — jadi ia pre-release, bukan title track album.
 >
-> **Daftar lagu harus dikurasi Product Owner.** Tracklist tidak di-generate dan
-> tidak dikira-kira: menuliskan lagu yang salah di app fan sama saja menyebarkan
-> informasi keliru, dan itu lebih buruk daripada kolom kosong.
+> **`releaseDate`** — empat rilis yang sebelumnya hanya punya tahun kini punya
+> tanggal, semuanya dari entri rilis di kalender yang sama: RUDE! 2026-02-20,
+> FOCUS 2025-10-20, STYLE 2025-06-18, The Chase 2025-02-24.
 >
-> UI-nya jujur soal ini — rilis tanpa tracklist menampilkan **"Track list not
-> recorded yet."**, bukan panel kosong, dan kartunya tidak menulis "0 tracks"
-> (yang akan terbaca sebagai rilis tanpa lagu). Prinsip yang sama dengan
-> `Award.year`: jangan pernah mencetak hari yang tidak pernah disebut sumbernya.
+> **Temuan yang membalik dugaan:** kalender mencatat `'RUDE!' Single Release`
+> 2026-02-20, berbulan-bulan sebelum mini album *Lemon Tang* yang juga memuatnya.
+> RUDE! memang rilis tersendiri, bukan sekadar lagu — jadi entrinya di
+> `discography.json` benar, dan tampil di dua tempat itu memang faktanya.
+>
+> ### ⚠️ Yang masih terbuka
+>
+> | Hal | Status |
+> |-----|--------|
+> | Tracklist `Moonride` | Rilis 2026-09-09; belum ada sumber yang menerbitkan daftar lagunya, jadi `tracks` kosong dan UI bilang *"Track list not recorded yet."* Cover art juga belum ada. |
+> | `Pretty Please` sebagai rilis | Kalender hanya punya `'Pretty Please' MV` (2025-09-24), tanpa entri rilis — kemungkinan pre-release single dari FOCUS. `releaseDate`-nya dibiarkan kosong. |
+> | Tracklist B-side rilis single | RUDE!, STYLE, Pretty Please tercatat satu lagu masing-masing; kalau sumber menyebut B-side, tinggal ditambah. |
 
-Mengisinya cukup menambah array `tracks`, tanpa perubahan kode:
+Melengkapi atau menambah tracklist cukup mengisi array `tracks`, tanpa perubahan kode:
 
 ```json
 {

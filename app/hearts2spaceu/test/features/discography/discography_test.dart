@@ -9,6 +9,7 @@ import 'package:hearts2spaceu/features/discography/domain/newest_first.dart';
 import 'package:hearts2spaceu/features/discography/domain/release.dart';
 import 'package:hearts2spaceu/features/discography/domain/release_repository.dart';
 import 'package:hearts2spaceu/features/discography/presentation/pages/discography_page.dart';
+import 'package:hearts2spaceu/features/discography/presentation/pages/release_detail_page.dart';
 import 'package:hearts2spaceu/features/discography/presentation/providers/release_providers.dart';
 import 'package:hearts2spaceu/features/discography/presentation/release_format.dart';
 import 'package:hearts2spaceu/routes/app_routes.dart';
@@ -54,6 +55,14 @@ Widget _app(ReleaseRepository repository, {List<String>? pushed}) =>
         },
       ),
     );
+
+Widget _detail(ReleaseRepository repository, String id) => ProviderScope(
+  overrides: [releaseRepositoryProvider.overrideWithValue(repository)],
+  child: MaterialApp(
+    theme: AppTheme.light,
+    home: ReleaseDetailPage(releaseId: id),
+  ),
+);
 
 void main() {
   group('newestFirst', () {
@@ -146,6 +155,40 @@ void main() {
       );
     });
 
+    test('reads a track running time, and leaves it null when absent', () {
+      final releases = AssetReleaseRepository.parseReleases('''
+        [
+          {
+            "id": "the-chase", "title": "The Chase", "year": 2025,
+            "tracks": [
+              {"title": "The Chase", "duration": "2:59"},
+              {"title": "Butterflies"}
+            ]
+          }
+        ]
+      ''');
+
+      expect(
+        releases.single.tracks.first.duration,
+        const Duration(minutes: 2, seconds: 59),
+      );
+      // Never invented: a song whose time nobody published has none.
+      expect(releases.single.tracks.last.duration, isNull);
+    });
+
+    test('rejects a malformed running time instead of showing a wrong one', () {
+      for (final bad in ['2:6', '2:60', 'two minutes', '163', '']) {
+        expect(
+          () => AssetReleaseRepository.parseReleases(
+            '[{"id": "a", "title": "A", "year": 2026,'
+            ' "tracks": [{"title": "T", "duration": "$bad"}]}]',
+          ),
+          throwsA(isA<FormatException>()),
+          reason: '"$bad" should not parse',
+        );
+      }
+    });
+
     test('rejects a payload that is not an array', () {
       expect(
         () => AssetReleaseRepository.parseReleases('{"releases": []}'),
@@ -179,6 +222,26 @@ void main() {
           _release('x', year: 2026, releaseDate: DateTime(2026, 8, 12)),
         ),
         'Aug 12, 2026',
+      );
+    });
+  });
+
+  group('formatTrackDuration', () {
+    test('pads the seconds but not the minutes', () {
+      expect(
+        formatTrackDuration(const Duration(minutes: 2, seconds: 43)),
+        '2:43',
+      );
+      expect(
+        formatTrackDuration(const Duration(minutes: 3, seconds: 9)),
+        '3:09',
+      );
+    });
+
+    test('carries minutes past an hour rather than wrapping them', () {
+      expect(
+        formatTrackDuration(const Duration(hours: 1, minutes: 2, seconds: 5)),
+        '62:05',
       );
     });
   });
@@ -245,6 +308,81 @@ void main() {
     });
   });
 
+  group('ReleaseDetailPage', () {
+    final withTimes = _FakeReleaseRepository([
+      _release(
+        'lemon-tang',
+        year: 2026,
+        tracks: const [
+          Track(
+            title: 'Lemon Tang',
+            isTitleTrack: true,
+            duration: Duration(minutes: 2, seconds: 43),
+          ),
+          Track(
+            title: 'Baby Steps',
+            duration: Duration(minutes: 2, seconds: 51),
+          ),
+          Track(title: 'Unlisted B-side'),
+        ],
+      ),
+    ]);
+
+    testWidgets('shows each running time, and none where there is none', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_detail(withTimes, 'lemon-tang'));
+      await tester.pumpAndSettle();
+
+      expect(find.text('2:43'), findsOneWidget);
+      expect(find.text('2:51'), findsOneWidget);
+      expect(find.text('TITLE'), findsOneWidget);
+      // The third track has no time, so exactly two are printed.
+      expect(find.textContaining(RegExp(r'^\d+:\d\d$')), findsNWidgets(2));
+    });
+
+    testWidgets('a long title, a badge and a time still fit at 360dp', (
+      tester,
+    ) async {
+      // The narrowest phone width. The track row gained a fourth element when
+      // running times arrived, and this feature has overflowed at 360dp before.
+      tester.view.physicalSize = const Size(360, 800);
+      tester.view.devicePixelRatio = 1.0;
+      addTearDown(tester.view.reset);
+
+      await tester.pumpWidget(
+        _detail(
+          _FakeReleaseRepository([
+            _release(
+              'x',
+              tracks: const [
+                Track(
+                  title: 'A Ridiculously Long Song Title That Keeps Going On',
+                  isTitleTrack: true,
+                  duration: Duration(minutes: 12, seconds: 34),
+                ),
+              ],
+            ),
+          ]),
+          'x',
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(tester.takeException(), isNull);
+      expect(find.text('12:34'), findsOneWidget);
+    });
+
+    testWidgets('a release with no track list says so', (tester) async {
+      await tester.pumpWidget(
+        _detail(_FakeReleaseRepository([_release('moonride')]), 'moonride'),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.text('Track list not recorded yet.'), findsOneWidget);
+    });
+  });
+
   test('the shipped discography asset parses', () async {
     // Guards the curated file itself: a typo in discography.json would
     // otherwise only surface at runtime, on the user's device.
@@ -255,6 +393,19 @@ void main() {
     for (final release in releases) {
       expect(release.id, isNotEmpty, reason: 'every release needs an id');
       expect(release.title, isNotEmpty, reason: '${release.id} has no title');
+      for (final track in release.tracks) {
+        expect(
+          track.title,
+          isNotEmpty,
+          reason: '${release.id} has a track with no title',
+        );
+      }
+      // titleTrack reads the first match, so a second one would be invisible.
+      expect(
+        release.tracks.where((t) => t.isTitleTrack).length,
+        lessThan(2),
+        reason: '${release.id} marks more than one title track',
+      );
     }
     // Ids must be unique — they are what the detail route looks up.
     final ids = releases.map((r) => r.id).toList();

@@ -28,17 +28,18 @@ class _FakeEventRepository implements EventRepository {
   final List<Event> events;
 
   @override
-  Future<List<Event>> getEvents() async => events;
+  Future<List<Event>> getEvents({bool forceRefresh = false}) async => events;
 }
 
 class _ThrowingEventRepository implements EventRepository {
   @override
-  Future<List<Event>> getEvents() async => throw Exception('boom');
+  Future<List<Event>> getEvents({bool forceRefresh = false}) async =>
+      throw Exception('boom');
 }
 
 class _DelayedEventRepository implements EventRepository {
   @override
-  Future<List<Event>> getEvents() =>
+  Future<List<Event>> getEvents({bool forceRefresh = false}) =>
       Future.delayed(const Duration(seconds: 1), () => const <Event>[]);
 }
 

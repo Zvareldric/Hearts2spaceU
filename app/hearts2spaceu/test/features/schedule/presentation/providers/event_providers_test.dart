@@ -10,12 +10,13 @@ class _FakeEventRepository implements EventRepository {
   final List<Event> _events;
 
   @override
-  Future<List<Event>> getEvents() async => _events;
+  Future<List<Event>> getEvents({bool forceRefresh = false}) async => _events;
 }
 
 class _ThrowingEventRepository implements EventRepository {
   @override
-  Future<List<Event>> getEvents() async => throw Exception('boom');
+  Future<List<Event>> getEvents({bool forceRefresh = false}) async =>
+      throw Exception('boom');
 }
 
 void main() {

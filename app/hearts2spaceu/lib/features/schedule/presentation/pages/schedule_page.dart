@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/glass/glass_nav_bar.dart';
@@ -44,6 +45,7 @@ class SchedulePage extends ConsumerWidget {
               ),
               child: PageHeading(title: 'Schedule'),
             ),
+            const _ScheduleSource(),
             Expanded(
               // Cross-fades between loading/empty/error/data instead of
               // snapping.
@@ -63,9 +65,10 @@ class SchedulePage extends ConsumerWidget {
                         message: 'No upcoming events.',
                       );
                     }
-                    return _MonthlySchedule(
+                    return RefreshIndicator(
                       key: const ValueKey('data'),
-                      months: groupByMonth(events),
+                      onRefresh: () => _refresh(context, ref),
+                      child: _MonthlySchedule(months: groupByMonth(events)),
                     );
                   },
                 ),
@@ -78,10 +81,64 @@ class SchedulePage extends ConsumerWidget {
   }
 }
 
+/// Pulls a newer schedule down, keeping the list on screen if it cannot.
+///
+/// A refresh that fails leaves the reader with the copy they already had and a
+/// line saying so — emptying the schedule because the network blinked would be
+/// a worse answer than showing yesterday's.
+Future<void> _refresh(BuildContext context, WidgetRef ref) async {
+  try {
+    await refreshSchedule(ref);
+  } catch (_) {
+    if (!context.mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Could not reach the calendar. Showing the saved copy.'),
+      ),
+    );
+  }
+}
+
+/// Where the schedule came from, and how old it is.
+///
+/// Both belong on screen: the events are fetched from a calendar other fans
+/// maintain, which deserves the credit, and a cached list has to say how stale
+/// it is rather than pass itself off as live.
+class _ScheduleSource extends ConsumerWidget {
+  const _ScheduleSource();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final fetchedAt = ref.watch(scheduleFetchedAtProvider).asData?.value;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.screenPadding,
+        AppSpacing.xs,
+        AppSpacing.screenPadding,
+        AppSpacing.sm,
+      ),
+      child: Text(
+        [
+          if (fetchedAt != null) formatFetchedAt(fetchedAt, DateTime.now()),
+          'Schedule by h2hcalendar.com',
+        ].join(' · '),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: AppColors.inkMuted,
+          fontWeight: FontWeight.w400,
+          letterSpacing: 0,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+}
+
 /// The schedule as month sections whose headers stay pinned while that month
 /// scrolls past, so it stays clear where you are in a long list.
 class _MonthlySchedule extends StatelessWidget {
-  const _MonthlySchedule({super.key, required this.months});
+  const _MonthlySchedule({required this.months});
 
   final List<EventMonth> months;
 

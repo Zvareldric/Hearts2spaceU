@@ -7,6 +7,7 @@ import '../../../../app/widgets/cards/app_card.dart';
 import '../../../collection/domain/favorite.dart';
 import '../../../collection/presentation/widgets/favorite_button.dart';
 import '../../domain/event.dart';
+import '../event_date_format.dart';
 import 'event_date_block.dart';
 
 /// Design System V2 event card — tinted date block, title, then the type pill
@@ -92,10 +93,9 @@ class EventCard extends StatelessWidget {
   /// show, so it falls back to the location — or to nothing at all, in which
   /// case the line is omitted rather than left blank.
   static String _timeAndLocation(Event event) {
+    final clock = formatEventClock(event);
     final parts = <String>[
-      if (!event.allDay)
-        '${event.startDateTime.hour.toString().padLeft(2, '0')}'
-            ':${event.startDateTime.minute.toString().padLeft(2, '0')}',
+      if (clock.isNotEmpty) clock,
       if (event.location != null) event.location!,
     ];
     return parts.join(' · ');

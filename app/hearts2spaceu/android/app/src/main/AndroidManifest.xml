@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Latest Updates, the Gallery's images and the Schedule all read over the
+         network. Flutter's template declares this only in the debug and profile
+         manifests, for its own tooling, so without it here a release build ships
+         with those three capabilities permanently broken. Same class of mistake
+         as the missing macOS network entitlement fixed in 383bb1a. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="hearts2spaceu"
         android:name="${applicationName}"

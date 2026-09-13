@@ -180,6 +180,18 @@ class _TrackList extends StatelessWidget {
                         ),
                       ),
                     ),
+                  // Sits last so the times line up down the right edge. A track
+                  // whose running time was never published simply shows none.
+                  if (track.duration case final duration?) ...[
+                    const SizedBox(width: AppSpacing.sm),
+                    Text(
+                      formatTrackDuration(duration),
+                      style: textTheme.labelMedium?.copyWith(
+                        color: AppColors.inkMuted,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
                 ],
               ),
             ),

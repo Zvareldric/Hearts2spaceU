@@ -36,3 +36,14 @@ String formatReleaseMeta(Release release) {
   ];
   return parts.join(' · ');
 }
+
+/// A track's running time as fans read it: `2:43`.
+///
+/// Minutes are not padded and seconds always are, which is how every music
+/// service prints them. Nothing here rounds, so a stored time is shown exactly
+/// as the source published it.
+String formatTrackDuration(Duration duration) {
+  final minutes = duration.inMinutes;
+  final seconds = duration.inSeconds - minutes * 60;
+  return '$minutes:${seconds.toString().padLeft(2, '0')}';
+}

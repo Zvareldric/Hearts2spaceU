@@ -1,8 +1,12 @@
 /// One song on a [Release].
 class Track {
-  const Track({required this.title, this.isTitleTrack = false});
+  const Track({required this.title, this.isTitleTrack = false, this.duration});
 
   final String title;
+
+  /// How long the song runs. Null when the source never published it — the row
+  /// then simply shows no time rather than a made-up one.
+  final Duration? duration;
 
   /// The promoted single off the release. Marked in the UI, since it is what
   /// most fans came to the track list looking for.

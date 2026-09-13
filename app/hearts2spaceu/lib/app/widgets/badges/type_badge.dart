@@ -87,12 +87,71 @@ TypeStyle typeStyleFor(String? type) {
       );
 }
 
-/// Dark surfaces need a different ink/tint pair from the pastel light palette.
-/// The category label stays the same, but readability must win over preserving
-/// seven barely-visible pastel pills in dark mode.
+/// The dark-mode counterpart of [_styles] — one tint/ink pair per type.
+///
+/// The light pastels cannot simply be reused: over a dark card they landed
+/// between 1.61:1 and 2.23:1, unreadable. The first fix collapsed all seven into
+/// one neutral pill, which was legible but threw the colour coding away — and
+/// that coding is what lets a schedule be scanned rather than read.
+///
+/// So each pair keeps its type's own hue and is rebuilt for a dark ground: the
+/// hue darkened and laid on at 32% for the pill, the same hue lightened for the
+/// label. Every one clears 4.5:1 measured over the *lightest* dark card — a card
+/// sitting on an ambient blob — which is where a light label has least contrast.
+/// Locked by `test/app/theme/app_colors_contrast_test.dart`.
+const Map<String, TypeStyle> _darkStyles = {
+  'concert': (
+    background: Color(0x522482A8),
+    foreground: Color(0xFF95D4ED),
+    label: 'Concert',
+  ),
+  'broadcast': (
+    background: Color(0x52A82457),
+    foreground: Color(0xFFF49ABD),
+    label: 'Broadcast',
+  ),
+  'fanmeeting': (
+    background: Color(0x522B93A1),
+    foreground: Color(0xFF9CDCE5),
+    label: 'Fan Meeting',
+  ),
+  'release': (
+    background: Color(0x52A82459),
+    foreground: Color(0xFFF49ABE),
+    label: 'Release',
+  ),
+  'event': (
+    background: Color(0x52335999),
+    foreground: Color(0xFFA6BDE5),
+    label: 'Event',
+  ),
+  'award': (
+    background: Color(0x52A87124),
+    foreground: Color(0xFFF1C483),
+    label: 'Award',
+  ),
+  'showcase': (
+    background: Color(0x522D9F73),
+    foreground: Color(0xFF9BE3C7),
+    label: 'Showcase',
+  ),
+};
+
+/// The dark pairs, exposed so the contrast test can assert every one of them.
+@visibleForTesting
+Map<String, TypeStyle> get darkTypeBadgeStyles => _darkStyles;
+
+/// The tint, ink and label for [type] on a surface of the given [brightness].
+///
+/// A type with no dark pair of its own — the calendar's `weverse`, `social`,
+/// `ambassador` and the vocabularies Awards and Voting bring — falls back to the
+/// neutral dark pill, exactly as the light side falls back to the neutral tint.
 TypeStyle typeStyleForBrightness(String? type, Brightness brightness) {
   final light = typeStyleFor(type);
   if (brightness == Brightness.light) return light;
+
+  final dark = type == null ? null : _darkStyles[type.toLowerCase()];
+  if (dark != null) return dark;
 
   return (
     background: AppColors.darkSurfaceTint,

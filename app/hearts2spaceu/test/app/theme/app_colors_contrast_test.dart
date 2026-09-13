@@ -247,15 +247,33 @@ void main() {
       }
     });
 
-    test('type badges switch to a readable dark-surface pair', () {
-      final style = typeStyleForBrightness('broadcast', Brightness.dark);
+    for (final entry in darkTypeBadgeStyles.entries) {
+      test('${entry.key} label meets AA on its dark tint', () {
+        // The light pastels reached 1.61:1 to 2.23:1 here. Collapsing all seven
+        // into one neutral pill fixed that but threw the colour coding away;
+        // these keep each type's hue AND clear the bar, which is the only
+        // version that serves both.
+        final tint = _composite(entry.value.background, darkGlass);
+        expect(
+          _contrast(entry.value.foreground, tint),
+          greaterThanOrEqualTo(4.5),
+          reason:
+              '${entry.key}: ${entry.value.label} is unreadable on a dark card',
+        );
+      });
+    }
 
-      expect(style.background, AppColors.darkSurfaceTint);
-      expect(style.foreground, AppColors.darkInk);
-      expect(
-        _contrast(style.foreground, style.background),
-        greaterThanOrEqualTo(4.5),
-      );
+    test('every light badge type has a dark pair', () {
+      // Without this, adding a type to the light table and forgetting the dark
+      // one is invisible: it silently falls back to the neutral pill and loses
+      // its colour only on dark screens.
+      expect(darkTypeBadgeStyles.keys.toSet(), typeBadgeStyles.keys.toSet());
+    });
+
+    test('the dark pairs are actually distinct, not one pill seven times', () {
+      // Guards the regression this group exists to undo.
+      final tints = darkTypeBadgeStyles.values.map((s) => s.background).toSet();
+      expect(tints.length, darkTypeBadgeStyles.length);
     });
   });
 

@@ -50,6 +50,12 @@ class _AppCardState extends State<AppCard> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final card = Container(
       padding: widget.padding,
+      // A card you can tap is a tap target, and is held to the platforms'
+      // minimum for one: "Listen on official platforms" was 46px tall, under
+      // Android's 48. Doing it here covers every tappable card at once.
+      constraints: widget.onTap == null
+          ? null
+          : const BoxConstraints(minHeight: kMinInteractiveDimension),
       decoration: BoxDecoration(
         color: widget.gradient != null
             ? null

@@ -269,11 +269,13 @@ class _SectionHeaderRow extends StatelessWidget {
         Expanded(child: SectionHeader(label: label)),
         TextButton(
           onPressed: onSeeAll,
+          // No shrink-wrapping: at its text size "See all" was a 58x20
+          // target, under the 44 and 48 the platforms ask for. The row grows
+          // to 48, which is also Material's height for a list subheader.
           style: TextButton.styleFrom(
             foregroundColor: Theme.of(context).colorScheme.primary,
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-            minimumSize: Size.zero,
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            minimumSize: const Size(48, 48),
           ),
           child: const Text('See all'),
         ),

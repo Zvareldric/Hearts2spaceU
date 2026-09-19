@@ -60,7 +60,9 @@ class PageHeading extends StatelessWidget {
       child: Row(
         children: [
           const _BackBubble(),
-          const SizedBox(width: AppSpacing.md),
+          // The bubble's touch target is 10px wider than the bubble itself;
+          // a smaller gap keeps the title where it was.
+          const SizedBox(width: AppSpacing.xs),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,23 +104,28 @@ class _BackBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
-    return Container(
-      width: 38,
-      height: 38,
-      decoration: BoxDecoration(
-        color: isDark ? AppColors.darkGlass : AppColors.glass,
-        borderRadius: AppRadius.pillRadius,
-        border: Border.all(
-          color: isDark ? AppColors.darkGlassBorder : AppColors.glassBorder,
+    // 48 to touch, 38 to see. The glass bubble is the design; the target
+    // around it is what a thumb needs. Both platform guidelines ask for at
+    // least 44 (iOS) or 48 (Android), and the bubble alone gave 36.
+    return IconButton(
+      onPressed: () => Navigator.of(context).maybePop(),
+      tooltip: MaterialLocalizations.of(context).backButtonTooltip,
+      padding: EdgeInsets.zero,
+      constraints: const BoxConstraints.tightFor(width: 48, height: 48),
+      icon: Container(
+        width: 38,
+        height: 38,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: isDark ? AppColors.darkGlass : AppColors.glass,
+          borderRadius: AppRadius.pillRadius,
+          border: Border.all(
+            color: isDark ? AppColors.darkGlassBorder : AppColors.glassBorder,
+          ),
         ),
-      ),
-      child: IconButton(
-        onPressed: () => Navigator.of(context).maybePop(),
-        tooltip: MaterialLocalizations.of(context).backButtonTooltip,
-        padding: EdgeInsets.zero,
-        iconSize: 17,
-        icon: Icon(
+        child: Icon(
           Icons.arrow_back_ios_new_rounded,
+          size: 17,
           color: AppColors.inkSoftOf(context),
         ),
       ),

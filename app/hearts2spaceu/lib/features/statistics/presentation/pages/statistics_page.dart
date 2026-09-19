@@ -5,6 +5,7 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
+import '../../../../app/widgets/layout/paired_rows.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
@@ -121,16 +122,7 @@ class _Overview extends StatelessWidget {
       (value: stats.milestones, label: 'Milestones'),
     ];
 
-    return GridView.count(
-      // Inside a ListView: let the grid size to its content instead of taking a
-      // viewport of its own.
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.zero,
-      crossAxisCount: 2,
-      crossAxisSpacing: AppSpacing.md,
-      mainAxisSpacing: AppSpacing.md,
-      childAspectRatio: 1.9,
+    return PairedRows(
       children: [
         for (final tile in tiles)
           StatTile(value: tile.value, label: tile.label),

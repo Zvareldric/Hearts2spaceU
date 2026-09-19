@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
+import '../../../../app/widgets/layout/paired_rows.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
@@ -66,7 +67,7 @@ class MemberListPage extends ConsumerWidget {
                     // every tile.
                     final ids = members.map((m) => m.id).toList();
 
-                    return GridView.builder(
+                    return ListView(
                       key: const ValueKey('data'),
                       padding: const EdgeInsets.fromLTRB(
                         AppSpacing.screenPadding,
@@ -74,31 +75,27 @@ class MemberListPage extends ConsumerWidget {
                         AppSpacing.screenPadding,
                         AppSpacing.xl,
                       ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: AppSpacing.md,
-                            mainAxisSpacing: AppSpacing.md,
-                            // Avatar plus two lines of text, with headroom for
-                            // large text settings — tiles hug their content
-                            // instead of leaving a pool of empty glass.
-                            childAspectRatio: 1.05,
-                          ),
-                      itemCount: members.length,
-                      itemBuilder: (context, index) {
-                        final member = members[index];
-                        return StaggeredItem(
-                          index: index,
-                          child: MemberCard(
-                            member: member,
-                            color: memberColor(member.id, ids),
-                            onTap: () => Navigator.of(context).pushNamed(
-                              AppRoutes.memberDetail,
-                              arguments: member.id,
-                            ),
-                          ),
-                        );
-                      },
+                      children: [
+                        // Content-sized rows, not a fixed-ratio grid: the grid
+                        // it replaces promised headroom for large text and
+                        // overflowed by 31px at 200%.
+                        PairedRows(
+                          children: [
+                            for (final (index, member) in members.indexed)
+                              StaggeredItem(
+                                index: index,
+                                child: MemberCard(
+                                  member: member,
+                                  color: memberColor(member.id, ids),
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                    AppRoutes.memberDetail,
+                                    arguments: member.id,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
                     );
                   },
                 ),

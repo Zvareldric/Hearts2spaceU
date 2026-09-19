@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/glass/glass_nav_bar.dart';
+import '../../../../app/widgets/layout/paired_rows.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
@@ -55,36 +56,32 @@ class AlbumsPage extends ConsumerWidget {
                         icon: Icons.photo_library_rounded,
                       );
                     }
-                    return GridView.builder(
+                    return ListView(
                       key: const ValueKey('data'),
                       padding: const EdgeInsets.fromLTRB(
                         AppSpacing.screenPadding,
                         0,
                         AppSpacing.screenPadding,
-                        // Clear the floating nav bar this grid scrolls under.
+                        // Clear the floating nav bar this list scrolls under.
                         GlassNavBar.reservedSpace,
                       ),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: AppSpacing.md,
-                            mainAxisSpacing: AppSpacing.md,
-                            // Cover plus two lines of text underneath.
-                            childAspectRatio: 0.82,
-                          ),
-                      itemCount: albums.length,
-                      itemBuilder: (context, index) {
-                        final album = albums[index];
-                        return StaggeredItem(
-                          index: index,
-                          child: AlbumCard(
-                            album: album,
-                            onTap: () => Navigator.of(
-                              context,
-                            ).pushNamed(AppRoutes.album, arguments: album.id),
-                          ),
-                        );
-                      },
+                      children: [
+                        PairedRows(
+                          children: [
+                            for (final (index, album) in albums.indexed)
+                              StaggeredItem(
+                                index: index,
+                                child: AlbumCard(
+                                  album: album,
+                                  onTap: () => Navigator.of(context).pushNamed(
+                                    AppRoutes.album,
+                                    arguments: album.id,
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ],
                     );
                   },
                 ),

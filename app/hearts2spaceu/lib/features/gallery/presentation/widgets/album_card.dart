@@ -36,16 +36,16 @@ class AlbumCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Expanded, not a fixed height: the cover takes whatever the grid
-              // cell leaves after the text, so the card can never overflow no
-              // matter what childAspectRatio or text scale is in play.
-              Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: RemoteImage(
-                    url: album.coverUrl,
-                    semanticLabel: '${album.title} album cover',
-                  ),
+              // A square cover and a card that grows with its text. The cover
+              // used to take whatever a fixed-ratio grid cell left over, which
+              // traded an overflow for a vanishing picture: at 200% text it was
+              // squeezed to about 24px. The rows this card sits in now take
+              // their height from their content, so the cover can keep its size.
+              AspectRatio(
+                aspectRatio: 1,
+                child: RemoteImage(
+                  url: album.coverUrl,
+                  semanticLabel: '${album.title} album cover',
                 ),
               ),
               Padding(

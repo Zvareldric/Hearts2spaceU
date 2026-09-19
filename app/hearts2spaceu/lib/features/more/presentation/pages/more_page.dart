@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
 import '../../../../app/widgets/glass/glass_nav_bar.dart';
+import '../../../../app/widgets/layout/paired_rows.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../routes/app_routes.dart';
 
@@ -77,13 +78,8 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('More')),
-      // Rows of two rather than a grid: a grid cell's height is derived from
-      // its width through a fixed aspect ratio, so it cannot grow when the text
-      // inside it does. At 390dp that ratio was already half a pixel short for a
-      // card whose subtitle wraps to two lines — at ordinary text size — and it
-      // could never have held 200%. Each row here is as tall as its tallest
-      // card, and both cards in a row stretch to match, so the menu keeps its
-      // even rhythm at any text size.
+      // Rows of two sized to their content — see PairedRows for why a
+      // fixed-ratio grid cannot hold this menu.
       body: ListView(
         padding: EdgeInsets.fromLTRB(
           AppSpacing.screenPadding,
@@ -93,26 +89,11 @@ class MorePage extends StatelessWidget {
           GlassNavBar.reservedSpace,
         ),
         children: [
-          for (var i = 0; i < _entries.length; i += 2)
-            Padding(
-              padding: const EdgeInsets.only(bottom: AppSpacing.md),
-              child: IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: _card(context, i)),
-                    const SizedBox(width: AppSpacing.md),
-                    // An odd last entry keeps its half width rather than
-                    // stretching across the row.
-                    Expanded(
-                      child: i + 1 < _entries.length
-                          ? _card(context, i + 1)
-                          : const SizedBox.shrink(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+          PairedRows(
+            children: [
+              for (var i = 0; i < _entries.length; i++) _card(context, i),
+            ],
+          ),
         ],
       ),
     );

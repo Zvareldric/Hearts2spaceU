@@ -16,16 +16,21 @@ typedef TypeStyle = ({Color background, Color foreground, String label});
 /// card — six of the seven failed AA for 9.5px bold text. These are the same
 /// hues taken down until each one clears 4.5:1 against its own tint, so the
 /// design's color coding survives and the labels are actually readable.
-/// Locked by `test/app/theme/app_colors_contrast_test.dart`.
+///
+/// "Against its own tint" means on every ground the pill can sit on: a glass
+/// card over each of the six places on the wash, and the pastel hero gradient
+/// at the top of a detail page. Five of these first cleared the cards only and
+/// fell to 3.81:1–4.39:1 on the hero. Locked by
+/// `test/app/theme/app_colors_contrast_test.dart`.
 const Map<String, TypeStyle> _styles = {
   'concert': (
     background: Color(0x8C87CEEB),
-    foreground: Color(0xFF15597F),
+    foreground: Color(0xFF145377),
     label: 'Concert',
   ),
   'broadcast': (
     background: Color(0x8CF8AFCB),
-    foreground: Color(0xFF9B3461),
+    foreground: Color(0xFF872D54),
     label: 'Broadcast',
   ),
   // Teal, not the periwinkle it was: violet is out of the palette, and teal is
@@ -37,7 +42,7 @@ const Map<String, TypeStyle> _styles = {
   ),
   'release': (
     background: Color(0x8CFAC8DC),
-    foreground: Color(0xFFA53969),
+    foreground: Color(0xFF8F305B),
     label: 'Release',
   ),
   // Slate, not the blue it was: `concert` took the brand sky blue, and two blue
@@ -50,12 +55,12 @@ const Map<String, TypeStyle> _styles = {
   ),
   'award': (
     background: Color(0x99FFE0B4),
-    foreground: Color(0xFF7D581C),
+    foreground: Color(0xFF79551B),
     label: 'Award',
   ),
   'showcase': (
     background: Color(0x8CC6EFDF),
-    foreground: Color(0xFF2F6E58),
+    foreground: Color(0xFF2B6551),
     label: 'Showcase',
   ),
 };
@@ -96,8 +101,10 @@ TypeStyle typeStyleFor(String? type) {
 ///
 /// So each pair keeps its type's own hue and is rebuilt for a dark ground: the
 /// hue darkened and laid on at 32% for the pill, the same hue lightened for the
-/// label. Every one clears 4.5:1 measured over the *lightest* dark card — a card
-/// sitting on an ambient blob — which is where a light label has least contrast.
+/// label. Every one clears 4.5:1 on each of the six dark card grounds — the
+/// minimum across all of them, not just the lightest: once a coloured tint is
+/// laid over them, the lightest ground is not always the worst one for a given
+/// label, which is how broadcast and release first shipped at 4.44:1.
 /// Locked by `test/app/theme/app_colors_contrast_test.dart`.
 const Map<String, TypeStyle> _darkStyles = {
   'concert': (
@@ -107,7 +114,7 @@ const Map<String, TypeStyle> _darkStyles = {
   ),
   'broadcast': (
     background: Color(0x52A82457),
-    foreground: Color(0xFFF49ABD),
+    foreground: Color(0xFFF59FC0),
     label: 'Broadcast',
   ),
   'fanmeeting': (
@@ -117,7 +124,7 @@ const Map<String, TypeStyle> _darkStyles = {
   ),
   'release': (
     background: Color(0x52A82459),
-    foreground: Color(0xFFF49ABE),
+    foreground: Color(0xFFF59FC1),
     label: 'Release',
   ),
   'event': (

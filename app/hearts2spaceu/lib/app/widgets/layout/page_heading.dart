@@ -74,8 +74,9 @@ class PageHeading extends StatelessWidget {
                 if (subtitle case final subtitle?)
                   Text(
                     subtitle,
+                    // Straight on the wash, so the soft ink, not the muted one.
                     style: textTheme.labelMedium?.copyWith(
-                      color: AppColors.inkMuted,
+                      color: AppColors.inkSoftOf(context),
                     ),
                   ),
               ],
@@ -115,9 +116,9 @@ class _BackBubble extends StatelessWidget {
         tooltip: MaterialLocalizations.of(context).backButtonTooltip,
         padding: EdgeInsets.zero,
         iconSize: 17,
-        icon: const Icon(
+        icon: Icon(
           Icons.arrow_back_ios_new_rounded,
-          color: AppColors.inkSoft,
+          color: AppColors.inkSoftOf(context),
         ),
       ),
     );

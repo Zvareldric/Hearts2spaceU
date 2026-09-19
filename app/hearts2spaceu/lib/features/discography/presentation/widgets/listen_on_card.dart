@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../routes/app_routes.dart';
@@ -24,9 +23,9 @@ class ListenOnCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.headphones_rounded,
-            color: AppColors.primaryStrong,
+            color: Theme.of(context).colorScheme.primary,
             size: 20,
           ),
           const SizedBox(width: AppSpacing.md),
@@ -38,9 +37,9 @@ class ListenOnCard extends StatelessWidget {
               ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
-          const Icon(
+          Icon(
             Icons.chevron_right_rounded,
-            color: AppColors.navIdle,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             size: 20,
           ),
         ],

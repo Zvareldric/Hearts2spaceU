@@ -155,7 +155,7 @@ class _LinksOutNote extends StatelessWidget {
       'Stream Hearts2Hearts on official platforms — Hearts2spaceU links out, '
       'never hosts content itself.',
       style: Theme.of(context).textTheme.labelMedium?.copyWith(
-        color: AppColors.inkMuted,
+        color: AppColors.inkSoftOf(context),
         fontWeight: FontWeight.w400,
         height: 1.5,
       ),

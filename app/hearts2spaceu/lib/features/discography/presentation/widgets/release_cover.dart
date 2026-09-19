@@ -65,7 +65,9 @@ class _CoverPlaceholder extends StatelessWidget {
         ),
       ),
       child: Center(
-        child: Icon(Icons.album_rounded, color: Colors.white, size: 28),
+        // Ink on the brand gradient: white was 1.74:1, under the 3:1 an icon
+        // needs, and the gradient is a pastel in both modes.
+        child: Icon(Icons.album_rounded, color: AppColors.ink, size: 28),
       ),
     );
   }

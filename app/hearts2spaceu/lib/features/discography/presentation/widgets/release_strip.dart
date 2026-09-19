@@ -67,7 +67,7 @@ class ReleaseStrip extends StatelessWidget {
                   Text(
                     formatReleaseMeta(release),
                     style: textTheme.labelSmall?.copyWith(
-                      color: AppColors.inkMuted,
+                      color: AppColors.inkSoftOf(context),
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),

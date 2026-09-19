@@ -124,7 +124,7 @@ class _ScheduleSource extends ConsumerWidget {
           'Schedule by h2hcalendar.com',
         ].join(' · '),
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: AppColors.inkMuted,
+          color: AppColors.inkSoftOf(context),
           fontWeight: FontWeight.w400,
           letterSpacing: 0,
         ),

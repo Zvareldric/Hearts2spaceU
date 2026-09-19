@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -60,7 +59,7 @@ class UpNextCard extends StatelessWidget {
                 Text(
                   event.location ?? typeLabelFor(event.type),
                   style: textTheme.labelMedium?.copyWith(
-                    color: AppColors.inkMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -68,9 +67,9 @@ class UpNextCard extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
+          Icon(
             Icons.chevron_right_rounded,
-            color: AppColors.navIdle,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             size: 20,
           ),
         ],

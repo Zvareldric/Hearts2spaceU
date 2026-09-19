@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
-
 /// A network image that degrades gracefully.
 ///
 /// Third-party URLs die; when one does, only this tile shows a placeholder
@@ -59,7 +57,7 @@ class _DefaultFallback extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: AppColors.surfaceTint,
+      color: Theme.of(context).colorScheme.surfaceContainerHighest,
       child: Center(
         child: Icon(
           Icons.broken_image_rounded,

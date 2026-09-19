@@ -358,7 +358,7 @@ class _SavedRow extends StatelessWidget {
               Text(
                 trailing,
                 style: textTheme.labelSmall?.copyWith(
-                  color: AppColors.inkMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w400,
                 ),
@@ -382,21 +382,25 @@ class _EmptyHint extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomPaint(
       painter: _DashedBorderPainter(
-        color: AppColors.primaryStrong.withValues(alpha: 0.35),
+        color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.35),
         radius: AppRadius.lg,
       ),
       child: Container(
         width: double.infinity,
         padding: const EdgeInsets.all(AppSpacing.xl),
+        // The surface colour, not white: white at 45% over the dark wash is a
+        // mid-grey that the dark theme's muted ink cannot be read on.
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.45),
+          color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.45),
           borderRadius: AppRadius.lgRadius,
         ),
         child: Text(
           message,
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            color: AppColors.inkMuted,
+            // A thinner veil than a card's, so the muted ink falls short
+            // (4.43:1); the soft one holds on anything down to the bare wash.
+            color: AppColors.inkSoftOf(context),
             fontWeight: FontWeight.w400,
             height: 1.45,
           ),

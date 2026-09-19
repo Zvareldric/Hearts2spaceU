@@ -52,7 +52,7 @@ class CountBar extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.labelMedium?.copyWith(
-                    color: AppColors.inkSoft,
+                    color: AppColors.inkSoftOf(context),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -60,7 +60,7 @@ class CountBar extends StatelessWidget {
               Text(
                 '$count',
                 style: theme.textTheme.labelMedium?.copyWith(
-                  color: AppColors.inkMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   fontWeight: FontWeight.w400,
                 ),
               ),

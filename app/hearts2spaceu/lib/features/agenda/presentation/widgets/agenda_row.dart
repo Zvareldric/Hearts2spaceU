@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -53,11 +52,15 @@ class AgendaRow extends StatelessWidget {
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceTint,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               shape: BoxShape.circle,
             ),
-            child: Icon(_icon(item), color: AppColors.primaryStrong, size: 20),
+            child: Icon(
+              _icon(item),
+              color: Theme.of(context).colorScheme.primary,
+              size: 20,
+            ),
           ),
           const SizedBox(width: AppSpacing.md),
           Expanded(
@@ -95,7 +98,7 @@ class AgendaRow extends StatelessWidget {
                   Text(
                     meta,
                     style: textTheme.labelSmall?.copyWith(
-                      color: AppColors.inkMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -107,7 +110,7 @@ class AgendaRow extends StatelessWidget {
                 Text(
                   agendaDueLabel(item, now),
                   style: textTheme.labelSmall?.copyWith(
-                    color: AppColors.primaryStrong,
+                    color: Theme.of(context).colorScheme.primary,
                     letterSpacing: 0,
                   ),
                   maxLines: 1,
@@ -128,7 +131,7 @@ class AgendaRow extends StatelessWidget {
                     ? Icons.hourglass_empty_rounded
                     : Icons.open_in_new_rounded,
                 size: 20,
-                color: AppColors.inkMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             )
           else

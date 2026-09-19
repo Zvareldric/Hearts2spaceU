@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -29,13 +28,13 @@ class AwardCard extends StatelessWidget {
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceTint,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               shape: BoxShape.circle,
             ),
             child: Icon(
               _iconFor(award.type),
-              color: AppColors.primaryStrong,
+              color: Theme.of(context).colorScheme.primary,
               size: 20,
             ),
           ),
@@ -54,13 +53,16 @@ class AwardCard extends StatelessWidget {
                 Text(
                   subtitle,
                   style: textTheme.bodyMedium?.copyWith(
-                    color: AppColors.inkMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.inkMuted),
+          Icon(
+            Icons.chevron_right_rounded,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
+          ),
         ],
       ),
     );

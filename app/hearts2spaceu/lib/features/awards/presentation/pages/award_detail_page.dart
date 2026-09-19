@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/widgets/layout/light_surface.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -129,7 +130,6 @@ class _AwardHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final topInset = MediaQuery.of(context).padding.top;
 
     return Container(
@@ -151,21 +151,28 @@ class _AwardHero extends StatelessWidget {
           bottomRight: Radius.circular(AppRadius.xl),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (award.type != Award.typeAward) ...[
-            TypeBadge(type: award.type),
-            const SizedBox(height: AppSpacing.md),
-          ],
-          Text(award.title, style: textTheme.headlineSmall),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            '${award.ceremony} · ${award.year}',
-            style: textTheme.bodyLarge?.copyWith(color: AppColors.inkMuted),
-          ),
-        ],
+      child: LightSurface(
+        builder: (context) {
+          final textTheme = Theme.of(context).textTheme;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (award.type != Award.typeAward) ...[
+                TypeBadge(type: award.type),
+                const SizedBox(height: AppSpacing.md),
+              ],
+              Text(award.title, style: textTheme.headlineSmall),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                '${award.ceremony} · ${award.year}',
+                style: textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

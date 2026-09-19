@@ -34,8 +34,8 @@ class EmptyView extends StatelessWidget {
               width: 40,
               height: 40,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: AppColors.surfaceTint,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -49,7 +49,7 @@ class EmptyView extends StatelessWidget {
               child: Text(
                 message,
                 style: textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: AppColors.inkSoftOf(context),
                 ),
               ),
             ),
@@ -67,8 +67,8 @@ class EmptyView extends StatelessWidget {
             Container(
               width: 72,
               height: 72,
-              decoration: const BoxDecoration(
-                color: AppColors.surfaceTint,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -82,7 +82,7 @@ class EmptyView extends StatelessWidget {
               message,
               textAlign: TextAlign.center,
               style: textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                color: AppColors.inkSoftOf(context),
               ),
             ),
           ],

@@ -219,9 +219,9 @@ class _VotesUnavailable extends ConsumerWidget {
               // The same sentence the Voting Hub would say, from the same
               // function, so the two never disagree about whose fault it is.
               votingErrorMessage(error),
-              style: Theme.of(
-                context,
-              ).textTheme.labelSmall?.copyWith(color: AppColors.inkMuted),
+              style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ),
           TextButton(

@@ -43,7 +43,7 @@ class UpdateCard extends StatelessWidget {
               Text(
                 formatPublishedDate(update.publishedAt),
                 style: textTheme.labelSmall?.copyWith(
-                  color: AppColors.inkMuted,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                   letterSpacing: 0,
                   fontWeight: FontWeight.w400,
                 ),
@@ -63,7 +63,7 @@ class UpdateCard extends StatelessWidget {
             Text(
               summary,
               style: textTheme.labelMedium?.copyWith(
-                color: AppColors.inkSoft,
+                color: AppColors.inkSoftOf(context),
                 fontWeight: FontWeight.w400,
                 height: 1.5,
               ),

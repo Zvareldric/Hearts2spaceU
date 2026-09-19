@@ -72,7 +72,7 @@ class AlbumCard extends StatelessWidget {
                           ? '${album.year} · ${album.photos.length} photos'
                           : '${album.photos.length} photos',
                       style: theme.textTheme.labelSmall?.copyWith(
-                        color: AppColors.inkMuted,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         letterSpacing: 0,
                         fontWeight: FontWeight.w400,
                       ),

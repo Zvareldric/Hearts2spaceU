@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../domain/favorite.dart';
 import '../providers/favorites_providers.dart';
 
@@ -25,7 +24,9 @@ class FavoriteButton extends ConsumerWidget {
       tooltip: isFavorite ? 'Remove from collection' : 'Add to collection',
       icon: Icon(
         isFavorite ? Icons.favorite_rounded : Icons.favorite_border_rounded,
-        color: isFavorite ? AppColors.secondaryStrong : AppColors.inkMuted,
+        color: isFavorite
+            ? Theme.of(context).colorScheme.secondary
+            : Theme.of(context).colorScheme.onSurfaceVariant,
       ),
     );
   }

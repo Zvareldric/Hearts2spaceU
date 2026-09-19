@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../domain/member.dart';
@@ -60,7 +59,7 @@ class MemberCard extends StatelessWidget {
               member.positions.first,
               textAlign: TextAlign.center,
               style: textTheme.labelSmall?.copyWith(
-                color: AppColors.inkMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),

@@ -210,7 +210,7 @@ class _MusicShowWins extends StatelessWidget {
                   Text(
                     '${work.count}×',
                     style: theme.textTheme.bodyMedium?.copyWith(
-                      color: AppColors.primaryStrong,
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -235,10 +235,10 @@ class _SourceNote extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Icon(
+        Icon(
           Icons.info_outline_rounded,
           size: 15,
-          color: AppColors.inkMuted,
+          color: AppColors.inkSoftOf(context),
         ),
         const SizedBox(width: AppSpacing.sm),
         Expanded(
@@ -246,7 +246,7 @@ class _SourceNote extends StatelessWidget {
             'Counted from the achievements recorded in this app. '
             'The list is curated from public sources, so it may not be complete.',
             style: theme.textTheme.labelMedium?.copyWith(
-              color: AppColors.inkMuted,
+              color: AppColors.inkSoftOf(context),
               fontWeight: FontWeight.w400,
             ),
           ),

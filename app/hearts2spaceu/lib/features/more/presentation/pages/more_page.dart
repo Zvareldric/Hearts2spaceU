@@ -77,7 +77,14 @@ class MorePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('More')),
-      body: GridView.builder(
+      // Rows of two rather than a grid: a grid cell's height is derived from
+      // its width through a fixed aspect ratio, so it cannot grow when the text
+      // inside it does. At 390dp that ratio was already half a pixel short for a
+      // card whose subtitle wraps to two lines — at ordinary text size — and it
+      // could never have held 200%. Each row here is as tall as its tallest
+      // card, and both cards in a row stretch to match, so the menu keeps its
+      // even rhythm at any text size.
+      body: ListView(
         padding: EdgeInsets.fromLTRB(
           AppSpacing.screenPadding,
           AppSpacing.sm,
@@ -85,28 +92,42 @@ class MorePage extends StatelessWidget {
           // Clear the floating nav bar, which this list scrolls underneath.
           GlassNavBar.reservedSpace,
         ),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: AppSpacing.md,
-          mainAxisSpacing: AppSpacing.md,
-          // Icon tile + title + a two-line subtitle, with room for large text
-          // settings before anything has to ellipsize.
-          childAspectRatio: 1.15,
-        ),
-        itemCount: _entries.length,
-        itemBuilder: (context, index) {
-          final entry = _entries[index];
-          return StaggeredItem(
-            index: index,
-            child: CapabilityCard(
-              icon: entry.icon,
-              title: entry.title,
-              subtitle: entry.subtitle,
-              gradient: entry.gradient,
-              onTap: () => Navigator.of(context).pushNamed(entry.route),
+        children: [
+          for (var i = 0; i < _entries.length; i += 2)
+            Padding(
+              padding: const EdgeInsets.only(bottom: AppSpacing.md),
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: _card(context, i)),
+                    const SizedBox(width: AppSpacing.md),
+                    // An odd last entry keeps its half width rather than
+                    // stretching across the row.
+                    Expanded(
+                      child: i + 1 < _entries.length
+                          ? _card(context, i + 1)
+                          : const SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
             ),
-          );
-        },
+        ],
+      ),
+    );
+  }
+
+  Widget _card(BuildContext context, int index) {
+    final entry = _entries[index];
+    return StaggeredItem(
+      index: index,
+      child: CapabilityCard(
+        icon: entry.icon,
+        title: entry.title,
+        subtitle: entry.subtitle,
+        gradient: entry.gradient,
+        onTap: () => Navigator.of(context).pushNamed(entry.route),
       ),
     );
   }

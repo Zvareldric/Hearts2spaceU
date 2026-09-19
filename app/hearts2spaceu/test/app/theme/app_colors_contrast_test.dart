@@ -41,6 +41,32 @@ const _sampleMemberIds = [
   'ye-on',
 ];
 
+/// Perceived difference between two opaque colours: CIE76 ΔE in Lab.
+///
+/// Around 2 is barely noticeable side by side; 10 is plainly different at a
+/// glance, which is the point of a colour-coded badge.
+double _deltaE(Color a, Color b) {
+  List<double> lab(Color c) {
+    double lin(double v) => v <= 0.04045
+        ? v / 12.92
+        : math.pow((v + 0.055) / 1.055, 2.4).toDouble();
+    final r = lin(c.r), g = lin(c.g), bl = lin(c.b);
+    final x = (0.4124 * r + 0.3576 * g + 0.1805 * bl) / 0.95047;
+    final y = 0.2126 * r + 0.7152 * g + 0.0722 * bl;
+    final z = (0.0193 * r + 0.1192 * g + 0.9505 * bl) / 1.08883;
+    double f(double t) =>
+        t > 0.008856 ? math.pow(t, 1 / 3).toDouble() : 7.787 * t + 16 / 116;
+    return [116 * f(y) - 16, 500 * (f(x) - f(y)), 200 * (f(y) - f(z))];
+  }
+
+  final la = lab(a), lb = lab(b);
+  return math.sqrt(
+    math.pow(la[0] - lb[0], 2) +
+        math.pow(la[1] - lb[1], 2) +
+        math.pow(la[2] - lb[2], 2),
+  );
+}
+
 /// Whether [color] sits in the purple band the palette was retired from.
 ///
 /// 250-300°, and only when saturated enough to read as a hue at all — the brand
@@ -298,6 +324,34 @@ void main() {
       final tints = darkTypeBadgeStyles.values.map((s) => s.background).toSet();
       expect(tints.length, darkTypeBadgeStyles.length);
     });
+  });
+
+  group('type badges can be told apart', () {
+    // A colour code only works if the colours differ. `release` and
+    // `broadcast` were both blossom pink: 6.4 ΔE apart in light mode and 0.4 in
+    // dark — the same pill twice — while every contrast check above passed.
+    // Every pair must now be plainly different at a glance, measured on the
+    // card each pill actually sits on.
+    for (final (mode, styles, card) in [
+      ('light', typeBadgeStyles, glass),
+      ('dark', darkTypeBadgeStyles, darkGlass),
+    ]) {
+      final types = styles.keys.toList();
+      for (var i = 0; i < types.length; i++) {
+        for (var j = i + 1; j < types.length; j++) {
+          final a = types[i], b = types[j];
+          test('$mode: $a and $b look different', () {
+            expect(
+              _deltaE(
+                _composite(styles[a]!.background, card),
+                _composite(styles[b]!.background, card),
+              ),
+              greaterThanOrEqualTo(10),
+            );
+          });
+        }
+      }
+    }
   });
 
   group('member avatars', () {

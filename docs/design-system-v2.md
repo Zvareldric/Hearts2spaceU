@@ -260,15 +260,27 @@ warnanya berhenti membawa informasi:
 | Himpunan | Isi | Hue yang dipakai |
 |----------|-----|------------------|
 | `CapabilityGradients` | 7 pasang, satu per kapabilitas | sky, oranye, pink, cobalt, pink muda, amber, mint |
-| `TypeBadge` tints | 7 tipe event | sky, pink, **teal**, pink muda, **slate**, amber, mint |
+| `TypeBadge` tints | 7 tipe event | sky, pink, **hijau segar**, **coral**, **slate**, amber, mint |
 | `member_palette` | 8 warna avatar | sky, rose, teal, magenta, cobalt, coral, hijau, amber |
 
 Tidak satu pun violet. Dua penyesuaian yang perlu diketahui saat menambah kategori:
 
 - `concert` mengambil sky blue (brand), jadi `event` pindah ke **slate** — dua
   badge biru akan berhenti membedakan kedua tipe itu.
-- `fanmeeting` pindah dari periwinkle ke **teal**, satu-satunya hue dingin yang
-  belum dipakai `concert` (sky) maupun `event` (slate).
+- `fanmeeting` sempat pindah dari periwinkle ke teal, lalu *(2026-09-20)* ke
+  **hijau segar**, dan `release` dari pink muda ke **coral**. Keduanya karena hue
+  yang tampak berbeda di kertas ternyata tidak terbedakan di layar: `release` dan
+  `broadcast` terpaut 1° — ΔE 6.4 di mode terang, **0.4 di dark mode**, alias warna
+  yang sama — dan teal terjepit di antara sky dan mint. Hue baru dipilih dengan
+  **mengukur**, bukan menebak: ΔE (Lab) terhadap setiap badge lain di kedua mode,
+  mengambil pasangan yang menjauhkan badge yang dipindah paling jauh (≥ 11.8) tanpa
+  keluar dari rentang hangat brand atau kembali ke pita violet.
+
+> **Aturan saat menambah tipe badge:** setiap pasangan tint harus berjarak
+> **ΔE ≥ 10** di atas kartunya, di kedua mode — dijaga grup test *"type badges can
+> be told apart"*. Membandingkan derajat hue tidak cukup: palet lama lolos ukuran
+> hue tapi gagal di tujuh pasangan saat diukur ΔE, termasuk `concert`/`event` di
+> dark mode (9.58), yang ikut digeser sedikit ke arah indigo.
 
 Warna avatar member **sengaja lebih pekat** dari pastel di tempat lain: huruf
 inisialnya putih, jadi tiap warna harus lolos 3:1. Pastel yang digantikan berada di

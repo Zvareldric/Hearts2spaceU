@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -49,7 +50,7 @@ class HeroUpdateCard extends StatelessWidget {
               fontWeight: FontWeight.w700,
               height: 1.3,
             ),
-            maxLines: 3,
+            maxLines: AppTypography.maxLines(context, 3),
             overflow: TextOverflow.ellipsis,
           ),
           if (update.summary case final summary?) ...[
@@ -62,7 +63,7 @@ class HeroUpdateCard extends StatelessWidget {
                 color: isDark ? AppColors.darkInkSoft : AppColors.pastelMuted,
                 height: 1.5,
               ),
-              maxLines: 3,
+              maxLines: AppTypography.maxLines(context, 3),
               overflow: TextOverflow.ellipsis,
             ),
           ],

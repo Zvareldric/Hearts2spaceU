@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_shadows.dart';
@@ -64,7 +65,7 @@ class AlbumCard extends StatelessWidget {
                       style: theme.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
-                      maxLines: 1,
+                      maxLines: AppTypography.maxLines(context, 1),
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
@@ -76,7 +77,7 @@ class AlbumCard extends StatelessWidget {
                         letterSpacing: 0,
                         fontWeight: FontWeight.w400,
                       ),
-                      maxLines: 1,
+                      maxLines: AppTypography.maxLines(context, 1),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

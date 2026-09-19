@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/app_typography.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_spacing.dart';
 import 'app_card.dart';
@@ -41,10 +42,13 @@ class CapabilityCard extends StatelessWidget {
         children: [
           IconTile(icon: icon, gradient: gradient),
           const SizedBox(height: AppSpacing.md),
+          // Two lines, not one: at 360dp "Latest Updates" did not fit one
+          // line even at normal text size, and a menu entry whose name is cut
+          // off is not a menu entry. The paired rows keep neighbours level.
           Text(
             title,
             style: textTheme.titleMedium,
-            maxLines: 1,
+            maxLines: AppTypography.maxLines(context, 2),
             overflow: TextOverflow.ellipsis,
           ),
           const SizedBox(height: 2),
@@ -53,7 +57,7 @@ class CapabilityCard extends StatelessWidget {
             style: textTheme.labelMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-            maxLines: 2,
+            maxLines: AppTypography.maxLines(context, 2),
             overflow: TextOverflow.ellipsis,
           ),
         ],

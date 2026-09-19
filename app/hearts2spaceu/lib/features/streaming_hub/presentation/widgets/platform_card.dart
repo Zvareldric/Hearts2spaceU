@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -46,7 +47,7 @@ class PlatformCard extends StatelessWidget {
                   style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (platform.handle case final handle?)
@@ -57,7 +58,7 @@ class PlatformCard extends StatelessWidget {
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
-                    maxLines: 1,
+                    maxLines: AppTypography.maxLines(context, 1),
                     overflow: TextOverflow.ellipsis,
                   ),
               ],

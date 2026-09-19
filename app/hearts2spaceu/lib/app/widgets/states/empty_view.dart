@@ -26,8 +26,13 @@ class EmptyView extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     if (compact) {
-      return SizedBox(
-        height: LoadingView.inlineContentHeight,
+      // A minimum, not a fixed height: 48 at normal text size keeps every
+      // state of a slot like Home's "Up next" the same height, and larger
+      // text is allowed to grow the row instead of spilling out of it.
+      return ConstrainedBox(
+        constraints: const BoxConstraints(
+          minHeight: LoadingView.inlineContentHeight,
+        ),
         child: Row(
           children: [
             Container(

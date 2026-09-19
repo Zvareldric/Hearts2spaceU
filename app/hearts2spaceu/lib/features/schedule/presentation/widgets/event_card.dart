@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -88,7 +89,7 @@ class _EventCardBody extends StatelessWidget {
                   letterSpacing: 0,
                   fontWeight: FontWeight.w400,
                 ),
-                maxLines: 3,
+                maxLines: AppTypography.maxLines(context, 3),
                 overflow: TextOverflow.ellipsis,
               ),
           ],

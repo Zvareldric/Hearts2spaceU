@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -56,7 +57,7 @@ class VotingCard extends StatelessWidget {
                 Text(
                   campaign.title,
                   style: textTheme.titleMedium,
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: AppSpacing.xs),
@@ -65,7 +66,7 @@ class VotingCard extends StatelessWidget {
                   style: textTheme.bodyMedium?.copyWith(
                     color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
                 // The note is curated by the Product Owner and changes how a
@@ -81,7 +82,7 @@ class VotingCard extends StatelessWidget {
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
-                    maxLines: 1,
+                    maxLines: AppTypography.maxLines(context, 1),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
@@ -177,7 +178,7 @@ class _CaptionStrip extends StatelessWidget {
             ),
             child: Text(
               caption,
-              maxLines: 2,
+              maxLines: AppTypography.maxLines(context, 2),
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: Colors.white,

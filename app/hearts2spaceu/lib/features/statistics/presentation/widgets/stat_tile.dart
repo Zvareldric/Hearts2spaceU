@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 
@@ -34,7 +35,7 @@ class StatTile extends StatelessWidget {
             label,
             // Two lines is enough for every label used here; more would make
             // the tiles in a row different heights.
-            maxLines: 2,
+            maxLines: AppTypography.maxLines(context, 2),
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.labelMedium?.copyWith(
               color: Theme.of(context).colorScheme.onSurfaceVariant,

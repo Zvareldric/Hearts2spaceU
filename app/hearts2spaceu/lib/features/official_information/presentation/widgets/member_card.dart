@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../domain/member.dart';
@@ -51,7 +52,7 @@ class MemberCard extends StatelessWidget {
           Text(
             member.stageName,
             style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
-            maxLines: 1,
+            maxLines: AppTypography.maxLines(context, 1),
             overflow: TextOverflow.ellipsis,
           ),
           if (member.positions.isNotEmpty)
@@ -63,7 +64,7 @@ class MemberCard extends StatelessWidget {
                 letterSpacing: 0,
                 fontWeight: FontWeight.w400,
               ),
-              maxLines: 1,
+              maxLines: AppTypography.maxLines(context, 1),
               overflow: TextOverflow.ellipsis,
             ),
         ],

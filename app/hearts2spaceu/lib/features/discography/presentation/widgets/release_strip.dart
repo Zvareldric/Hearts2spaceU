@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../domain/release.dart';
@@ -23,13 +24,28 @@ class ReleaseStrip extends StatelessWidget {
 
   static const _coverSize = 124.0;
 
-  /// Cover plus two lines of text — fixed so the row does not jump as titles of
-  /// different lengths scroll through it.
-  static const height = _coverSize + 44;
-
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final titleStyle = textTheme.labelMedium!.copyWith(
+      fontWeight: FontWeight.w600,
+    );
+    final metaStyle = textTheme.labelSmall!.copyWith(
+      color: AppColors.inkSoftOf(context),
+      letterSpacing: 0,
+      fontWeight: FontWeight.w400,
+    );
+    final lines = AppTypography.maxLines(context, 1);
+
+    // Cover plus its text, fixed for a given text size so the row does not
+    // jump as titles of different lengths scroll through it — but computed,
+    // not hard-coded. The old constant held two lines at 100% and left 200%
+    // text 24px past the bottom of the strip.
+    final height =
+        _coverSize +
+        AppSpacing.sm +
+        AppTypography.linesHeight(context, titleStyle, lines) +
+        AppTypography.linesHeight(context, metaStyle, lines);
 
     return SizedBox(
       height: height,
@@ -58,20 +74,14 @@ class ReleaseStrip extends StatelessWidget {
                   const SizedBox(height: AppSpacing.sm),
                   Text(
                     release.title,
-                    style: textTheme.labelMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                    maxLines: 1,
+                    style: titleStyle,
+                    maxLines: lines,
                     overflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     formatReleaseMeta(release),
-                    style: textTheme.labelSmall?.copyWith(
-                      color: AppColors.inkSoftOf(context),
-                      letterSpacing: 0,
-                      fontWeight: FontWeight.w400,
-                    ),
-                    maxLines: 1,
+                    style: metaStyle,
+                    maxLines: lines,
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],

@@ -227,7 +227,12 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
+  // The height is part of what this delegate describes. Comparing the label
+  // alone kept a header laid out at its old height after the text size
+  // changed underneath it — which is what happens when a reader changes the
+  // system font size with the app open — and Flutter rejects that geometry
+  // outright.
   @override
   bool shouldRebuild(_MonthHeaderDelegate oldDelegate) =>
-      oldDelegate.label != label;
+      oldDelegate.label != label || oldDelegate.height != height;
 }

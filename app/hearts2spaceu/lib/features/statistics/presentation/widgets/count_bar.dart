@@ -102,10 +102,15 @@ class CountBar extends StatelessWidget {
 
     if (onTap == null) return content;
 
+    // A tappable row is held to the platforms' minimum target: at its
+    // natural height this one was 44px, under Android's 48.
     return InkWell(
       onTap: onTap,
       borderRadius: AppRadius.smRadius,
-      child: content,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: kMinInteractiveDimension),
+        child: content,
+      ),
     );
   }
 }

@@ -252,4 +252,46 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('month headers follow a text size change made while open', (
+    tester,
+  ) async {
+    // What happens when a reader changes the system font size with the app in
+    // the foreground. The pinned header's height depends on text size, but it
+    // only rebuilt when its label changed — so it kept its old height, and
+    // Flutter rejected the header's geometry outright.
+    SharedPreferences.setMockInitialValues({});
+    final textScale = ValueNotifier<double>(1);
+    addTearDown(textScale.dispose);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          eventRepositoryProvider.overrideWithValue(
+            _FakeEventRepository(_futureEvents()),
+          ),
+        ],
+        child: MaterialApp(
+          onGenerateRoute: AppRouter.onGenerateRoute,
+          builder: (context, child) => ValueListenableBuilder<double>(
+            valueListenable: textScale,
+            builder: (context, scale, _) => MediaQuery(
+              data: MediaQuery.of(
+                context,
+              ).copyWith(textScaler: TextScaler.linear(scale)),
+              child: child!,
+            ),
+          ),
+          home: const SchedulePage(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    textScale.value = 2;
+    await tester.pumpAndSettle();
+
+    expect(tester.takeException(), isNull);
+    expect(find.byType(EventCard), findsWidgets);
+  });
 }

@@ -140,17 +140,13 @@ List<Color> ambientGrounds(Brightness brightness) {
 /// Null when the paragraph is not painted or sits under a fade.
 List<List<Color>>? _layersBehind(RenderParagraph paragraph) {
   final layers = <List<Color>>[];
-  RenderObject child = paragraph;
   var node = paragraph.parent;
 
+  if (!isPainted(paragraph)) return null;
+
   while (node != null) {
-    if (node is RenderOffstage && node.offstage) return null;
     if (node is RenderOpacity && node.opacity < 1) return null;
     if (node is RenderAnimatedOpacity && node.opacity.value < 1) return null;
-    if (node is RenderIndexedStack &&
-        node.getChildrenAsList().indexOf(child as RenderBox) != node.index) {
-      return null;
-    }
 
     if (node is RenderDecoratedBox && node.decoration is BoxDecoration) {
       final decoration = node.decoration as BoxDecoration;
@@ -168,10 +164,29 @@ List<List<Color>>? _layersBehind(RenderParagraph paragraph) {
       layers.add([(creator.element.widget as ColoredBox).color]);
     }
 
-    child = node;
     node = node.parent;
   }
   return layers;
+}
+
+/// Whether [object] is on the route and tab actually being shown.
+///
+/// The tab shell keeps every tab alive in an IndexedStack, so the More menu is
+/// laid out — fully, with real text — underneath Home. It is not on screen,
+/// and nothing a reader cannot see should count for or against a screen.
+bool isPainted(RenderObject object) {
+  RenderObject child = object;
+  var node = object.parent;
+  while (node != null) {
+    if (node is RenderOffstage && node.offstage) return false;
+    if (node is RenderIndexedStack &&
+        node.getChildrenAsList().indexOf(child as RenderBox) != node.index) {
+      return false;
+    }
+    child = node;
+    node = node.parent;
+  }
+  return true;
 }
 
 bool _isAmbientBase(Gradient? gradient) {

@@ -8,6 +8,8 @@ import 'package:hearts2spaceu/app/widgets/states/loading_view.dart';
 import 'package:hearts2spaceu/features/home/presentation/widgets/up_next_card.dart';
 import 'package:hearts2spaceu/features/schedule/domain/event.dart';
 
+import '../../../../app/sweep/page_catalog.dart';
+
 /// Renders [slot] at a fixed width and returns its laid-out height.
 Future<double> _slotHeight(WidgetTester tester, Widget slot) async {
   await tester.pumpWidget(
@@ -25,6 +27,15 @@ Future<double> _slotHeight(WidgetTester tester, Widget slot) async {
 }
 
 void main() {
+  // Real Roboto, because this is a layout measurement. In the placeholder test
+  // face — twice Roboto's width — the error message wraps to three lines and
+  // needs 60px. The states used to sit in a fixed 48px box, so that third line
+  // was silently clipped and this test passed; now that the box is a minimum,
+  // the placeholder face makes the error state taller than the others. On a
+  // real phone the message fits and all four states are 82px, which is the
+  // claim this test is for.
+  setUpAll(loadRealFonts);
+
   testWidgets('Home "Up next" slot keeps one height across all four states', (
     tester,
   ) async {

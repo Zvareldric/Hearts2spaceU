@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
@@ -67,7 +68,7 @@ class UpdateCard extends StatelessWidget {
                 fontWeight: FontWeight.w400,
                 height: 1.5,
               ),
-              maxLines: 3,
+              maxLines: AppTypography.maxLines(context, 3),
               overflow: TextOverflow.ellipsis,
             ),
           ],

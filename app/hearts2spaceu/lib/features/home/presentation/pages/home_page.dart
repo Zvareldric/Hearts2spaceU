@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -172,7 +173,7 @@ class _QuickAction extends StatelessWidget {
             fit: BoxFit.scaleDown,
             child: Text(
               label,
-              maxLines: 1,
+              maxLines: AppTypography.maxLines(context, 1),
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
                 color: AppColors.inkSoftOf(context),
                 fontWeight: FontWeight.w600,

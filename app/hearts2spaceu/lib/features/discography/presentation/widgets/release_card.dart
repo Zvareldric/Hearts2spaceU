@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../domain/release.dart';
@@ -42,7 +43,7 @@ class ReleaseCard extends StatelessWidget {
                   style: textTheme.bodyLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
                 const SizedBox(height: 2),
@@ -53,7 +54,7 @@ class ReleaseCard extends StatelessWidget {
                     letterSpacing: 0,
                     fontWeight: FontWeight.w400,
                   ),
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
                 // Only when there is something to count: "0 tracks" would read

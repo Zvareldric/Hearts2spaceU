@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -73,13 +74,16 @@ class AgendaRow extends StatelessWidget {
                 // (docs/design-system-v2.md §10). A vote that has not opened
                 // says so beside it, so it can never read as already running.
                 if (isVote) ...[
-                  Row(
+                  // A Wrap, not a Row: at 200% text the two pills together
+                  // are nearly as wide as the column, and a Row of fixed-width
+                  // children had nowhere to put the difference.
+                  Wrap(
+                    spacing: AppSpacing.sm,
+                    runSpacing: AppSpacing.xs,
                     children: [
                       const TypeBadge(type: 'vote'),
-                      if (item.isUpcomingVote) ...[
-                        const SizedBox(width: AppSpacing.sm),
+                      if (item.isUpcomingVote)
                         const TypeBadge(type: 'upcoming'),
-                      ],
                     ],
                   ),
                   const SizedBox(height: AppSpacing.xs),
@@ -90,7 +94,7 @@ class AgendaRow extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                     height: 1.3,
                   ),
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
                 if (meta.isNotEmpty) ...[
@@ -102,7 +106,7 @@ class AgendaRow extends StatelessWidget {
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
-                    maxLines: 1,
+                    maxLines: AppTypography.maxLines(context, 1),
                     overflow: TextOverflow.ellipsis,
                   ),
                 ],
@@ -113,7 +117,7 @@ class AgendaRow extends StatelessWidget {
                     color: Theme.of(context).colorScheme.primary,
                     letterSpacing: 0,
                   ),
-                  maxLines: 1,
+                  maxLines: AppTypography.maxLines(context, 1),
                   overflow: TextOverflow.ellipsis,
                 ),
               ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -128,7 +129,7 @@ class _ScheduleSource extends ConsumerWidget {
           fontWeight: FontWeight.w400,
           letterSpacing: 0,
         ),
-        maxLines: 1,
+        maxLines: AppTypography.maxLines(context, 1),
         overflow: TextOverflow.ellipsis,
       ),
     );
@@ -227,7 +228,12 @@ class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
     );
   }
 
+  // The height is part of what this delegate describes. Comparing the label
+  // alone kept a header laid out at its old height after the text size
+  // changed underneath it — which is what happens when a reader changes the
+  // system font size with the app open — and Flutter rejects that geometry
+  // outright.
   @override
   bool shouldRebuild(_MonthHeaderDelegate oldDelegate) =>
-      oldDelegate.label != label;
+      oldDelegate.label != label || oldDelegate.height != height;
 }

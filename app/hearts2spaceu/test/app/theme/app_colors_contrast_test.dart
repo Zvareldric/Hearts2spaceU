@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:hearts2spaceu/app/theme/app_colors.dart';
 import 'package:hearts2spaceu/app/widgets/badges/type_badge.dart';
 import 'package:hearts2spaceu/app/widgets/cards/capability_card.dart';
+import 'package:hearts2spaceu/app/widgets/layout/ambient_background.dart';
 import 'package:hearts2spaceu/features/official_information/presentation/member_palette.dart';
 
 /// WCAG relative luminance.
@@ -66,12 +67,43 @@ Color _composite(Color fg, Color bg) {
 void main() {
   const white = Color(0xFFFFFFFF);
 
-  // A glass card over the ambient wash: white at 55% on the pale sky base. This
-  // is the surface accent text and badges actually sit on.
-  final glass = _composite(
-    const Color(0x8CFFFFFF),
-    AppColors.ambientBase.first,
-  );
+  // The darkest ground a glass card can actually sit on.
+  //
+  // This used to be the glass veil over `ambientBase.first` — the palest point
+  // on the whole screen, which flattered every token measured against it. But
+  // the wash paints four blobs into the corners, and cards sit on them: over the
+  // pink one, `inkMuted` was 3.90:1 and `navIdle` 2.62:1 while this file
+  // reported both as passing. Measuring the friendliest background is how a
+  // contrast test goes green on a design that fails.
+  //
+  // Each blob is composited over the half of the base gradient it is painted on
+  // — the two top blobs over the top stop, the two bottom ones over the bottom —
+  // and the worst of the four is what every assertion below has to clear.
+  Color worstCardGround({required bool dark}) {
+    final base = dark ? AppColors.darkAmbientBase : AppColors.ambientBase;
+    final veil = dark ? AppColors.darkGlass : AppColors.glass;
+    final opacity = dark
+        ? AmbientBackground.darkBlobOpacity
+        : AmbientBackground.lightBlobOpacity;
+
+    final grounds = [
+      for (final (index, blob) in AppColors.ambientBlobs.indexed)
+        _composite(
+          veil,
+          _composite(
+            blob.withValues(alpha: opacity),
+            index < 2 ? base.first : base.last,
+          ),
+        ),
+    ];
+
+    // Light text is worst on the lightest ground; dark text on the darkest.
+    grounds.sort((a, b) => _luminance(a).compareTo(_luminance(b)));
+    return dark ? grounds.last : grounds.first;
+  }
+
+  final glass = worstCardGround(dark: false);
+  final darkGlass = worstCardGround(dark: true);
 
   group('primaryStrong carries text', () {
     // Every accent label, "See all", active tab, and solid CTA uses this token.
@@ -150,6 +182,43 @@ void main() {
     });
   });
 
+  group('dark mode text', () {
+    // Nothing here existed before: the whole file only ever measured the light
+    // palette, while `themeMode: ThemeMode.system` means any reader whose phone
+    // is dark sees these tokens instead. Three of them were below AA.
+    test('darkInk meets AA on a dark card', () {
+      expect(
+        _contrast(AppColors.darkInk, darkGlass),
+        greaterThanOrEqualTo(4.5),
+      );
+    });
+
+    test('darkInkMuted meets AA on a dark card', () {
+      // Metadata, dates, the schedule's staleness line. 4.46:1 before.
+      expect(
+        _contrast(AppColors.darkInkMuted, darkGlass),
+        greaterThanOrEqualTo(4.5),
+      );
+    });
+
+    test('darkPrimary meets AA on a dark card', () {
+      expect(
+        _contrast(AppColors.darkPrimary, darkGlass),
+        greaterThanOrEqualTo(4.5),
+      );
+    });
+
+    test('the light inks are never the ones a dark screen gets', () {
+      // Documents the bug this group was written for: 37 files reached for
+      // `AppColors.inkMuted` directly, so a dark card rendered it at 3.12:1.
+      // They resolve through ColorScheme now, and these two must stay unusable
+      // there — if either ever passes, someone has lightened a light-mode token
+      // far enough to break light mode instead.
+      expect(_contrast(AppColors.inkMuted, darkGlass), lessThan(4.5));
+      expect(_contrast(AppColors.primaryStrong, darkGlass), lessThan(4.5));
+    });
+  });
+
   group('type badges', () {
     // Every badge label is 9.5px bold — small text, so the 4.5:1 bar applies,
     // not the 3:1 large-text one. The tints copied from the source design put
@@ -176,6 +245,35 @@ void main() {
           reason: '${entry.key} still uses the retired lavender',
         );
       }
+    });
+
+    for (final entry in darkTypeBadgeStyles.entries) {
+      test('${entry.key} label meets AA on its dark tint', () {
+        // The light pastels reached 1.61:1 to 2.23:1 here. Collapsing all seven
+        // into one neutral pill fixed that but threw the colour coding away;
+        // these keep each type's hue AND clear the bar, which is the only
+        // version that serves both.
+        final tint = _composite(entry.value.background, darkGlass);
+        expect(
+          _contrast(entry.value.foreground, tint),
+          greaterThanOrEqualTo(4.5),
+          reason:
+              '${entry.key}: ${entry.value.label} is unreadable on a dark card',
+        );
+      });
+    }
+
+    test('every light badge type has a dark pair', () {
+      // Without this, adding a type to the light table and forgetting the dark
+      // one is invisible: it silently falls back to the neutral pill and loses
+      // its colour only on dark screens.
+      expect(darkTypeBadgeStyles.keys.toSet(), typeBadgeStyles.keys.toSet());
+    });
+
+    test('the dark pairs are actually distinct, not one pill seven times', () {
+      // Guards the regression this group exists to undo.
+      final tints = darkTypeBadgeStyles.values.map((s) => s.background).toSet();
+      expect(tints.length, darkTypeBadgeStyles.length);
     });
   });
 

@@ -20,9 +20,14 @@ class AppColors {
   /// Brand sky blue. **Fills only** — see the class note on contrast.
   static const Color primary = Color(0xFF87CEEB);
 
-  /// The readable end of the brand hue: AA on white (5.39:1) and on glass
-  /// (4.85:1). Every accent label, active tab, and solid CTA uses this.
-  static const Color primaryStrong = Color(0xFF1F6FA8);
+  /// The readable end of the brand hue. Every accent label, active tab, and
+  /// solid CTA uses this.
+  ///
+  /// Held to AA against the **darkest ground a card can sit on** — glass over a
+  /// corner blob at full strength (#FCE1EC), not the pale base. Measured on the
+  /// base alone it looked comfortable at 4.85:1; over a pink blob the same token
+  /// was 4.41:1 and failed. 4.60:1 there now.
+  static const Color primaryStrong = Color(0xFF1E6CA3);
 
   static const Color onPrimary = Color(0xFF16283C);
 
@@ -38,9 +43,10 @@ class AppColors {
 
   /// Secondary text: section labels, metadata, captions.
   ///
-  /// Real text, so it is held to 4.5:1 like the rest — the plum it replaced sat
-  /// at 3.5:1 and never met it.
-  static const Color inkMuted = Color(0xFF60758A);
+  /// Real text, so it is held to 4.5:1 like the rest — over a corner blob, which
+  /// is where it is worst. The previous value cleared the pale base by 0.10 and
+  /// dropped to 3.90:1 the moment a card sat on a blob. 4.60:1 there now.
+  static const Color inkMuted = Color(0xFF56697C);
 
   /// Body copy inside a glass card — darker than [inkMuted], softer than [ink].
   static const Color inkSoft = Color(0xFF3F566E);
@@ -94,10 +100,10 @@ class AppColors {
   // --- Navigation ------------------------------------------------------
   /// An unselected nav destination — present, but clearly not where you are.
   ///
-  /// An icon, not text, so the bar is WCAG 1.4.11's 3:1 rather than 4.5:1. The
-  /// tint it replaced sat at 1.7:1 — visible only if you already knew it was
-  /// there.
-  static const Color navIdle = Color(0xFF6496B4);
+  /// An icon, not text, so the bar is WCAG 1.4.11's 3:1 rather than 4.5:1 — and
+  /// the nav bar floats over whatever scrolls beneath it, so the blob ground is
+  /// the honest one to measure against. 2.62:1 there before; 3.15:1 now.
+  static const Color navIdle = Color(0xFF5288A9);
 
   // --- Dark palette ----------------------------------------------------
   // Kept soft & desaturated (not pure black) so the "dreamy" feel survives in
@@ -107,7 +113,10 @@ class AppColors {
   static const Color darkSurfaceTint = Color(0xFF1E2E3D);
   static const Color darkOutline = Color(0xFF2A3D4F);
   static const Color darkInk = Color(0xFFE8F1F8);
-  static const Color darkInkMuted = Color(0xFF9FB3C4);
+
+  /// Secondary text in dark mode. Held to AA over a dark card sitting on a
+  /// blob (#394651), where the previous value reached only 4.46:1.
+  static const Color darkInkMuted = Color(0xFFA2B6C6);
   static const Color darkPrimary = Color(0xFF87CEEB);
   static const Color darkOnPrimary = Color(0xFF0D1620);
   static const Color darkSecondary = Color(0xFFF5B9D2);

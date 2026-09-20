@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/app_colors.dart';
 import '../../theme/app_radius.dart';
 import '../../theme/app_spacing.dart';
 import 'glass_surface.dart';
@@ -84,7 +83,9 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? AppColors.primaryStrong : AppColors.navIdle;
+    final color = selected
+        ? Theme.of(context).colorScheme.primary
+        : Theme.of(context).colorScheme.onSurfaceVariant;
 
     return Semantics(
       button: true,

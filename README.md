@@ -72,6 +72,7 @@ The complete project documentation is located inside the `docs/` directory.
 | 08 | AI Guidelines |
 | 09 | Design System |
 | 10 | Backlog |
+| 11 | Product Requirements Document — product-level requirements, metrics, scope, and release gates |
 
 > Documents **01–10** serve as the project's governance and architectural foundation.
 

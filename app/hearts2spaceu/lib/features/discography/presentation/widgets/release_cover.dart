@@ -38,6 +38,7 @@ class ReleaseCover extends StatelessWidget {
           // which matters most offline where none of them resolve.
           final url? => RemoteImage(
             url: url,
+            semanticLabel: '${release.title} cover art',
             fallback: const _CoverPlaceholder(),
           ),
           _ => const _CoverPlaceholder(),

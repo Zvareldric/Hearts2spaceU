@@ -31,15 +31,20 @@ class EventDateBlock extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = typeStyleFor(event.type);
+    final style = typeStyleForBrightness(
+      event.type,
+      Theme.of(context).brightness,
+    );
     final start = event.startDateTime;
+    final scale = MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0);
+    final scaledSize = size * scale;
 
     return Container(
-      width: size,
-      height: size,
+      width: scaledSize,
+      height: scaledSize,
       decoration: BoxDecoration(
         color: style.background,
-        borderRadius: BorderRadius.circular(size / 3.3),
+        borderRadius: BorderRadius.circular(scaledSize / 3.3),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

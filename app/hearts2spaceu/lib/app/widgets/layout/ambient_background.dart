@@ -14,6 +14,15 @@ class AmbientBackground extends StatelessWidget {
 
   final Widget child;
 
+  /// How strongly the corner blobs paint over the base gradient.
+  ///
+  /// Constants rather than literals because the contrast test composites cards
+  /// over exactly these values: the darkest ground a card can sit on is a blob
+  /// at full strength, and if this were tunable in one place only, the test
+  /// would quietly go on measuring a background nobody sees.
+  static const double lightBlobOpacity = 0.78;
+  static const double darkBlobOpacity = 0.16;
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -22,7 +31,7 @@ class AmbientBackground extends StatelessWidget {
     // so all four blobs overlap more here, and at full saturation the muted text
     // color loses contrast against the pink corners. Dark mode goes to a
     // whisper — pastels at strength on a plum ground turn to mud.
-    final blobOpacity = isDark ? 0.16 : 0.78;
+    final blobOpacity = isDark ? darkBlobOpacity : lightBlobOpacity;
 
     return DecoratedBox(
       decoration: BoxDecoration(

@@ -50,7 +50,9 @@ class CapabilityCard extends StatelessWidget {
           const SizedBox(height: 2),
           Text(
             subtitle,
-            style: textTheme.labelMedium?.copyWith(color: AppColors.inkMuted),
+            style: textTheme.labelMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),

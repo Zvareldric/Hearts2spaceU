@@ -46,4 +46,19 @@ void main() {
     expect(find.byIcon(Icons.album_rounded), findsOneWidget);
     expect(find.byIcon(Icons.broken_image_rounded), findsNothing);
   });
+
+  testWidgets('meaningful images expose their semantic label', (tester) async {
+    final semantics = tester.ensureSemantics();
+
+    await _pump(
+      tester,
+      const RemoteImage(
+        url: 'https://example.com/a.jpg',
+        semanticLabel: 'A meaningful photo',
+      ),
+    );
+
+    expect(find.bySemanticsLabel('A meaningful photo'), findsOneWidget);
+    semantics.dispose();
+  });
 }

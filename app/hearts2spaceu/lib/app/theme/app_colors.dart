@@ -20,24 +20,25 @@ class AppColors {
   /// Brand sky blue. **Fills only** — see the class note on contrast.
   static const Color primary = Color(0xFF87CEEB);
 
-  /// The readable end of the brand hue. Every accent label, active tab, and
-  /// solid CTA uses this.
+  /// The readable end of the brand hue. Every accent label, link, active tab,
+  /// and solid CTA uses this.
   ///
-  /// Held to AA against the **darkest ground a card can sit on** — glass over a
-  /// corner blob at full strength (#FCE1EC), not the pale base. Measured on the
-  /// base alone it looked comfortable at 4.85:1; over a pink blob the same token
-  /// was 4.41:1 and failed. 4.60:1 there now.
-  static const Color primaryStrong = Color(0xFF1E6CA3);
+  /// Held to AA on every ground it can land on — white, a glass card over any
+  /// corner blob, and the wash itself with no card between. That last one is
+  /// the strictest: "See all" sits straight on the wash, where the previous
+  /// value read 3.57:1 over the sky blob. 4.60:1 there now, and white text on
+  /// it as a CTA fill is 7.27:1.
+  static const Color primaryStrong = Color(0xFF195B89);
 
   static const Color onPrimary = Color(0xFF16283C);
 
   static const Color secondary = Color(0xFFF8AFCB); // blossom pink
 
-  /// The saved-heart pink. 3.1:1 on white — that clears the 3:1 minimum for a
-  /// non-text control (WCAG 1.4.11), which is all it is used for. It is **not**
-  /// AA for body text, so don't reach for it as a text color; use
-  /// [primaryStrong] or [ink].
-  static const Color secondaryStrong = Color(0xFFD96FA0);
+  /// The saved-heart pink. Only ever an icon, so the bar is WCAG 1.4.11's 3:1
+  /// rather than 4.5:1 — but it has to hold that on every ground a heart sits
+  /// on, including the pink end of the hero gradient, where the previous value
+  /// read 1.97:1. 3.10:1 on the worst of them now. Not a text colour.
+  static const Color secondaryStrong = Color(0xFFBD3272);
 
   static const Color ink = Color(0xFF16283C); // navy — primary text
 
@@ -48,8 +49,24 @@ class AppColors {
   /// dropped to 3.90:1 the moment a card sat on a blob. 4.60:1 there now.
   static const Color inkMuted = Color(0xFF56697C);
 
-  /// Body copy inside a glass card — darker than [inkMuted], softer than [ink].
+  /// Body copy, and any secondary text that sits straight on the wash.
+  ///
+  /// [inkMuted] is for text *inside* a glass card, where it is measured at
+  /// 4.60:1. With no card between it and a corner blob it drops to 3.59:1 —
+  /// so section headers, captions and taglines on the wash use this instead,
+  /// which holds 4.80:1 there. Resolve it with [inkSoftOf] in widgets, since it
+  /// has no ColorScheme role to carry its dark counterpart.
   static const Color inkSoft = Color(0xFF3F566E);
+
+  /// Secondary text on a fixed pastel fill — the hero gradient, a light tint
+  /// that stays light in dark mode. [inkSoft] reaches only 4.33:1 on the sky end
+  /// of that gradient; this is the same hue taken to 4.60:1. Supplied to pastel
+  /// surfaces as their `onSurfaceVariant` by `LightSurface`.
+  static const Color pastelMuted = Color(0xFF3C5269);
+
+  /// [inkSoft] for the current brightness.
+  static Color inkSoftOf(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.dark ? darkInkSoft : inkSoft;
 
   static const Color background = Color(0xFFF1F7FC); // pale sky
   static const Color surface = Color(0xFFFFFFFF);
@@ -58,7 +75,11 @@ class AppColors {
 
   static const Color success = Color(0xFF6FC2A6);
   static const Color warning = Color(0xFFE8B65C);
-  static const Color error = Color(0xFFE6807F);
+
+  /// The error icon in failure states. An icon, so 3:1 — the previous coral
+  /// reached only 2.41:1 on the light tint circle it sits in. 3.20:1 there now,
+  /// and 3.86:1 on the dark tint.
+  static const Color error = Color(0xFFDF5D5B);
 
   /// Hero / brand gradient — sky blue → pink.
   static const List<Color> heroGradient = [
@@ -97,14 +118,6 @@ class AppColors {
     Color(0xFF87CEEB),
   ];
 
-  // --- Navigation ------------------------------------------------------
-  /// An unselected nav destination — present, but clearly not where you are.
-  ///
-  /// An icon, not text, so the bar is WCAG 1.4.11's 3:1 rather than 4.5:1 — and
-  /// the nav bar floats over whatever scrolls beneath it, so the blob ground is
-  /// the honest one to measure against. 2.62:1 there before; 3.15:1 now.
-  static const Color navIdle = Color(0xFF5288A9);
-
   // --- Dark palette ----------------------------------------------------
   // Kept soft & desaturated (not pure black) so the "dreamy" feel survives in
   // dark mode too — a deep navy surface with the same sky/pink accents.
@@ -113,6 +126,10 @@ class AppColors {
   static const Color darkSurfaceTint = Color(0xFF1E2E3D);
   static const Color darkOutline = Color(0xFF2A3D4F);
   static const Color darkInk = Color(0xFFE8F1F8);
+
+  /// Dark-mode [inkSoft]: between [darkInk] and [darkInkMuted], 7.00:1 on the
+  /// lightest dark ground.
+  static const Color darkInkSoft = Color(0xFFD4DDE6);
 
   /// Secondary text in dark mode. Held to AA over a dark card sitting on a
   /// blob (#394651), where the previous value reached only 4.46:1.

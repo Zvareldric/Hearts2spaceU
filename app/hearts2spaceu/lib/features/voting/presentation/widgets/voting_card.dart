@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -32,13 +31,13 @@ class VotingCard extends StatelessWidget {
             width: 40,
             height: 40,
             alignment: Alignment.center,
-            decoration: const BoxDecoration(
-              color: AppColors.surfaceTint,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               shape: BoxShape.circle,
             ),
             child: Icon(
               upcoming ? Icons.schedule_rounded : Icons.how_to_vote_rounded,
-              color: AppColors.primaryStrong,
+              color: Theme.of(context).colorScheme.primary,
               size: 20,
             ),
           ),
@@ -64,7 +63,7 @@ class VotingCard extends StatelessWidget {
                 Text(
                   _subtitle(campaign, now),
                   style: textTheme.bodyMedium?.copyWith(
-                    color: AppColors.inkMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -78,7 +77,7 @@ class VotingCard extends StatelessWidget {
                   Text(
                     note,
                     style: textTheme.labelSmall?.copyWith(
-                      color: AppColors.inkMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -94,7 +93,7 @@ class VotingCard extends StatelessWidget {
                 ? Icons.hourglass_empty_rounded
                 : Icons.open_in_new_rounded,
             size: 20,
-            color: AppColors.inkMuted,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ],
       ),

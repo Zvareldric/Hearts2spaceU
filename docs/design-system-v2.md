@@ -39,13 +39,14 @@ Sumber: `lib/app/theme/app_colors.dart`.
 | Token | Hex | Kontras | Peran |
 |-------|-----|---------|-------|
 | `primary` | `#87CEEB` | 1.74:1 ⚠️ | sky blue — **fill saja** |
-| `primaryStrong` | `#1F6FA8` | 5.39:1 putih · 4.85:1 kaca ✅ | CTA solid, tab aktif, label aksen |
+| `primaryStrong` | `#195B89` | 4.60:1 di wash telanjang · 7.27:1 putih di atasnya ✅ | CTA solid, tab aktif, label & tautan aksen |
 | `secondary` | `#F8AFCB` | — | blossom pink — aksen sekunder |
-| `secondaryStrong` | `#D96FA0` | 3.12:1 | **ikon hati saja** (ambang non-text 3:1) |
+| `secondaryStrong` | `#BD3272` | 3.10:1 di latar terburuk, termasuk hero | **ikon hati saja** (ambang non-text 3:1) |
 | `ink` | `#16283C` | 14.4:1 | teks utama (navy) |
-| `inkSoft` | `#3F566E` | 7.3:1 | body copy di dalam kartu kaca |
-| `inkMuted` | `#60758A` | 4.6:1 ✅ | teks sekunder, label section |
-| `navIdle` | `#6496B4` | 3.1:1 | tab tidak terpilih (ikon, ambang 3:1) |
+| `inkSoft` | `#3F566E` | 4.80:1 di wash telanjang | body copy, **dan semua teks sekunder yang duduk langsung di wash** |
+| `inkMuted` | `#56697C` | 4.60:1 di kaca · 3.59:1 di wash ⚠️ | teks sekunder **di dalam kartu kaca saja** |
+| `pastelMuted` | `#3C5269` | 4.60:1 di hero pastel | teks sekunder di atas isian pastel (lewat `LightSurface`) |
+| `error` | `#DF5D5B` | 3.20:1 di tint terang | ikon kegagalan saja |
 | `surfaceTint` | `#E6F4FB` | — | blok tanggal, avatar, track bar |
 | `background` / `ambientBase` | `#F1F7FC` → `#FBF1F6` | — | dasar ambient wash |
 | `shadowTint` | `#4F87AD` | — | haze biru, bukan hitam netral |
@@ -70,6 +71,30 @@ Dijaga oleh grup test *"the retired lavender is gone"*.
 >
 > Dikunci oleh `test/app/theme/app_colors_contrast_test.dart`.
 
+> ### Di mana tiap tinta boleh duduk *(2026-09-20)*
+>
+> Kontras sebuah tinta bukan sifat tintanya, tapi sifat **pasangan** tinta dan
+> latarnya. App ini punya tiga jenis latar, dan tiap jenis punya tintanya:
+>
+> | Latar | Teks utama | Teks sekunder |
+> |-------|-----------|---------------|
+> | Kartu kaca (`AppCard`) | `onSurface` | `onSurfaceVariant` (= `inkMuted`) |
+> | Wash telanjang — header section, caption, tagline, state kosong/error | `onSurface` | `AppColors.inkSoftOf(context)` |
+> | Isian pastel tetap — hero detail, tile ikon | tinta gelap di **kedua** mode, lewat `LightSurface` | `onSurfaceVariant` (= `pastelMuted` di dalamnya) |
+>
+> Aturan baris kedua yang paling mudah dilanggar. `inkMuted` lolos di atas kaca
+> (4.60:1), tapi header section dan caption tidak punya kartu di bawahnya — di atas
+> blob langit telanjang ia jatuh ke 3.59:1. Menggelapkan `inkMuted` sampai lolos di
+> sana akan membuatnya nyaris sama dengan `inkSoft` dan meruntuhkan hierarki; jadi
+> teks di wash naik satu tingkat, dan hierarkinya tetap utuh. Ini juga arah
+> minimalis yang dikehendaki: judul section yang tegas, abu-abu hanya untuk metadata
+> di dalam baris.
+>
+> Tidak ada warna teks yang diambil langsung dari token terang di widget — semuanya
+> lewat `ColorScheme` atau `inkSoftOf`, supaya dark mode mendapat padanannya.
+> Dikunci oleh `test/app/sweep/screen_sweep_test.dart`, yang merender setiap layar
+> di kedua mode dan mengukur **setiap teks** terhadap semua lapisan di belakangnya.
+
 > ### Violet dipensiunkan seluruhnya
 >
 > Palet lama dibangun di atas keluarga ungu (250–300°) — bukan hanya `#D9C6FF`,
@@ -86,7 +111,13 @@ Dijaga oleh grup test *"the retired lavender is gone"*.
 ### Dark
 
 Navy dalam, bukan hitam — agar nuansa *dreamy* tetap hidup: `darkBackground` `#0D1620`,
-`darkSurface` `#16232F`, `darkInk` `#E8F1F8`, aksen sky blue/pink yang sama.
+`darkSurface` `#16232F`, `darkInk` `#E8F1F8`, `darkInkSoft` `#D4DDE6`, `darkInkMuted`
+`#A2B6C6`, aksen sky blue/pink yang sama.
+
+Badge tipe punya **tabel pasangan sendiri** untuk dark mode (`_darkStyles` di
+`type_badge.dart`) — hue tiap tipe dipertahankan, tint digelapkan ke 32% dan label
+diterangkan, masing-masing ≥4.5:1 pada *setiap* latar kartu gelap. Tint pastel mode
+terang tidak bisa dipakai ulang: di atas kaca gelap ia jatuh ke 1.61–2.23:1.
 
 Perhatikan perannya **terbalik** di dark mode: `darkPrimary` (`#87CEEB`) justru yang
 terbaca — 8.9:1 di atas `darkSurface` — karena tint terang di atas latar gelap adalah
@@ -123,9 +154,24 @@ bukan per halaman. Konsekuensinya, dan ini penting:
 - Apa pun yang dulu mengandalkan `scaffoldBackgroundColor` untuk menutupi sesuatu kini
   harus memakai `GlassSurface` (lihat header bulan di Schedule).
 
-Blob ditahan di alpha `0.78` (light): layar ponsel lebih tinggi dari frame desain
-402×874, sehingga keempat blob lebih banyak bertumpuk dan `inkMuted` kehilangan kontras
-di sudut pink pada kekuatan penuh.
+Blob ditahan di alpha `0.78` (light) dan `0.16` (dark) — konstanta
+`AmbientBackground.lightBlobOpacity` / `darkBlobOpacity`, supaya test kontras membaca
+angka yang sama dengan yang digambar. Di kekuatan itu `inkMuted` tidak lolos di atas
+blob telanjang; itu sebabnya ia dibatasi ke dalam kartu kaca (lihat *Di mana tiap
+tinta boleh duduk* di §2).
+
+### Permukaan pastel tetap — `LightSurface`
+
+Gradien hero (`heroGradient`) dan tile ikon kapabilitas adalah pastel **di kedua
+mode**. Konten di atasnya dibungkus `LightSurface`, yang memberinya tema terang: judul,
+badge, dan tombol simpan otomatis memakai tinta untuk latar terang, bahkan saat app
+dalam dark mode. Ia menerima **builder, bukan child** — gaya yang di-resolve dari
+context luar membawa warna tema gelap di dalamnya, dan membungkusnya tidak mengubah
+apa pun.
+
+Kartu *tembus pandang* (update terbaru, teaser statistik) berbeda: tint-nya diturunkan
+di dark mode (20% / 15%) karena kekuatan mode terang di atas kaca gelap menghasilkan
+warna tengah yang tidak bisa dibaca tinta mana pun.
 
 ## 5. Navigasi — Tab Shell
 

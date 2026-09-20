@@ -53,7 +53,7 @@ class PlatformCard extends StatelessWidget {
                   Text(
                     handle,
                     style: textTheme.labelSmall?.copyWith(
-                      color: AppColors.inkMuted,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
                       letterSpacing: 0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -64,10 +64,10 @@ class PlatformCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          const Icon(
+          Icon(
             Icons.open_in_new_rounded,
             size: 18,
-            color: AppColors.navIdle,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
         ],
       ),

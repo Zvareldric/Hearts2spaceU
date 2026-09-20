@@ -174,7 +174,7 @@ class _QuickAction extends StatelessWidget {
               label,
               maxLines: 1,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: AppColors.inkSoft,
+                color: AppColors.inkSoftOf(context),
                 fontWeight: FontWeight.w600,
               ),
             ),
@@ -269,7 +269,7 @@ class _SectionHeaderRow extends StatelessWidget {
         TextButton(
           onPressed: onSeeAll,
           style: TextButton.styleFrom(
-            foregroundColor: AppColors.primaryStrong,
+            foregroundColor: Theme.of(context).colorScheme.primary,
             padding: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
             minimumSize: Size.zero,
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -324,6 +324,10 @@ class _StatsTeaser extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    // Same trade as the update card above it: the light mode's pastel strength
+    // over dark glass is a mid-tone nothing reads on, so dark mode tints far
+    // more faintly.
+    final isDark = theme.brightness == Brightness.dark;
     final stats = ref.watch(careerStatsProvider).asData?.value;
     if (stats == null || stats.isEmpty) return const SizedBox.shrink();
 
@@ -331,8 +335,8 @@ class _StatsTeaser extends ConsumerWidget {
       onTap: () => Navigator.of(context).pushNamed(AppRoutes.statistics),
       gradient: LinearGradient(
         colors: [
-          AppColors.primary.withValues(alpha: 0.40),
-          AppColors.secondary.withValues(alpha: 0.35),
+          AppColors.primary.withValues(alpha: isDark ? 0.15 : 0.40),
+          AppColors.secondary.withValues(alpha: isDark ? 0.13 : 0.35),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -346,23 +350,26 @@ class _StatsTeaser extends ConsumerWidget {
               children: [
                 SectionHeader(
                   label: 'Fan statistics',
-                  color: AppColors.primaryStrong,
+                  // Strong ink, not the accent: over the sky end of this gradient the
+                  // accent reaches 4.31:1 at best. The icon keeps the accent,
+                  // where 3:1 is the bar.
+                  color: Theme.of(context).colorScheme.onSurface,
                 ),
                 const SizedBox(height: AppSpacing.xs),
                 Text(
                   '${stats.total} achievements · '
                   '${stats.musicShowWins} music show wins so far',
                   style: theme.textTheme.labelMedium?.copyWith(
-                    color: AppColors.inkSoft,
+                    color: AppColors.inkSoftOf(context),
                   ),
                 ),
               ],
             ),
           ),
           const SizedBox(width: AppSpacing.sm),
-          const Icon(
+          Icon(
             Icons.chevron_right_rounded,
-            color: AppColors.primaryStrong,
+            color: Theme.of(context).colorScheme.primary,
             size: 20,
           ),
         ],

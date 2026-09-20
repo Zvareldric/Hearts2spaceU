@@ -124,8 +124,13 @@ class _HeartBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(AppSpacing.sm),
+      // The surface colour at 90%, not white at 75%. The heart inside follows
+      // the theme, so on a white disc in dark mode it was a light icon on a
+      // light ground at 1.20:1; and at 75% a dark photo showed through enough
+      // to drag even the light-mode heart under 3:1. Near-opaque, the disc is
+      // the heart's real background whatever the photo is.
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.75),
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.9),
         shape: BoxShape.circle,
       ),
       child: FavoriteButton(type: Favorite.typePhoto, id: '$albumId/$photoId'),
@@ -141,27 +146,49 @@ class _CaptionStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: AppSpacing.md,
-        vertical: AppSpacing.sm,
-      ),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [Colors.black.withValues(alpha: 0.55), Colors.transparent],
+    // A solid band behind the words, with the fade above them rather than
+    // under them. The caption sits on a photo nobody chose for legibility: a
+    // scrim that fades to transparent *through* the text leaves its upper line
+    // on bare photo, and on a bright one white text disappears. Black at 60% is
+    // 5.74:1 for white text even over pure white, so the band holds on any
+    // photo; the gradient keeps the edge soft.
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          height: AppSpacing.lg,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.bottomCenter,
+              end: Alignment.topCenter,
+              colors: [_scrim, _scrim.withValues(alpha: 0)],
+            ),
+          ),
         ),
-      ),
-      child: Text(
-        caption,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w500,
+        ColoredBox(
+          color: _scrim,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(
+              AppSpacing.md,
+              0,
+              AppSpacing.md,
+              AppSpacing.sm,
+            ),
+            child: Text(
+              caption,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
+
+  static const _scrim = Color(0x99000000);
 }

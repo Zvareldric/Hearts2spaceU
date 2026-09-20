@@ -82,7 +82,7 @@ class _ReleaseBody extends StatelessWidget {
           formatReleaseMeta(release),
           textAlign: TextAlign.center,
           style: textTheme.labelMedium?.copyWith(
-            color: AppColors.inkMuted,
+            color: AppColors.inkSoftOf(context),
             fontWeight: FontWeight.w400,
           ),
         ),
@@ -92,7 +92,7 @@ class _ReleaseBody extends StatelessWidget {
             note,
             textAlign: TextAlign.center,
             style: textTheme.labelMedium?.copyWith(
-              color: AppColors.primaryStrong,
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -145,7 +145,7 @@ class _TrackList extends StatelessWidget {
                     child: Text(
                       '${index + 1}',
                       style: textTheme.labelMedium?.copyWith(
-                        color: AppColors.inkMuted,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -168,14 +168,18 @@ class _TrackList extends StatelessWidget {
                         horizontal: AppSpacing.sm,
                         vertical: 2,
                       ),
+                      // Same pair as the member position chips, for the same
+                      // reason: it is the one that reads in both modes.
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withValues(alpha: 0.5),
+                        color: Theme.of(context).colorScheme.primaryContainer,
                         borderRadius: AppRadius.pillRadius,
                       ),
                       child: Text(
                         'TITLE',
                         style: textTheme.labelSmall?.copyWith(
-                          color: AppColors.primaryStrong,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                           fontSize: 9.5,
                         ),
                       ),
@@ -187,7 +191,7 @@ class _TrackList extends StatelessWidget {
                     Text(
                       formatTrackDuration(duration),
                       style: textTheme.labelMedium?.copyWith(
-                        color: AppColors.inkMuted,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -215,9 +219,9 @@ class _NoTracksYet extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.xl),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.queue_music_rounded,
-            color: AppColors.inkMuted,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             size: 20,
           ),
           const SizedBox(width: AppSpacing.md),
@@ -225,7 +229,7 @@ class _NoTracksYet extends StatelessWidget {
             child: Text(
               'Track list not recorded yet.',
               style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: AppColors.inkMuted,
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w400,
               ),
             ),

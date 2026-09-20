@@ -90,7 +90,9 @@ class IconTile extends StatelessWidget {
         ),
         borderRadius: BorderRadius.circular(size / 3),
       ),
-      child: Icon(icon, color: Colors.white, size: size * 0.45),
+      // Ink, not white: the tile is a pastel in both modes, and white on it was
+      // 1.74:1 — under the 3:1 an icon needs. Ink holds above 7:1 on every pair.
+      child: Icon(icon, color: AppColors.ink, size: size * 0.45),
     );
   }
 }

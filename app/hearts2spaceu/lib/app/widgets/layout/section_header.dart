@@ -19,9 +19,9 @@ class SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label.toUpperCase(),
-      style: Theme.of(
-        context,
-      ).textTheme.labelSmall?.copyWith(color: color ?? AppColors.inkMuted),
+      style: Theme.of(context).textTheme.labelSmall?.copyWith(
+        color: color ?? AppColors.inkSoftOf(context),
+      ),
     );
   }
 }

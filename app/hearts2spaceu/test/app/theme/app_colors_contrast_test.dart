@@ -72,7 +72,7 @@ void main() {
   // This used to be the glass veil over `ambientBase.first` — the palest point
   // on the whole screen, which flattered every token measured against it. But
   // the wash paints four blobs into the corners, and cards sit on them: over the
-  // pink one, `inkMuted` was 3.90:1 and `navIdle` 2.62:1 while this file
+  // pink one, `inkMuted` was 3.90:1 and the idle nav tint 2.62:1 while this file
   // reported both as passing. Measuring the friendliest background is how a
   // contrast test goes green on a design that fails.
   //
@@ -104,6 +104,37 @@ void main() {
 
   final glass = worstCardGround(dark: false);
   final darkGlass = worstCardGround(dark: true);
+
+  // Every ground a translucent pill can sit on. For an opaque ink the darkest
+  // (or lightest) ground above is always the worst; for a tinted pill it is
+  // not — the tint changes the grounds' order — so pills take the minimum over
+  // all of them. Light pills also sit on the pastel hero gradient.
+  List<Color> pillGrounds({required bool dark}) {
+    final base = dark ? AppColors.darkAmbientBase : AppColors.ambientBase;
+    final veil = dark ? AppColors.darkGlass : AppColors.glass;
+    final opacity = dark
+        ? AmbientBackground.darkBlobOpacity
+        : AmbientBackground.lightBlobOpacity;
+    return [
+      for (final ground in [
+        ...base,
+        for (final (index, blob) in AppColors.ambientBlobs.indexed)
+          _composite(
+            blob.withValues(alpha: opacity),
+            index < 2 ? base.first : base.last,
+          ),
+      ])
+        _composite(veil, ground),
+      if (!dark) ...AppColors.heroGradient,
+    ];
+  }
+
+  double worstPillContrast(TypeStyle style, {required bool dark}) =>
+      pillGrounds(dark: dark)
+          .map(
+            (g) => _contrast(style.foreground, _composite(style.background, g)),
+          )
+          .reduce(math.min);
 
   group('primaryStrong carries text', () {
     // Every accent label, "See all", active tab, and solid CTA uses this token.
@@ -163,12 +194,6 @@ void main() {
       expect(_contrast(AppColors.inkMuted, glass), greaterThanOrEqualTo(4.5));
     });
 
-    test('navIdle clears 3:1 — an unselected tab must still be visible', () {
-      // An icon, so 1.4.11's 3:1 applies rather than 4.5:1. The old tint was
-      // 1.7:1: effectively invisible unless you knew where to look.
-      expect(_contrast(AppColors.navIdle, glass), greaterThanOrEqualTo(3));
-    });
-
     test('secondaryStrong clears the 3:1 bar for the saved heart', () {
       // A lower bar than the text tokens above, deliberately: this colour is
       // only ever the filled heart icon, and WCAG 1.4.11 asks 3:1 of a non-text
@@ -226,9 +251,8 @@ void main() {
     // down; this is what keeps them there.
     for (final entry in typeBadgeStyles.entries) {
       test('${entry.key} label meets AA on its own tint', () {
-        final tint = _composite(entry.value.background, glass);
         expect(
-          _contrast(entry.value.foreground, tint),
+          worstPillContrast(entry.value, dark: false),
           greaterThanOrEqualTo(4.5),
           reason:
               '${entry.key}: ${entry.value.label} is unreadable on its badge',
@@ -253,9 +277,8 @@ void main() {
         // into one neutral pill fixed that but threw the colour coding away;
         // these keep each type's hue AND clear the bar, which is the only
         // version that serves both.
-        final tint = _composite(entry.value.background, darkGlass);
         expect(
-          _contrast(entry.value.foreground, tint),
+          worstPillContrast(entry.value, dark: true),
           greaterThanOrEqualTo(4.5),
           reason:
               '${entry.key}: ${entry.value.label} is unreadable on a dark card',
@@ -349,7 +372,7 @@ void main() {
       'inkSoft': AppColors.inkSoft,
       'inkMuted': AppColors.inkMuted,
       'onPrimary': AppColors.onPrimary,
-      'navIdle': AppColors.navIdle,
+      'pastelMuted': AppColors.pastelMuted,
       'surfaceTint': AppColors.surfaceTint,
       'outline': AppColors.outline,
       'background': AppColors.background,
@@ -360,6 +383,7 @@ void main() {
       'darkOutline': AppColors.darkOutline,
       'darkInk': AppColors.darkInk,
       'darkInkMuted': AppColors.darkInkMuted,
+      'darkInkSoft': AppColors.darkInkSoft,
       'darkOnPrimary': AppColors.darkOnPrimary,
     };
 

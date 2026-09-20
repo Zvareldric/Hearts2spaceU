@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../domain/release.dart';
@@ -50,7 +49,7 @@ class ReleaseCard extends StatelessWidget {
                 Text(
                   formatReleaseMeta(release),
                   style: textTheme.labelSmall?.copyWith(
-                    color: AppColors.inkMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     letterSpacing: 0,
                     fontWeight: FontWeight.w400,
                   ),
@@ -64,7 +63,7 @@ class ReleaseCard extends StatelessWidget {
                   Text(
                     trackCount == 1 ? '1 track' : '$trackCount tracks',
                     style: textTheme.labelSmall?.copyWith(
-                      color: AppColors.primaryStrong,
+                      color: Theme.of(context).colorScheme.primary,
                       letterSpacing: 0,
                     ),
                   ),
@@ -72,9 +71,9 @@ class ReleaseCard extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(
+          Icon(
             Icons.chevron_right_rounded,
-            color: AppColors.navIdle,
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
             size: 20,
           ),
         ],

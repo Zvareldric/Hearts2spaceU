@@ -19,14 +19,20 @@ class HeroUpdateCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    // A pastel card in light mode, a faintly tinted dark card in dark mode. At
+    // the light mode's 55% the tint over dark glass lands on a mid-tone where
+    // neither a light nor a dark ink reaches AA (2.99:1 at best); at 20% it is
+    // dark enough for the theme's light ink to hold 5.67:1.
+    final isDark = theme.brightness == Brightness.dark;
+    final tint = isDark ? 0.20 : 0.55;
 
     return AppCard(
       onTap: onTap,
       padding: const EdgeInsets.all(AppSpacing.xl),
       gradient: LinearGradient(
         colors: [
-          AppColors.primary.withValues(alpha: 0.55),
-          AppColors.secondary.withValues(alpha: 0.55),
+          AppColors.primary.withValues(alpha: tint),
+          AppColors.secondary.withValues(alpha: tint),
         ],
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
@@ -51,7 +57,9 @@ class HeroUpdateCard extends StatelessWidget {
             Text(
               summary,
               style: theme.textTheme.labelMedium?.copyWith(
-                color: AppColors.inkSoft,
+                // On the light pastel the ordinary soft ink is 4.44:1; the
+                // pastel-muted ink is made for exactly this ground.
+                color: isDark ? AppColors.darkInkSoft : AppColors.pastelMuted,
                 height: 1.5,
               ),
               maxLines: 3,
@@ -81,15 +89,17 @@ class _CategoryPill extends StatelessWidget {
         horizontal: AppSpacing.md,
         vertical: AppSpacing.xs,
       ),
+      // The surface colour, not white: white at 60% on a dark card made a
+      // light pill that the dark theme's accent could not be read on.
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.60),
+        color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.60),
         borderRadius: AppRadius.pillRadius,
       ),
       child: Text(
         label.toUpperCase(),
-        style: Theme.of(
-          context,
-        ).textTheme.labelSmall?.copyWith(color: AppColors.primaryStrong),
+        style: Theme.of(context).textTheme.labelSmall?.copyWith(
+          color: Theme.of(context).colorScheme.primary,
+        ),
       ),
     );
   }
@@ -106,7 +116,9 @@ class _ReadMoreAffordance extends StatelessWidget {
         vertical: AppSpacing.sm,
       ),
       decoration: BoxDecoration(
-        color: AppColors.ink,
+        // Inverted: the strongest ink as the fill, the surface as the label, so
+        // the pill reads as the call to action in either mode.
+        color: Theme.of(context).colorScheme.onSurface,
         borderRadius: AppRadius.pillRadius,
       ),
       child: Row(
@@ -115,14 +127,14 @@ class _ReadMoreAffordance extends StatelessWidget {
           Text(
             'Read more',
             style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surface,
               fontWeight: FontWeight.w600,
             ),
           ),
           const SizedBox(width: AppSpacing.xs),
-          const Icon(
+          Icon(
             Icons.chevron_right_rounded,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.surface,
             size: 16,
           ),
         ],

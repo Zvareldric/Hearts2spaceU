@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
@@ -129,7 +128,7 @@ class _MemberDetail extends StatelessWidget {
                   fullName,
                   textAlign: TextAlign.center,
                   style: textTheme.labelMedium?.copyWith(
-                    color: AppColors.inkMuted,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -150,7 +149,9 @@ class _MemberDetail extends StatelessWidget {
                 const SizedBox(height: AppSpacing.xl),
                 Divider(
                   height: 1,
-                  color: AppColors.primaryStrong.withValues(alpha: 0.22),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.primary.withValues(alpha: 0.22),
                 ),
                 const SizedBox(height: AppSpacing.lg),
                 Row(
@@ -159,7 +160,7 @@ class _MemberDetail extends StatelessWidget {
                       child: Text(
                         'Birthday',
                         style: textTheme.bodyMedium?.copyWith(
-                          color: AppColors.inkMuted,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       ),
                     ),
@@ -215,14 +216,18 @@ class _PositionPill extends StatelessWidget {
         horizontal: AppSpacing.md,
         vertical: AppSpacing.xs + 1,
       ),
+      // The container pair, which the theme defines to read on each other in
+      // both modes. The sky tint at 50% with the accent on top worked only in
+      // light mode: over dark glass it landed on a mid-tone, and the dark
+      // theme's accent read 2.14:1 on it.
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.5),
+        color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: AppRadius.pillRadius,
       ),
       child: Text(
         label,
         style: Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: AppColors.primaryStrong,
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
           fontWeight: FontWeight.w600,
         ),
       ),

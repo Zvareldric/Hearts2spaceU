@@ -23,7 +23,7 @@ class HeroSection extends StatelessWidget {
         Text(
           _greeting(DateTime.now()),
           style: theme.textTheme.labelMedium?.copyWith(
-            color: AppColors.inkMuted,
+            color: AppColors.inkSoftOf(context),
           ),
         ),
         const SizedBox(height: AppSpacing.sm),
@@ -54,7 +54,7 @@ class HeroSection extends StatelessWidget {
         Text(
           'Your Hearts2Hearts companion',
           style: theme.textTheme.labelMedium?.copyWith(
-            color: AppColors.inkMuted,
+            color: AppColors.inkSoftOf(context),
           ),
         ),
       ],

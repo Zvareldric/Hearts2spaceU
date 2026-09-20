@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../app/widgets/layout/light_surface.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
@@ -103,7 +104,6 @@ class _UpdateHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
     final topInset = MediaQuery.of(context).padding.top;
 
     return Container(
@@ -125,28 +125,37 @@ class _UpdateHero extends StatelessWidget {
           bottomRight: Radius.circular(AppRadius.xl),
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (update.category != null) ...[
-            TypeBadge(type: update.category!),
-            const SizedBox(height: AppSpacing.md),
-          ],
-          Text(update.title, style: textTheme.headlineSmall),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            formatPublishedDate(update.publishedAt),
-            style: textTheme.bodyLarge?.copyWith(color: AppColors.inkMuted),
-          ),
-          if (update.summary != null) ...[
-            const SizedBox(height: AppSpacing.md),
-            Text(
-              update.summary!,
-              style: textTheme.bodyLarge?.copyWith(color: AppColors.ink),
-            ),
-          ],
-        ],
+      child: LightSurface(
+        builder: (context) {
+          final textTheme = Theme.of(context).textTheme;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (update.category != null) ...[
+                TypeBadge(type: update.category!),
+                const SizedBox(height: AppSpacing.md),
+              ],
+              Text(update.title, style: textTheme.headlineSmall),
+              const SizedBox(height: AppSpacing.sm),
+              Text(
+                formatPublishedDate(update.publishedAt),
+                style: textTheme.bodyLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              ),
+              if (update.summary != null) ...[
+                const SizedBox(height: AppSpacing.md),
+                Text(
+                  update.summary!,
+                  style: textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ],
+            ],
+          );
+        },
       ),
     );
   }

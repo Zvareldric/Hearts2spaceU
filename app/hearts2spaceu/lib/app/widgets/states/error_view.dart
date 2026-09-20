@@ -35,8 +35,8 @@ class ErrorView extends StatelessWidget {
               width: 40,
               height: 40,
               alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: AppColors.surfaceTint,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -50,7 +50,7 @@ class ErrorView extends StatelessWidget {
               child: Text(
                 message,
                 style: textTheme.bodyMedium?.copyWith(
-                  color: AppColors.inkMuted,
+                  color: AppColors.inkSoftOf(context),
                 ),
               ),
             ),
@@ -70,8 +70,8 @@ class ErrorView extends StatelessWidget {
             Container(
               width: 72,
               height: 72,
-              decoration: const BoxDecoration(
-                color: AppColors.surfaceTint,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -84,7 +84,10 @@ class ErrorView extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: textTheme.bodyMedium?.copyWith(color: AppColors.inkMuted),
+              // On the wash, not a card: the muted ink is only AA inside glass.
+              style: textTheme.bodyMedium?.copyWith(
+                color: AppColors.inkSoftOf(context),
+              ),
             ),
             if (onRetry != null) ...[
               const SizedBox(height: AppSpacing.lg),

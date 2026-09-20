@@ -97,7 +97,7 @@ const sweepPages = [
   SweepPage('Gallery', AppRoutes.gallery, 'FOCUS era'),
   SweepPage('Album', AppRoutes.album, 'FOCUS era', _albumId),
   SweepPage('Photo viewer', AppRoutes.photoViewer, 'Teaser', (_albumId, 0)),
-  SweepPage('Collection', AppRoutes.collection, 'SAVED MEMBERS'),
+  SweepPage('Collection', AppRoutes.collection, 'Saved members'),
   SweepPage.unsaved(
     'Collection, nothing saved',
     AppRoutes.collection,

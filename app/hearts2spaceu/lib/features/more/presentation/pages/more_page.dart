@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
 import '../../../../app/widgets/glass/glass_nav_bar.dart';
+import '../../../../app/widgets/layout/page_heading.dart';
 import '../../../../app/widgets/layout/paired_rows.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../routes/app_routes.dart';
@@ -76,26 +77,48 @@ class MorePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A large inline title like every other tab root, not a Material AppBar.
+    // Design System V2 replaced them everywhere and this one was left behind,
+    // so More carried a different heading from the four tabs beside it.
     return Scaffold(
-      appBar: AppBar(title: const Text('More')),
-      // Rows of two sized to their content — see PairedRows for why a
-      // fixed-ratio grid cannot hold this menu.
-      body: ListView(
-        padding: EdgeInsets.fromLTRB(
-          AppSpacing.screenPadding,
-          AppSpacing.sm,
-          AppSpacing.screenPadding,
-          // Clear the floating nav bar, which this list scrolls underneath.
-          GlassNavBar.reservedSpace,
+      body: SafeArea(
+        bottom: false,
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.fromLTRB(
+                AppSpacing.screenPadding,
+                AppSpacing.lg,
+                AppSpacing.screenPadding,
+                0,
+              ),
+              child: PageHeading(title: 'More'),
+            ),
+            Expanded(child: _menu(context)),
+          ],
         ),
-        children: [
-          PairedRows(
-            children: [
-              for (var i = 0; i < _entries.length; i++) _card(context, i),
-            ],
-          ),
-        ],
       ),
+    );
+  }
+
+  Widget _menu(BuildContext context) {
+    // Rows of two sized to their content — see PairedRows for why a
+    // fixed-ratio grid cannot hold this menu.
+    return ListView(
+      padding: EdgeInsets.fromLTRB(
+        AppSpacing.screenPadding,
+        AppSpacing.sm,
+        AppSpacing.screenPadding,
+        // Clear the floating nav bar, which this list scrolls underneath.
+        GlassNavBar.reservedSpace,
+      ),
+      children: [
+        PairedRows(
+          children: [
+            for (var i = 0; i < _entries.length; i++) _card(context, i),
+          ],
+        ),
+      ],
     );
   }
 

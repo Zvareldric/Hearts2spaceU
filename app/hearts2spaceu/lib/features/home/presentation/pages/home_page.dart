@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_typography.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
+import '../../../../app/theme/app_radius.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../../app/widgets/cards/capability_card.dart';
@@ -156,31 +157,37 @@ class _QuickAction extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppCard(
+    // No card behind it. The gradient tile is already a shape on the wash;
+    // boxing each one made four more panes on the busiest screen in the app.
+    // The tap target is the whole column, which is taller than 48.
+    return InkWell(
       onTap: onTap,
-      padding: const EdgeInsets.symmetric(
-        vertical: AppSpacing.md,
-        horizontal: AppSpacing.xs,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          IconTile(icon: icon, gradient: gradient, size: 38),
-          const SizedBox(height: AppSpacing.sm),
-          // Four across at 360dp leaves each label narrow; scaleDown keeps
-          // "Statistics" on one line instead of clipping it.
-          FittedBox(
-            fit: BoxFit.scaleDown,
-            child: Text(
-              label,
-              maxLines: AppTypography.maxLines(context, 1),
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: AppColors.inkSoftOf(context),
-                fontWeight: FontWeight.w600,
+      borderRadius: AppRadius.lgRadius,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: AppSpacing.md,
+          horizontal: AppSpacing.xs,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            IconTile(icon: icon, gradient: gradient, size: 44),
+            const SizedBox(height: AppSpacing.sm),
+            // Four across at 360dp leaves each label narrow; scaleDown keeps
+            // "Statistics" on one line instead of clipping it.
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: Text(
+                label,
+                maxLines: AppTypography.maxLines(context, 1),
+                style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                  color: AppColors.inkSoftOf(context),
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

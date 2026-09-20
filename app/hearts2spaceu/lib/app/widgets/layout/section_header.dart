@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../theme/app_colors.dart';
-
 /// A small overline-style label introducing a section (e.g. "Up next").
 ///
 /// Generic and domain-agnostic — just renders a String, uppercased, in the
@@ -17,10 +15,14 @@ class SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // A title, not an overline. Small uppercase text with wide tracking is the
+    // most decorative way to label a section and the least legible; a plain
+    // bold line in the reading case says the same thing louder and quieter at
+    // once.
     return Text(
-      label.toUpperCase(),
-      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-        color: color ?? AppColors.inkSoftOf(context),
+      label,
+      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+        color: color ?? Theme.of(context).colorScheme.onSurface,
       ),
     );
   }

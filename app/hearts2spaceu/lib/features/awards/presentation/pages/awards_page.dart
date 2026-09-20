@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
-import '../../../../app/widgets/layout/section_header.dart';
+import '../../../../app/widgets/layout/pinned_section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
@@ -85,10 +85,7 @@ class _AwardsByYear extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         for (final year in years) ...[
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _YearHeaderDelegate(label: '${year.year}'),
-          ),
+          pinnedSectionHeader(context, '${year.year}'),
           SliverPadding(
             padding: const EdgeInsets.symmetric(
               horizontal: AppSpacing.screenPadding,
@@ -117,38 +114,4 @@ class _AwardsByYear extends StatelessWidget {
       ],
     );
   }
-}
-
-/// A pinned year heading.
-///
-/// Deliberately duplicated from `schedule_page.dart` rather than shared: this
-/// is only the second list that needs it, and the project's Rule of Three says
-/// to extract on the third. See docs/specs/awards.md §6.
-class _YearHeaderDelegate extends SliverPersistentHeaderDelegate {
-  const _YearHeaderDelegate({required this.label});
-
-  final String label;
-
-  static const _height = 44.0;
-
-  @override
-  double get minExtent => _height;
-
-  @override
-  double get maxExtent => _height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlaps) {
-    return Container(
-      height: _height,
-      alignment: Alignment.centerLeft,
-      color: Theme.of(context).scaffoldBackgroundColor,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.screenPadding),
-      child: SectionHeader(label: label),
-    );
-  }
-
-  @override
-  bool shouldRebuild(_YearHeaderDelegate oldDelegate) =>
-      oldDelegate.label != label;
 }

@@ -308,9 +308,9 @@ void main() {
       await tester.pumpAndSettle();
 
       // SectionHeader renders its label uppercased.
-      expect(find.text('TODAY'), findsOneWidget);
-      expect(find.text('THIS WEEK'), findsOneWidget);
-      expect(find.text('LATER'), findsOneWidget);
+      expect(find.text('Today'), findsOneWidget);
+      expect(find.text('This week'), findsOneWidget);
+      expect(find.text('Later'), findsOneWidget);
     });
 
     testWidgets('an all-day event shows its date and no invented time', (

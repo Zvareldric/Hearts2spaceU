@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_shadows.dart';
+import 'glass_rim.dart';
 
 /// Floating chrome that genuinely blurs the content behind it — the nav bar and
 /// the pinned month headers.
@@ -25,9 +26,12 @@ class GlassSurface extends StatelessWidget {
   final BorderRadius borderRadius;
   final double blur;
 
-  /// The bright hairline edge. Off for full-width surfaces (a pinned header),
+  /// The light-catching rim. Off for full-width surfaces (a pinned header),
   /// where an outline on all four sides would read as a stray box.
   final bool border;
+
+  Widget _rimmed(Widget pane) =>
+      border ? GlassRim(borderRadius: borderRadius, child: pane) : pane;
 
   @override
   Widget build(BuildContext context) {
@@ -44,19 +48,15 @@ class GlassSurface extends StatelessWidget {
         borderRadius: borderRadius,
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: isDark ? AppColors.darkGlass : AppColors.glass,
-              borderRadius: borderRadius,
-              border: border
-                  ? Border.all(
-                      color: isDark
-                          ? AppColors.darkGlassBorder
-                          : AppColors.glassBorder,
-                    )
-                  : null,
+          // The rim wraps the whole pane, outside its contents.
+          child: _rimmed(
+            DecoratedBox(
+              decoration: BoxDecoration(
+                color: isDark ? AppColors.darkGlass : AppColors.glass,
+                borderRadius: borderRadius,
+              ),
+              child: child,
             ),
-            child: child,
           ),
         ),
       ),

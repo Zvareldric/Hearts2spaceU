@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../theme/app_colors.dart';
 import '../../theme/app_motion.dart';
 import '../../theme/app_radius.dart';
-import '../../theme/app_shadows.dart';
 import '../../theme/app_spacing.dart';
+import '../glass/glass_rim.dart';
 
 /// Base surface for content — a pane of glass: translucent fill, bright
 /// hairline edge, soft radius, violet haze, optional tap.
@@ -48,26 +48,30 @@ class _AppCardState extends State<AppCard> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
-    final card = Container(
-      padding: widget.padding,
-      // A card you can tap is a tap target, and is held to the platforms'
-      // minimum for one: "Listen on official platforms" was 46px tall, under
-      // Android's 48. Doing it here covers every tappable card at once.
-      constraints: widget.onTap == null
-          ? null
-          : const BoxConstraints(minHeight: kMinInteractiveDimension),
-      decoration: BoxDecoration(
-        color: widget.gradient != null
+    // No drop shadow, and a light-catching rim in place of a flat hairline. A
+    // screen of shadowed cards reads as a pile of floating boxes; the shadow is
+    // kept for chrome that genuinely floats over content — the nav bar and the
+    // pinned headers, which is what GlassSurface is for. The rim goes around
+    // the pane, outside its padding, or it draws a box around the contents.
+    final card = GlassRim(
+      borderRadius: AppRadius.lgRadius,
+      child: Container(
+        padding: widget.padding,
+        // A card you can tap is a tap target, and is held to the platforms'
+        // minimum for one: "Listen on official platforms" was 46px tall, under
+        // Android's 48. Doing it here covers every tappable card at once.
+        constraints: widget.onTap == null
             ? null
-            : (isDark ? AppColors.darkGlass : AppColors.glass),
-        gradient: widget.gradient,
-        borderRadius: AppRadius.lgRadius,
-        border: Border.all(
-          color: isDark ? AppColors.darkGlassBorder : AppColors.glassBorder,
+            : const BoxConstraints(minHeight: kMinInteractiveDimension),
+        decoration: BoxDecoration(
+          color: widget.gradient != null
+              ? null
+              : (isDark ? AppColors.darkGlass : AppColors.glass),
+          gradient: widget.gradient,
+          borderRadius: AppRadius.lgRadius,
         ),
-        boxShadow: AppShadows.sm,
+        child: widget.child,
       ),
-      child: widget.child,
     );
 
     if (widget.onTap == null) return card;

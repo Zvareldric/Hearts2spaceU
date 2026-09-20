@@ -297,6 +297,40 @@ Karena Flutter tidak punya `text-transform`, string-nya benar-benar di-uppercase
 membungkusnya dengan `Semantics(label:)` agar screen reader tidak mengejanya huruf per
 huruf.
 
+## 11. Refinement Minimalis *(2026-09-20)*
+
+Arah yang diminta: **minimalis ala Spotify, dalam bahasa liquid glass, terasa
+hidup**. Yang membuat V2 terasa ramai bukan warnanya — melainkan **jumlah
+kotaknya**: tiap rilis, tiap event, tiap tombol cepat adalah kartu tersendiri
+dengan bayangan dan tepi. Lima perubahan, semuanya di komponen bersama:
+
+| Perubahan | Alasan |
+|---|---|
+| `AppCard` tanpa bayangan, bertepi cahaya (`GlassRim`) | layar penuh kartu berbayang terbaca seperti tumpukan kotak melayang; bayangan disisakan untuk kaca yang memang mengambang di atas konten (nav bar, header ter-pin) |
+| `SectionHeader` → **tebal, huruf biasa** | teks kecil KAPITAL ber-tracking adalah cara paling dekoratif dan paling tidak terbaca untuk melabeli section |
+| Blob wash 0.78 → **0.55** (gelap 0.16 → 0.12) | latar itu ruangan, bukan subjeknya; kontras pun hanya membaik |
+| Tombol cepat Home kehilangan kartunya | tile gradiennya sudah berupa bentuk; mengotakinya menambah empat panel di layar tersibuk |
+| Nav bar: **pil yang meluncur** menggantikan titik | penanda yang berpindah, bukan berkedip mati-hidup; lewat `AppMotion`, jadi reduced motion mendapatinya sudah di tempat |
+
+`GlassRim` menggores tepi panel dengan gradien — paling terang di sisi yang
+menghadap cahaya, memudar di sisi jauh. Hairline satu warna terbaca sebagai
+*border yang digambar*; gradien inilah yang membuat permukaan tembus pandang
+terbaca sebagai **kaca**.
+
+`PinnedSectionHeader` menyatukan header ter-pin Schedule (bulan) dan Awards
+(tahun). Diekstrak pada pemakaian **kedua**, menyimpang dari Rule of Three,
+karena salinannya sudah menyimpang dan membawa dua cacat: tinggi tetap yang
+tidak bisa tumbuh bersama teks, dan latar `scaffoldBackgroundColor` — yang sejak
+ambient wash **transparan**, sehingga kartu terlihat menembus header saat
+digulir. Memperbaiki bug yang sama dua kali lebih buruk daripada satu
+implementasi benar.
+
+More akhirnya memakai `PageHeading` seperti empat tab lainnya; ia satu-satunya
+yang masih tertinggal dengan `AppBar` Material sejak V2.
+
+> Seluruh refinement ini dijaga tiga sweep aksesibilitas yang sudah ada — semuanya
+> tetap hijau tanpa pengecualian baru.
+
 ## 11. Hati Inline
 
 Salinan Collection — *"Tap the heart on anything to keep it here"* — kini benar dari

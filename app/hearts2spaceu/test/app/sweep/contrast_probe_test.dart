@@ -61,8 +61,10 @@ void main() {
   testWidgets('measures over the worst blob, not the pale base', (
     tester,
   ) async {
-    // The old inkMuted: 4.60:1 on the pale base the old contrast test used,
-    // 3.90:1 on a glass card over the pink blob. The probe has to find 3.90.
+    // The old inkMuted on a glass card over the pink blob. It read 3.90:1 when
+    // the blobs were painted at 0.78; the wash is quieter now, and the same
+    // pairing reads 4.08:1 — still short of the 4.5 it has to clear, which is
+    // what this checks the probe can see.
     final failures = await _probe(
       tester,
       DecoratedBox(
@@ -70,7 +72,7 @@ void main() {
         child: const Text('old', style: TextStyle(color: Color(0xFF60758A))),
       ),
     );
-    expect(failures.single.ratio, closeTo(3.90, 0.01));
+    expect(failures.single.ratio, closeTo(4.08, 0.01));
   });
 
   testWidgets('sees a light ink on a dark card', (tester) async {

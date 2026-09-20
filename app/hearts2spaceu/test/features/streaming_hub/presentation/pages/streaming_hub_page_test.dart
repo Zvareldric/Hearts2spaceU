@@ -86,8 +86,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(PlatformCard), findsNWidgets(2));
-    expect(find.text('LISTEN'), findsOneWidget);
-    expect(find.text('FOLLOW'), findsOneWidget);
+    expect(find.text('Listen'), findsOneWidget);
+    expect(find.text('Follow'), findsOneWidget);
     expect(find.text('@hearts2hearts'), findsOneWidget);
   });
 

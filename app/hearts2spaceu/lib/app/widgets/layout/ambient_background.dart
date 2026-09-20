@@ -20,17 +20,20 @@ class AmbientBackground extends StatelessWidget {
   /// over exactly these values: the darkest ground a card can sit on is a blob
   /// at full strength, and if this were tunable in one place only, the test
   /// would quietly go on measuring a background nobody sees.
-  static const double lightBlobOpacity = 0.78;
-  static const double darkBlobOpacity = 0.16;
+  ///
+  /// Quieter than they were (0.78 / 0.16). The wash is the room, not the
+  /// subject: with the blobs turned down the covers, titles and cards are the
+  /// only saturated things on screen, which is the whole of the minimalist
+  /// move. It also gives every ink more room — the contrast floor is measured
+  /// over these blobs, so a paler wash can only help.
+  static const double lightBlobOpacity = 0.55;
+  static const double darkBlobOpacity = 0.12;
 
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final blobs = AppColors.ambientBlobs;
-    // Held below full strength: a phone screen is taller than the design frame,
-    // so all four blobs overlap more here, and at full saturation the muted text
-    // color loses contrast against the pink corners. Dark mode goes to a
-    // whisper — pastels at strength on a plum ground turn to mud.
+    // Held well below full strength — see the constants above.
     final blobOpacity = isDark ? darkBlobOpacity : lightBlobOpacity;
 
     return DecoratedBox(

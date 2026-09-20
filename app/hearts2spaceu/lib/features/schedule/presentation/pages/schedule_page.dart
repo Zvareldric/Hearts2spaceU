@@ -6,9 +6,8 @@ import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/app_motion.dart';
 import '../../../../app/theme/app_spacing.dart';
 import '../../../../app/widgets/glass/glass_nav_bar.dart';
-import '../../../../app/widgets/glass/glass_surface.dart';
 import '../../../../app/widgets/layout/page_heading.dart';
-import '../../../../app/widgets/layout/section_header.dart';
+import '../../../../app/widgets/layout/pinned_section_header.dart';
 import '../../../../app/widgets/layout/staggered_item.dart';
 import '../../../../app/widgets/states/empty_view.dart';
 import '../../../../app/widgets/states/error_view.dart';
@@ -148,18 +147,13 @@ class _MonthlySchedule extends StatelessWidget {
     // One running index so the entry animation cascades down the page rather
     // than restarting inside every month.
     var animationIndex = 0;
-    final textScale = MediaQuery.textScalerOf(context).scale(1);
-    final headerHeight = 40 * textScale.clamp(1.0, 2.0);
 
     return CustomScrollView(
       slivers: [
         for (final month in months) ...[
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: _MonthHeaderDelegate(
-              label: formatMonthLabel(month.year, month.month),
-              height: headerHeight,
-            ),
+          pinnedSectionHeader(
+            context,
+            formatMonthLabel(month.year, month.month),
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(
@@ -192,48 +186,4 @@ class _MonthlySchedule extends StatelessWidget {
       ],
     );
   }
-}
-
-/// A pinned month heading.
-///
-/// It blurs rather than covers: a pinned header floats above the list, and the
-/// ambient wash means there is no opaque color left to fill it with. The blur is
-/// what keeps cards from reading through legibly as they slide underneath.
-class _MonthHeaderDelegate extends SliverPersistentHeaderDelegate {
-  const _MonthHeaderDelegate({required this.label, required this.height});
-
-  final String label;
-  final double height;
-
-  @override
-  double get minExtent => height;
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlaps) {
-    return GlassSurface(
-      borderRadius: BorderRadius.zero,
-      border: false,
-      blur: 18,
-      child: Container(
-        height: height,
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.screenPadding,
-        ),
-        child: SectionHeader(label: label),
-      ),
-    );
-  }
-
-  // The height is part of what this delegate describes. Comparing the label
-  // alone kept a header laid out at its old height after the text size
-  // changed underneath it — which is what happens when a reader changes the
-  // system font size with the app open — and Flutter rejects that geometry
-  // outright.
-  @override
-  bool shouldRebuild(_MonthHeaderDelegate oldDelegate) =>
-      oldDelegate.label != label || oldDelegate.height != height;
 }

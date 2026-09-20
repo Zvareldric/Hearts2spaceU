@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../theme/app_motion.dart';
 import '../../theme/app_radius.dart';
 import '../../theme/app_spacing.dart';
 import 'glass_surface.dart';
@@ -52,16 +53,51 @@ class GlassNavBar extends StatelessWidget {
         borderRadius: AppRadius.xxlRadius,
         child: SizedBox(
           height: _height,
-          child: Row(
+          child: Stack(
             children: [
-              for (var i = 0; i < destinations.length; i++)
-                Expanded(
-                  child: _NavItem(
-                    destination: destinations[i],
-                    selected: i == currentIndex,
-                    onTap: () => onSelected(i),
+              // A lozenge that slides to the tab you picked, rather than a
+              // marker that blinks out in one place and in again in another.
+              // Through AppMotion, so a reader who asked for less movement
+              // simply finds it already there.
+              AnimatedAlign(
+                alignment: destinations.length < 2
+                    ? Alignment.center
+                    : Alignment(
+                        -1 + 2 * currentIndex / (destinations.length - 1),
+                        0,
+                      ),
+                duration: AppMotion.of(context, AppMotion.base),
+                curve: AppMotion.change,
+                child: FractionallySizedBox(
+                  widthFactor: 1 / destinations.length,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSpacing.sm,
+                      vertical: AppSpacing.sm,
+                    ),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.primary.withValues(alpha: 0.16),
+                        borderRadius: AppRadius.xxlRadius,
+                      ),
+                    ),
                   ),
                 ),
+              ),
+              Row(
+                children: [
+                  for (var i = 0; i < destinations.length; i++)
+                    Expanded(
+                      child: _NavItem(
+                        destination: destinations[i],
+                        selected: i == currentIndex,
+                        onTap: () => onSelected(i),
+                      ),
+                    ),
+                ],
+              ),
             ],
           ),
         ),
@@ -101,15 +137,11 @@ class _NavItem extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              // The dot that used to mark the active tab is gone: the lozenge
+              // behind the icon says it, and two markers for one state is one
+              // too many. Nothing moves when the selection changes, so the
+              // icons no longer need a placeholder to hold their position.
               Icon(destination.icon, size: 22, color: color),
-              const SizedBox(height: AppSpacing.xs),
-              // The dot is always drawn and only changes color: a marker that
-              // appears and disappears would shift the icons by its height.
-              Container(
-                width: 4,
-                height: 4,
-                decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-              ),
             ],
           ),
         ),

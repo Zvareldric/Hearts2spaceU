@@ -33,16 +33,24 @@ const Map<String, TypeStyle> _styles = {
     foreground: Color(0xFF872D54),
     label: 'Broadcast',
   ),
-  // Teal, not the periwinkle it was: violet is out of the palette, and teal is
-  // the one cool hue left that is not already `concert` (sky) or `event` (slate).
+  // Fresh green, not the teal it was: teal sat 8 ΔE from `concert`'s sky and
+  // 7 from `showcase`'s mint — three blue-greens a reader had to squint to
+  // tell apart. See the note on `release` for how both hues were chosen.
   'fanmeeting': (
-    background: Color(0x80A8E0E8),
-    foreground: Color(0xFF0F5561),
+    background: Color(0x8CE0F5B8),
+    foreground: Color(0xFF4B6616),
     label: 'Fan Meeting',
   ),
+  // Coral, not the pink it was. `release` and `broadcast` were both blossom
+  // pink, 1° apart in hue — 6.4 ΔE in light mode and 0.4 in dark, which is to
+  // say the same colour. The two new hues (this and `fanmeeting`) were picked by
+  // measuring perceived difference (ΔE in Lab) against every other badge in
+  // both modes, and keeping the pair that left the moved badges furthest from
+  // all the rest — at least 11.8 — without leaving the brand's warm range or
+  // returning to the retired violet band. Locked by the contrast test.
   'release': (
-    background: Color(0x8CFAC8DC),
-    foreground: Color(0xFF8F305B),
+    background: Color(0x8CF5C2B8),
+    foreground: Color(0xFF91321F),
     label: 'Release',
   ),
   // Slate, not the blue it was: `concert` took the brand sky blue, and two blue
@@ -118,17 +126,20 @@ const Map<String, TypeStyle> _darkStyles = {
     label: 'Broadcast',
   ),
   'fanmeeting': (
-    background: Color(0x522B93A1),
-    foreground: Color(0xFF9CDCE5),
+    background: Color(0x527AA329),
+    foreground: Color(0xFFC1E777),
     label: 'Fan Meeting',
   ),
   'release': (
-    background: Color(0x52A82459),
-    foreground: Color(0xFFF59FC1),
+    background: Color(0x52A33D29),
+    foreground: Color(0xFFEEADA0),
     label: 'Release',
   ),
+  // A little further toward indigo than the light pill's slate: at the same
+  // hue it sat 9.58 ΔE from `concert` on a dark card, under the bar the
+  // badges are held to. Still blue, and well clear of the retired violet band.
   'event': (
-    background: Color(0x52335999),
+    background: Color(0x522F429D),
     foreground: Color(0xFFA6BDE5),
     label: 'Event',
   ),

@@ -1,8 +1,20 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
 }
+
+// Release signing comes from android/key.properties, which is gitignored
+// along with every keystore: the key that signs a store build must never
+// enter the repository. See android/key.properties.example for the fields.
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("key.properties")
+    if (file.exists()) FileInputStream(file).use { load(it) }
+}
+val hasReleaseKey = keystoreProperties.getProperty("storeFile") != null
 
 android {
     namespace = "com.example.hearts2spaceu"
@@ -25,11 +37,34 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        create("release") {
+            if (hasReleaseKey) {
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Without a release key — on CI, on an emulator, on a fresh clone —
+            // a release build still works, signed with the debug key so it can
+            // be installed and tested. It says so on every build, because a
+            // debug-signed APK cannot go to the Play Store and nothing else
+            // about it looks different. `quiet`, not `warn`: Flutter runs
+            // Gradle with -q, which swallows everything below that level.
+            signingConfig = if (hasReleaseKey) {
+                signingConfigs.getByName("release")
+            } else {
+                logger.quiet(
+                    "WARNING: no android/key.properties — this release build " +
+                        "is signed with the DEBUG key and cannot be published.",
+                )
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

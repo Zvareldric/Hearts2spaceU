@@ -1,6 +1,6 @@
 # Spec · Reminders — Sprint 12
 
-> **Status:** 🟠 Draft (menunggu approval Product Owner) · **Dibuat:** 2026-08-23
+> **Status:** 🟢 Selesai — dirilis di **`v1.5.0`** · **Dibuat:** 2026-08-23 · **Diimplementasi:** 2026-10-25
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Product Owner)
 > **Branch:** `feature/reminders` *(spec ini sendiri dikirim lewat `docs/reminders`)*
 
@@ -129,7 +129,8 @@ Agenda menjawab **"apa dulu"**. Reminders menjawab **"ingatkan saya"**.
 - **Pengingat untuk apa pun di luar Agenda** — Agenda sudah menjadi definisi tunggal
   "hal berbatas waktu di aplikasi ini". Menambah sumber kedua di sini akan membuat dua
   jawaban untuk pertanyaan yang sama.
-- **Zona waktu per-item** — batasan yang diwarisi, bukan yang diperkenalkan; lihat §4 & §8.
+- ~~**Zona waktu per-item**~~ — *tertutup saat implementasi:* acara dari kalender kini membawa
+  zonanya sendiri, jadi pengingat dihitung dari instan sebenarnya. Lihat §10.
 - **Halaman daftar pengingat tersendiri** — Agenda **adalah** daftarnya; baris yang
   di-opt-in menunjukkannya sendiri. Halaman kedua yang isinya subset halaman pertama
   menambah tempat tanpa menambah jawaban.
@@ -156,7 +157,7 @@ langsung**.
 
 | Yang disimpan | Di mana | Bentuk |
 |---------------|---------|--------|
-| Item yang di-opt-in | `shared_preferences`, key `reminders` | JSON array of string |
+| Item yang di-opt-in, beserta **kapan** pengingatnya berbunyi | `shared_preferences`, key `reminders` | JSON object `{ "<kunci>": "<instan ISO-8601 UTC>" }` *(bukan array — alasannya di §10)* |
 
 **Kunci pengingat:** `"<kind>:<id>"` — mis. `event:tima-2026-day-1`, `vote:mama-2026-worldwide`.
 Satu ruang nama datar, **pola yang sama persis** dengan `favorites`
@@ -177,7 +178,9 @@ alasannya: menambah jenis baru tidak menuntut perubahan penyimpanan.
 
 **Data Assumptions:**
 
-- **Zona waktu: asumsi lama dipakai, bukan diganti.** `DateTime` dari `events.json` dan
+- ~~**Zona waktu: asumsi lama dipakai, bukan diganti.**~~ *Digantikan saat implementasi —
+  lihat §10. Teks aslinya dipertahankan sebagai catatan keputusan:*
+  **Zona waktu: asumsi lama dipakai, bukan diganti.** `DateTime` dari `events.json` dan
   `voting.json` adalah waktu tanpa zona, dan [`schedule.md`](schedule.md) §4 menetapkan ia
   "dipakai apa adanya". Reminders **menafsirkannya pada zona waktu perangkat** — yang persis
   merupakan arti "apa adanya" bagi seluruh UI yang sudah ada. `timezone` dipakai **hanya**
@@ -296,7 +299,7 @@ satu item berbunyi dua kali setelah aplikasi dibuka dua kali.
 |---------|----------------|
 | Belum pernah ditanya | Diminta **saat opt-in pertama**, bukan saat aplikasi dibuka |
 | Diberikan | Pengingat dijadwalkan; tombol menyala |
-| **Ditolak** | Tombol **tidak menyala**; `SnackBar` menjelaskan pengingat butuh izin notifikasi dan menawarkan jalan ke Pengaturan sistem |
+| **Ditolak** | Tombol **tidak menyala**; `SnackBar` menjelaskan pengingat butuh izin notifikasi dan menawarkan jalan ke Pengaturan sistem *(dibangun: menjelaskan jalannya — §10 #5)* |
 
 > ⚠️ **Tombol yang menyala tanpa izin adalah kebohongan** — pengguna akan menunggu
 > notifikasi yang tidak akan pernah datang. Ini bentuk kegagalan yang sama yang ditolak
@@ -329,9 +332,14 @@ entity fitur, bukan sebaliknya.
   `[lonceng][favorit]` untuk acara dan `[lonceng][ikon tujuan]` untuk voting. **Isi baris
   selebihnya tidak diubah.** Batas **360dp dengan judul panjang** yang sudah dijaga test
   Sprint 11 tetap wajib hijau — dan kini dengan satu kontrol lebih banyak.
-- `main.dart` — inisialisasi `flutter_local_notifications` + basis data zona waktu, sekali
-  saat *startup*.
-- `AndroidManifest.xml` / `Info.plist` — deklarasi izin notifikasi.
+- ~~`main.dart` — inisialisasi `flutter_local_notifications` + basis data zona waktu, sekali
+  saat *startup*.~~ *Diganti: inisialisasi saat pertama dipakai, tanpa basis data zona waktu
+  (§10).* Yang tersentuh di luar fitur: `app.dart` (satu baris sinkronisasi) dan
+  `AgendaItem.localDue`.
+- `AndroidManifest.xml` — `RECEIVE_BOOT_COMPLETED` + dua *receiver* plugin; `build.gradle.kts`
+  — *core library desugaring*; `res/drawable/ic_stat_reminder.xml` + `res/raw/keep.xml`;
+  `ios/Runner/AppDelegate.swift` — *delegate* notifikasi. `POST_NOTIFICATIONS` sudah dibawa
+  manifest plugin.
 - `05_tech_stack.md` §5 — dua baris dependency baru (§4).
 
 > 📌 **Tidak ada rute baru dan tidak ada tile di More.** Reminders bukan halaman; ia sifat
@@ -341,48 +349,51 @@ entity fitur, bukan sebaliknya.
 
 ## 6. Acceptance Criteria
 
-- [ ] UC-1: menekan lonceng pada baris Agenda menyalakan pengingat item itu, dan keadaannya
+- [x] UC-1: menekan lonceng pada baris Agenda menyalakan pengingat item itu, dan keadaannya
       **bertahan setelah aplikasi ditutup** *(ada test-nya)*.
-- [ ] `reminderFireTime`: **24 jam sebelum** bila masih di masa depan; **1 jam sebelum** bila
+- [x] `reminderFireTime`: **24 jam sebelum** bila masih di masa depan; **1 jam sebelum** bila
       tidak; **`null`** bila keduanya lewat — termasuk **kasus batas tepat** *(ada test-nya)*.
-- [ ] Acara **`allDay` berbunyi pukul 09:00 hari sebelumnya**, bukan tengah malam
+- [x] Acara **`allDay` berbunyi pukul 09:00 hari sebelumnya**, bukan tengah malam
       *(ada test-nya)*.
-- [ ] `planReminders` hanya menjadwalkan item yang **di-opt-in**, membuang yang
+- [x] `planReminders` hanya menjadwalkan item yang **di-opt-in**, membuang yang
       `reminderFireTime`-nya `null`, dan **tidak memutasi** masukannya *(ada test-nya)*.
-- [ ] Voting **dan** acara sama-sama bisa diingatkan; kalimat notifikasinya memakai **kata
+- [x] Voting **dan** acara sama-sama bisa diingatkan; kalimat notifikasinya memakai **kata
       kerja yang benar per jenis** — voting "closes", acara "starts" — mengikuti aturan yang
       sama dengan `agendaDueLabel` *(ada test-nya)*.
-- [ ] Id notifikasi **deterministik**: menjadwalkan ulang kunci yang sama **menimpa**, tidak
+- [x] Id notifikasi **deterministik**: menjadwalkan ulang kunci yang sama **menimpa**, tidak
       menggandakan *(ada test-nya)*.
-- [ ] UC-3: izin **ditolak** → tombol **tidak menyala** + `SnackBar` yang menjelaskan; tidak
+- [x] UC-3: izin **ditolak** → tombol **tidak menyala** + `SnackBar` yang menjelaskan; tidak
       ada pengingat yang tampak aktif padahal tidak *(ada test-nya)*.
-- [ ] Izin diminta **pada opt-in pertama**, bukan saat *startup* *(ada test-nya)*.
-- [ ] UC-4: mematikan lonceng **membatalkan** notifikasi terjadwal *(ada test-nya)*.
-- [ ] Item yang **hilang dari sumber** setelah pemuatan **berhasil** → pengingatnya
+- [x] Izin diminta **pada opt-in pertama**, bukan saat *startup* *(ada test-nya)*.
+- [x] UC-4: mematikan lonceng **membatalkan** notifikasi terjadwal *(ada test-nya)*.
+- [x] Item yang **hilang dari sumber** setelah pemuatan **berhasil** → pengingatnya
       dibatalkan; sumber yang **gagal dimuat** → **tidak ada** yang dibatalkan
       *(ada test-nya — dua kasus terpisah)*.
-- [ ] Penyimpanan rusak → dianggap tidak ada pengingat, **bukan crash** *(ada test-nya)*.
-- [ ] Tidak *overflow* pada lebar **360dp** dengan judul acara panjang **dan** kedua kontrol
+- [x] Penyimpanan rusak → dianggap tidak ada pengingat, **bukan crash** *(ada test-nya)*.
+- [x] Tidak *overflow* pada lebar **360dp** dengan judul acara panjang **dan** kedua kontrol
       terpasang *(dibuktikan test)*.
-- [ ] Seluruh test Sprint 11 tetap hijau — `AgendaRow` berubah, perilakunya tidak.
+- [x] Seluruh test Sprint 11 tetap hijau — `AgendaRow` berubah, perilakunya tidak.
 
 ## 7. Definition of Done (Sprint 12)
 
-- [ ] Spec disetujui PO.
-- [ ] **Tidak ada berkas data baru. Tidak ada komponen Design System baru.**
+- [x] Spec disetujui PO *(PR #9; implementasi didelegasikan PO 2026-10-25)*.
+- [x] **Tidak ada berkas data baru. Tidak ada komponen Design System baru.**
       **Dua dependency baru**, tercatat di [`05`](../05_tech_stack.md) §5 beserta alternatif
       yang dipertimbangkan.
-- [ ] Seluruh **Acceptance Criteria** terpenuhi.
-- [ ] `dart format` rapi & `flutter analyze` bersih.
-- [ ] **Test:** unit (`reminderFireTime` termasuk kasus batas & `allDay`; `planReminders`;
+- [x] Seluruh **Acceptance Criteria** terpenuhi.
+- [x] `dart format` rapi & `flutter analyze` bersih.
+- [x] **Test:** unit (`reminderFireTime` termasuk kasus batas & `allDay`; `planReminders`;
       id deterministik; rekonsiliasi berhasil-vs-gagal) + widget (opt-in & bertahan, izin
       ditolak, mematikan, 360dp).
 - [ ] **Verifikasi runtime oleh PO pada perangkat nyata** — Android 13+ **dan** iOS bila
       tersedia. Notifikasi lokal adalah satu-satunya fitur di aplikasi ini yang **tidak bisa
       dibuktikan `flutter test`**; sekat `ReminderScheduler` membuat logikanya teruji, tetapi
       hanya perangkat yang membuktikan ia benar-benar berbunyi.
-- [ ] **GitHub Flow** ([`07`](../07_git_workflow.md)): PR → merge → hapus branch → tag
-      **`v1.4.0`** *(SemVer minor di atas `v1.3.0`; penomoran final tetap keputusan PO)*.
+      *Android ✅ di emulator (build rilis, Android 16) — rinciannya di §10. iOS ⛔ menunggu
+      R-4 ([`releases/1.4.1.md`](../releases/1.4.1.md)). Perangkat fisik tetap di tangan PO.*
+- [x] **GitHub Flow** ([`07`](../07_git_workflow.md)): PR → merge → hapus branch → tag
+      ~~`v1.4.0`~~ **`v1.5.0`** *(`v1.4.0` dan `v1.4.1` sudah terpakai saat spec ini masih
+      menunggu; minor berikutnya di atas `v1.4.1`)*.
 
 ## 8. Evolution Notes
 
@@ -402,13 +413,9 @@ satu pengingat  →  + H-7 dan H-1
 keputusan produknya: dua notifikasi untuk satu hal adalah tempat paling mudah fitur ini
 berubah menjadi gangguan.
 
-**Zona waktu sungguhan.**
-```
-zona waktu perangkat  →  `startDateTime` membawa zona waktunya sendiri
-```
-Ini **perubahan skema milik [`schedule.md`](schedule.md) §4**, bukan milik sprint ini, dan ia
-memperbaiki **tampilan** sekaligus **pengingat** — dua fitur dengan satu perbaikan. Dikerjakan
-di sana, bukan di sini.
+~~**Zona waktu sungguhan.**~~ — **terlaksana.** Perubahan skemanya datang dari Schedule
+(acara kalender membawa `zoneLabel`/`zoneOffset`), persis seperti yang diperkirakan di sini;
+sprint ini tinggal memakainya. Lihat §10.
 
 **Bila backend akhirnya ada** (B-002 / ADR-002):
 ```
@@ -436,3 +443,52 @@ mengingatkan sebelum mulai  →  + tetap relevan selama acara berlangsung
 | Dependency Policy — tempat dua dependency baru dicatat | [`05`](../05_tech_stack.md) |
 | Lapisan diperkenalkan hanya bila perlu (ADR-001) | [`04`](../04_architecture.md) |
 | Komponen & token yang dipakai ulang | [`design-system-v2.md`](../design-system-v2.md) |
+
+## 10. Catatan Implementasi *(2026-10-25)*
+
+Dua bulan berlalu antara spec ini dan implementasinya, dan aplikasinya berubah di antara
+keduanya. Lima penyesuaian di bawah dibuat karena keadaan itu — masing-masing memperkecil
+risiko, tidak satu pun memperluas cakupan.
+
+| # | Spec semula | Yang dibangun | Alasan |
+|---|-------------|---------------|--------|
+| 1 | Waktu dibaca pada zona perangkat; meleset sebesar selisih zona diterima | Pengingat dihitung dari **instan sebenarnya**: `AgendaItem.localDue` = `toReaderClock(dueAt, zoneOffset)` | Sejak kalender h2hcalendar dipakai, acara **membawa zonanya**. Batasan yang dulu "diwarisi" sudah tidak ada untuk diwarisi. Acara Melon 16:00 KST terjadwal 13 Nov 14:00 WIB — tepat 24 jam sebelumnya, bukan 26. |
+| 2 | Penyimpanan: array kunci | Objek `kunci → instan berbunyi` | Tanpa waktunya, rekonsiliasi tidak bisa membedakan pengingat yang **sudah berbunyi** dari yang **masih menunggu** — dan merencanakan ulang yang sudah berbunyi memilih jenjang 1 jam, sehingga satu item berbunyi **dua kali**. Ini juga yang menjamin "notifikasi yang sudah tayang tidak ditarik": `cancel` di Android ikut menghapus notifikasi dari tray, jadi hanya yang masih menunggu yang boleh dibatalkan. |
+| 3 | `planReminders({items, optedIn, now})` → daftar `Reminder`; lapisan data membandingkan dengan yang terjadwal | `planReminders({items, optedIn, loadedKinds, now})` → `ReminderPlan { toSchedule, toCancel, next }` | Aturan "sumber gagal tidak membatalkan apa pun" (§4) butuh tahu **sumber mana** yang berhasil; dan plugin tidak bisa ditanya "apa yang sedang terjadwal" secara murni. Seluruh keputusan tetap di fungsi murni; lapisan data hanya menerapkannya. |
+| 4 | Inisialisasi di `main.dart` saat *startup*, dengan basis data zona waktu | Inisialisasi **saat pertama dipakai**; `TZDateTime` dalam UTC | Pembaca yang tak pernah menekan lonceng tak membayar apa-apa. `fireAt` sudah instan, jadi UTC cukup — basis data zona waktu (±400 KB) tidak dimuat sama sekali. |
+| 5 | `SnackBar` "menawarkan jalan ke Pengaturan sistem" | `SnackBar` **menjelaskan** ke mana harus pergi | Membuka halaman pengaturan notifikasi lintas platform butuh dependency **ketiga**; §0 sudah mengakui dua. Lonceng yang diketuk lagi setelah izin diberikan langsung bekerja. |
+
+**Tambahan yang tidak disebut spec:**
+
+- **Sinkronisasi dari akar aplikasi** (`reminderSyncProvider`, ditonton `App`) — rekonsiliasi
+  berjalan setiap data acara/voting berubah, **bukan hanya saat Agenda dibuka**. Ia tidak
+  membaca apa pun sebelum pembaca punya satu pengingat, jadi pembaca yang tak memakai lonceng
+  tidak memuat voting karenanya.
+- **Satu antrean** untuk setiap perubahan — tanpa itu, rekonsiliasi yang memegang salinan lama
+  bisa menjadwalkan ulang pengingat yang baru saja dimatikan.
+- **Platform di luar Android/iOS/macOS** — lonceng tidak ditampilkan. Yang terlalu dekat tetap
+  bisa diketuk dan **menjelaskan** kenapa tidak bisa, alih-alih tombol mati yang diam.
+- **Bug terkait yang ikut diperbaiki:** hitung mundur baris Agenda memakai jam cetak sumber,
+  sehingga acara 20:00 KST dibaca di Jakarta tertulis "in 4 hours" padahal tinggal dua jam.
+  `localDue` memperbaiki keduanya sekaligus — pengingat dan hitung mundurnya kini sepakat.
+- **Arah dependency:** `AgendaRow` menampilkan `ReminderButton`, dan domain reminders membaca
+  `AgendaItem` — dua arah di tingkat fitur, pola yang sama dengan `FavoriteButton` milik
+  Collection. Klaim "satu arah" di §5 hanya berlaku untuk domain.
+
+### Verifikasi di emulator (build rilis, Android 16, Pixel 8)
+
+| Yang diuji | Hasil |
+|------------|-------|
+| Dialog izin tidak muncul saat *startup* | ✅ `POST_NOTIFICATIONS: granted=false`, tanpa dialog |
+| Lonceng pertama → dialog sistem | ✅ |
+| "Don't allow" → lonceng gelap + penjelasan | ✅ |
+| Lonceng lagi → "Allow" → menyala + kapan berbunyi | ✅ "you'll hear about it the morning before" |
+| Acara *all-day* 29 Okt | ✅ alarm 28 Okt **09:00** |
+| Acara 16:00 KST | ✅ alarm 13 Nov **14:00 WIB** (24 jam sebelum instan sebenarnya) |
+| Jam emulator dimajukan, app di latar belakang | ✅ notifikasi tampil: ikon hati, judul acara, "Happening tomorrow." |
+| App dibuka lagi setelah berbunyi | ✅ tidak dijadwalkan ulang, tidak ditarik dari tray |
+| Reboot | ✅ *boot receiver* memasang alarm kembali (sekaligus membuktikan R8 tidak merusak serialisasi plugin) |
+| Lonceng dimatikan | ✅ alarm hilang dari `dumpsys alarm` |
+| Tidak ada izin alarm presisi di APK | ✅ hanya `RECEIVE_BOOT_COMPLETED` + `POST_NOTIFICATIONS` |
+
+Build rilis macOS lolos. iOS belum bisa dibangun di mesin ini (R-4).

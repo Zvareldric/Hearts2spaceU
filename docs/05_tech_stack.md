@@ -1,6 +1,6 @@
 # 05 · Tech Stack
 
-> **Status:** 🟢 Terisi (MVP) · **Dibuat:** 2026-07-17 · **Diperbarui:** 2026-07-18
+> **Status:** 🟢 Terisi (MVP) · **Dibuat:** 2026-07-17 · **Diperbarui:** 2026-10-25
 > **Penanggung jawab:** Mohammad Rifqi Hidayat (Project Owner)
 
 Dokumen ini mencatat **teknologi yang dipakai** beserta **alasannya yang tertelusur**. Aturan utamanya: setiap teknologi harus dapat ditelusuri kembali ke **Product Vision**, **Roadmap**, atau **keputusan arsitektur** — bukan dipilih karena tren atau "best practice".
@@ -93,6 +93,8 @@ Ditunda mengikuti **ADR-002 (Deferred System Architecture)** dan roadmap. Ditund
 | `url_launcher` | Buka platform resmi | Kapabilitas Official Streaming Hub | Follow latest stable major version | — | 2026-07-18 |
 | `shared_preferences` | Simpan favorit pengguna (JSON) | Kapabilitas Personal Collection; memenuhi pemicu ADR-002 **tanpa** database | Follow latest stable major version | `drift`/`isar` (berlebihan untuk daftar ID), `path_provider`+`dart:io` | 2026-07-29 |
 | GitHub Actions + `subosito/flutter-action` | Menjalankan *checklist* `07` otomatis | Lihat §6 | Flutter di-pin ke versi pengembangan | Menjalankan manual (gagal karena bergantung ingatan), Codemagic/Bitrise (untuk *build & release*, bukan *check*) | 2026-07-30 |
+| `flutter_local_notifications` | Menjadwalkan & membatalkan pengingat lokal, meminta izin notifikasi | Kapabilitas Enhanced Fandom Support — Reminders ([`reminders.md`](specs/reminders.md)) | Follow latest stable major version | `awesome_notifications` (permukaan API jauh lebih besar untuk kemampuan yang tak dipakai), `MethodChannel` sendiri (memelihara dua kode platform) | 2026-10-25 |
+| `timezone` | `TZDateTime` yang dituntut `zonedSchedule` — dipakai dalam UTC saja, tanpa basis data zona | Sama — dituntut oleh baris di atas | Follow latest stable major version | — (bukan pilihan bebas) | 2026-10-25 |
 
 ## 6. Continuous Integration
 

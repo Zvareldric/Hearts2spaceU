@@ -111,11 +111,34 @@ untuk gagal).
 > RUDE! memang rilis tersendiri, bukan sekadar lagu — jadi entrinya di
 > `discography.json` benar, dan tampil di dua tempat itu memang faktanya.
 >
+> ### 🔄 Pembaruan 2026-10-25
+>
+> Sebulan kemudian, sumber yang sama mencatat tiga rilis yang app belum punya
+> atau belum lengkap. Ditambahkan dengan dasar yang sama seperti sebelumnya —
+> tracklist dan durasi dari heartsflix, tanggal rilis dan title track dari entri
+> `… Single Release` / `… MV` di kalender:
+>
+> | Rilis | Tanggal | Lagu |
+> |-------|---------|------|
+> | **Next Chapter** | 2026-10-16 | Next Chapter *(title)*, Next Chapter - Instrumental |
+> | **ICONIC HEART (Korean Ver.)** | 2026-10-05 | ICONIC HEART (Korean Ver.) *(title)* |
+> | **Moonride** *(dilengkapi)* | 2026-09-09 | Moonride *(title)*, 2:56 — tadinya kosong |
+>
+> Cover memakai versi **640×640** dari imgur (akhiran `l` pada nama file), bukan
+> aslinya: cover Next Chapter berukuran 3000×3000 dan 2 MB untuk tile 124px. Versi
+> 640px cukup tajam untuk cover detail 200px di layar 3x, dan ketiganya total
+> 216 KB alih-alih 2,8 MB.
+>
+> **Pelajaran yang lebih penting dari datanya:** file ini *bundled*, jadi setiap
+> rilis baru butuh rilis app baru, dan tidak ada yang bertugas memperbaruinya —
+> dalam sebulan ia tertinggal tiga rilis. Memindahkannya ke data hosted (`data/`,
+> pola Latest Updates) adalah keputusan *Data Source Boundary* yang menunggu
+> Product Owner; sampai itu diputuskan, pembaruan seperti ini tetap manual.
+
 > ### ⚠️ Yang masih terbuka
 >
 > | Hal | Status |
 > |-----|--------|
-> | Tracklist `Moonride` | Rilis 2026-09-09; belum ada sumber yang menerbitkan daftar lagunya, jadi `tracks` kosong dan UI bilang *"Track list not recorded yet."* Cover art juga belum ada. |
 > | `Pretty Please` sebagai rilis | Kalender hanya punya `'Pretty Please' MV` (2025-09-24), tanpa entri rilis — kemungkinan pre-release single dari FOCUS. `releaseDate`-nya dibiarkan kosong. |
 > | Tracklist B-side rilis single | RUDE!, STYLE, Pretty Please tercatat satu lagu masing-masing; kalau sumber menyebut B-side, tinggal ditambah. |
 

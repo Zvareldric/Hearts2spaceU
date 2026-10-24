@@ -1,11 +1,35 @@
 [
   {
+    "id": "next-chapter",
+    "title": "Next Chapter",
+    "year": 2026,
+    "type": "single",
+    "releaseDate": "2026-10-16",
+    "coverUrl": "https://i.imgur.com/S0dz8nnl.jpg",
+    "tracks": [
+      { "title": "Next Chapter", "isTitleTrack": true, "duration": "2:49" },
+      { "title": "Next Chapter - Instrumental", "duration": "2:49" }
+    ]
+  },
+  {
+    "id": "iconic-heart-korean",
+    "title": "ICONIC HEART (Korean Ver.)",
+    "year": 2026,
+    "type": "single",
+    "releaseDate": "2026-10-05",
+    "coverUrl": "https://i.imgur.com/swK4Evjl.jpg",
+    "tracks": [
+      { "title": "ICONIC HEART (Korean Ver.)", "isTitleTrack": true, "duration": "3:09" }
+    ]
+  },
+  {
     "id": "moonride",
     "title": "Moonride",
     "year": 2026,
     "type": "single",
     "releaseDate": "2026-09-09",
-    "tracks": []
+    "coverUrl": "https://i.imgur.com/2k5NOLXl.jpg",
+    "tracks": [{ "title": "Moonride", "isTitleTrack": true, "duration": "2:56" }]
   },
   {
     "id": "iconic-heart",

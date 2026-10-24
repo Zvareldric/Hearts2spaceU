@@ -27,7 +27,7 @@ void main() {
     await tester.pump();
 
     // Home has a "See all" per section, so aim at the one in the Up next
-    // header row (SectionHeader uppercases its label).
+    // header row.
     final upNextHeader = find
         .ancestor(of: find.text('Up next'), matching: find.byType(Row))
         .first;

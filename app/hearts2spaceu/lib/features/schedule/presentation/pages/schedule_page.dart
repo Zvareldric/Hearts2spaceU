@@ -118,18 +118,23 @@ class _ScheduleSource extends ConsumerWidget {
         AppSpacing.screenPadding,
         AppSpacing.sm,
       ),
-      child: Text(
-        [
-          if (fetchedAt != null) formatFetchedAt(fetchedAt, DateTime.now()),
-          'Schedule by h2hcalendar.com',
-        ].join(' · '),
-        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-          color: AppColors.inkSoftOf(context),
-          fontWeight: FontWeight.w400,
-          letterSpacing: 0,
+      // Left-aligned under the title it qualifies. The column around it centres
+      // anything narrower than the screen, which left this line floating.
+      child: Align(
+        alignment: AlignmentDirectional.centerStart,
+        child: Text(
+          [
+            if (fetchedAt != null) formatFetchedAt(fetchedAt, DateTime.now()),
+            'Schedule by h2hcalendar.com',
+          ].join(' · '),
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+            color: AppColors.inkSoftOf(context),
+            fontWeight: FontWeight.w400,
+            letterSpacing: 0,
+          ),
+          maxLines: AppTypography.maxLines(context, 1),
+          overflow: TextOverflow.ellipsis,
         ),
-        maxLines: AppTypography.maxLines(context, 1),
-        overflow: TextOverflow.ellipsis,
       ),
     );
   }

@@ -1,5 +1,13 @@
 import 'zoned_time.dart';
 
+/// Whether an event is still going ahead.
+///
+/// The calendar keeps cancelled and postponed events rather than deleting
+/// them, and marks them in the title. Kept, because "this was cancelled" is
+/// itself something a fan needs to know — but never presented as if it were
+/// still happening.
+enum EventStatus { scheduled, cancelled, postponed }
+
 /// A scheduled Hearts2Hearts activity shown in the Schedule capability.
 ///
 /// Pure, immutable domain entity — no knowledge of JSON, assets, or rendering.
@@ -17,6 +25,7 @@ class Event {
     this.officialUrl,
     this.zoneLabel,
     this.zoneOffset,
+    this.status = EventStatus.scheduled,
   });
 
   /// Stable, unique identifier.
@@ -70,4 +79,12 @@ class Event {
   /// clock says Wednesday evening, and fans match the app against calendars
   /// published in the event's own country.
   DateTime get localStart => toReaderClock(startDateTime, zoneOffset);
+
+  /// Cancelled or postponed. Defaults to scheduled, so the bundled data and
+  /// every event that records no status behaves exactly as before.
+  final EventStatus status;
+
+  /// Whether this event belongs in "what's next" — Home's Up next and the
+  /// Agenda. A cancelled fansign is not the next thing to plan around.
+  bool get isHappening => status == EventStatus.scheduled;
 }

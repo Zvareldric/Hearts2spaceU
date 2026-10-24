@@ -235,7 +235,10 @@ class _UpNextSection extends ConsumerWidget {
                 compact: true,
               ),
             ),
-            data: (events) {
+            data: (all) {
+              // The next thing actually going ahead: a cancelled or postponed
+              // event stays in the Schedule, marked, but is never "up next".
+              final events = all.where((e) => e.isHappening).toList();
               if (events.isEmpty) {
                 return const AppCard(
                   key: ValueKey('empty'),

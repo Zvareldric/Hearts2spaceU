@@ -167,7 +167,10 @@ class _EventHero extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (event.type != null) ...[
+              if (!event.isHappening) ...[
+                TypeBadge(type: event.status.name),
+                const SizedBox(height: AppSpacing.md),
+              ] else if (event.type != null) ...[
                 TypeBadge(type: event.type!),
                 const SizedBox(height: AppSpacing.md),
               ],

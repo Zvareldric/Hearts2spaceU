@@ -6,7 +6,7 @@
          as the missing macOS network entitlement fixed in 383bb1a. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="hearts2spaceu"
+        android:label="Hearts2spaceU"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -2,5 +2,5 @@
 class AppConstants {
   const AppConstants._();
 
-  static const String appName = 'Hearts2SpaceU';
+  static const String appName = 'Hearts2spaceU';
 }

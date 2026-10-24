@@ -1,4 +1,4 @@
-package com.example.hearts2spaceu
+package io.github.zvareldric.hearts2spaceu
 
 import io.flutter.embedding.android.FlutterActivity
 

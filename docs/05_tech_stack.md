@@ -117,6 +117,35 @@ pengembang justru menambah keraguan, bukan mengurangi.
 **Tidak menjalankan `flutter build`.** Belum ada strategi rilis, jadi artefak build tidak
 akan dipakai siapa pun; menambahkannya hanya memperlambat setiap PR.
 
+**Pemeriksaan feed eksternal** *(2026-10-25)*: workflow terpisah
+`calendar-feed-check.yml` berjalan tiap Senin dan memeriksa bahwa feed h2hcalendar.com
+masih berbentuk seperti yang dibaca app. Pemeriksaannya ada di `test_live/`, di luar
+`test/`, sehingga CI per-PR tidak pernah menyentuh jaringan.
+
+## 7. Platform & Versi Minimum
+
+**Dikunci 2026-10-25** — menutup D-02 dari PRD ([`11`](11_product_requirements.md) §16).
+
+| Platform | Minimum | Sumber |
+|---|---|---|
+| Android | **7.0 (API 24)** | `flutter.minSdkVersion`, Flutter 3.44 |
+| iOS | **13.0** | `IPHONEOS_DEPLOYMENT_TARGET` |
+| macOS | **10.15** | `LSMinimumSystemVersion` |
+
+**Alasannya: tidak ada alasan untuk menyimpang dari bawaan Flutter.** Ketiga angka itu
+adalah batas yang dipilih Flutter untuk versi yang di-pin di sini. Menaikkannya
+memotong pengguna tanpa memberi apa pun yang app ini butuhkan; menurunkannya tidak
+didukung toolchain. Bila sebuah dependency kelak menuntut minimum yang lebih tinggi,
+angka di tabel inilah yang diubah — dengan alasan dependency itu tertulis.
+
+**Identitas aplikasi:** `io.github.zvareldric.hearts2spaceu` di semua platform — reverse
+dari `zvareldric.github.io`, domain yang dikuasai pemilik proyek. **Permanen sejak rilis
+pertama ke store**; sampai saat itu masih boleh diubah.
+
+**Penandatanganan rilis Android** membaca `android/key.properties` (di-gitignore; contoh
+di `key.properties.example`). Tanpa berkas itu build rilis tetap jalan dengan kunci debug,
+dan **setiap build mencetak peringatan** bahwa hasilnya tidak bisa diterbitkan.
+
 ---
 
 ## Dokumen Terkait

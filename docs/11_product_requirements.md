@@ -354,7 +354,7 @@ Jumlah layar, package, baris kode, atau event bukan metric keberhasilan produk.
 - Initial UI language: English; project collaboration/documentation: Indonesian.
 - Events MUST preserve source timezone and distinguish source wall-clock from local time.
 - Formatting MUST NOT invent missing precision.
-- Minimum supported OS versions remain `[DECISION REQUIRED]` until fixed in `05_tech_stack.md`.
+- Minimum supported OS versions: Android 7.0, iOS 13.0, macOS 10.15 (`05_tech_stack.md` §7).
 
 ---
 
@@ -496,7 +496,7 @@ scope or explicitly extend the timeline with PO approval.
 | ID | Question | Blocking | Owner | Recommendation |
 |---|---|:---:|---|---|
 | D-01 | Redesign liquid-glass menjadi epic atau polish bertahap? | Yes | Product Owner | Epic kecil: accessibility foundation lalu visual refinement. |
-| D-02 | Minimum OS versions? | Yes | Engineering + PO | Kunci di `05_tech_stack.md`. |
+| D-02 | Minimum OS versions? | ✅ Resolved 2026-10-25 | Engineering + PO | Android 7.0 · iOS 13.0 · macOS 10.15 — `05_tech_stack.md` §7. |
 | D-03 | Analytics provider dan privacy policy? | Yes | Product Owner | Event minimal, provider configurable. |
 | D-04 | `events.json` lama menjadi fallback atau dihapus? | No | Product Owner | Pertahankan sampai strategi diputuskan. |
 | D-05 | Fan-maintained source boleh jadi default jangka panjang? | No/architecture | Product Owner | Tetapkan source policy, freshness SLA, fallback. |

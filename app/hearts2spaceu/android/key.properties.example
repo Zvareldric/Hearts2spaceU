@@ -1,0 +1,13 @@
+# Copy to android/key.properties (gitignored) and fill in. Never commit the real
+# file or the keystore it points to.
+#
+# Create the upload keystore once, keep it backed up somewhere safe, and keep the
+# passwords in a password manager — a lost upload key cannot be recovered:
+#
+#   keytool -genkey -v -keystore ~/hearts2spaceu-upload.jks \
+#     -keyalg RSA -keysize 2048 -validity 10000 -alias upload
+#
+storeFile=/absolute/path/to/hearts2spaceu-upload.jks
+storePassword=
+keyAlias=upload
+keyPassword=

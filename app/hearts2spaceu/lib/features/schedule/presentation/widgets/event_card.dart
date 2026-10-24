@@ -72,6 +72,11 @@ class _EventCardBody extends StatelessWidget {
           style: textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w600,
             height: 1.3,
+            // Struck through rather than hidden: that it was cancelled is
+            // itself the news. Postponed is not struck — it may still happen.
+            decoration: event.status == EventStatus.cancelled
+                ? TextDecoration.lineThrough
+                : null,
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
@@ -80,7 +85,13 @@ class _EventCardBody extends StatelessWidget {
           runSpacing: AppSpacing.xs,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            if (event.type case final type?) TypeBadge(type: type),
+            // The status, said in words and leading the row, so it cannot be
+            // missed or read as a kind of event. It takes the type's place:
+            // what matters about a cancelled concert is that it is cancelled.
+            if (!event.isHappening)
+              TypeBadge(type: event.status.name)
+            else if (event.type case final type?)
+              TypeBadge(type: type),
             if (meta.isNotEmpty)
               Text(
                 meta,

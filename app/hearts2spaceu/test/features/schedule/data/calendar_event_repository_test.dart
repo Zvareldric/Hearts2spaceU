@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hearts2spaceu/features/schedule/data/calendar_event_repository.dart';
+import 'package:hearts2spaceu/features/schedule/domain/event.dart';
 
 String _payload(List<Map<String, Object?>> rows) => jsonEncode(rows);
 
@@ -167,5 +168,59 @@ void main() {
     expect(event.allDay, isFalse);
     expect(event.startDateTime, DateTime(2026, 9, 1));
     expect(event.zoneLabel, 'JST');
+  });
+
+  group('statusFromTitle', () {
+    // The feed has no status field. It marks cancellations and postponements
+    // in the title, in two different ways, and both occur in real data.
+    test('reads a bracketed prefix and takes it off the title', () {
+      expect(
+        CalendarEventRepository.statusFromTitle(
+          '[CANCELLED] StarRiver Offline Fansign Event in Shenzhen Day 1',
+        ),
+        (
+          'StarRiver Offline Fansign Event in Shenzhen Day 1',
+          EventStatus.cancelled,
+        ),
+      );
+    });
+
+    test('reads a parenthesised suffix, either word, any case', () {
+      expect(
+        CalendarEventRepository.statusFromTitle(
+          'Music Expo Live 2026 in Taipei (CANCELLED)',
+        ),
+        ('Music Expo Live 2026 in Taipei', EventStatus.cancelled),
+      );
+      expect(
+        CalendarEventRepository.statusFromTitle(
+          'NYMUSIC Offline Fansign Event in Jakarta (Postponed)',
+        ),
+        ('NYMUSIC Offline Fansign Event in Jakarta', EventStatus.postponed),
+      );
+      expect(CalendarEventRepository.statusFromTitle('[Canceled] Showcase'), (
+        'Showcase',
+        EventStatus.cancelled,
+      ));
+    });
+
+    test('leaves a title that only mentions the word alone', () {
+      // Only a bracketed marker at either end counts — a show called
+      // "Cancelled Plans" is not a cancelled show.
+      expect(
+        CalendarEventRepository.statusFromTitle('Cancelled Plans Fan Talk'),
+        ('Cancelled Plans Fan Talk', EventStatus.scheduled),
+      );
+    });
+
+    test('a parsed row carries the status and the clean title', () {
+      final event = CalendarEventRepository.parseEvents(
+        _payload([_row(title: '[CANCELLED] Fansign in Shenzhen')]),
+      ).single;
+
+      expect(event.title, 'Fansign in Shenzhen');
+      expect(event.status, EventStatus.cancelled);
+      expect(event.isHappening, isFalse);
+    });
   });
 }

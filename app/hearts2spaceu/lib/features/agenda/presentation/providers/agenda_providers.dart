@@ -28,6 +28,12 @@ final agendaProvider = Provider<AsyncValue<List<AgendaItem>>>((ref) {
       ref.watch(openVotesProvider).asData?.value ?? const <VotingCampaign>[];
 
   return eventsAsync.whenData(
-    (events) => buildAgenda(events: events, votes: votes, now: DateTime.now()),
+    // Only events still going ahead: the Agenda is a list of things to act on,
+    // and a cancelled event is not one. The Schedule keeps it, marked.
+    (events) => buildAgenda(
+      events: events.where((e) => e.isHappening).toList(),
+      votes: votes,
+      now: DateTime.now(),
+    ),
   );
 });

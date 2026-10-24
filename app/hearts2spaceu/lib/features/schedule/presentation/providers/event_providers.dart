@@ -20,7 +20,14 @@ final eventRepositoryProvider = Provider<EventRepository>((ref) {
 /// Its own provider rather than a field on the events themselves: Home and the
 /// Agenda watch the same event list and have no use for the timestamp, and
 /// widening their type to carry it would make every one of them handle it.
+///
+/// It waits for the event list first. On a first launch the cache is empty
+/// until that load fills it, and reading it any sooner found nothing — after
+/// which nothing asked again, so a new reader never learned how old the
+/// schedule was until they restarted the app. Waiting on the list also means
+/// it re-reads whenever the list reloads.
 final scheduleFetchedAtProvider = FutureProvider<DateTime?>((ref) async {
+  await ref.watch(upcomingEventsProvider.future);
   final cached = await const EventCache().read();
   return cached?.fetchedAt;
 }, retry: (_, _) => null);

@@ -96,10 +96,12 @@ class CalendarEventRepository implements EventRepository {
 
     final time = _timeOrNull(json['time']);
     final zone = zoneFor(json['timezone']);
+    final (cleanTitle, status) = statusFromTitle(title);
 
     return Event(
       id: id,
-      title: title,
+      title: cleanTitle,
+      status: status,
       startDateTime: DateTime(
         day.year,
         day.month,
@@ -115,6 +117,29 @@ class CalendarEventRepository implements EventRepository {
       zoneLabel: time == null ? null : zone?.$1,
       zoneOffset: time == null ? null : zone?.$2,
     );
+  }
+
+  /// Reads a cancellation or postponement out of a title, and takes the marker
+  /// off so the title reads as the event's name.
+  ///
+  /// The feed has no status field; it marks these in the title, in two ways —
+  /// `[CANCELLED] StarRiver Fansign …` and `Music Expo Live 2026 (CANCELLED)`
+  /// — and `POSTPONED` the same. Matched only as a bracketed prefix or suffix,
+  /// so a title that merely mentions the word is left alone.
+  static (String, EventStatus) statusFromTitle(String title) {
+    for (final (word, status) in const [
+      ('CANCELL?ED', EventStatus.cancelled),
+      ('POSTPONED', EventStatus.postponed),
+    ]) {
+      final marker = RegExp(
+        r'^\s*\[' + word + r'\]\s*|\s*\(' + word + r'\)\s*$',
+        caseSensitive: false,
+      );
+      if (marker.hasMatch(title)) {
+        return (title.replaceAll(marker, '').trim(), status);
+      }
+    }
+    return (title, EventStatus.scheduled);
   }
 
   /// `"18:00"` as (hour, minute). Null for a row with no time at all, which is

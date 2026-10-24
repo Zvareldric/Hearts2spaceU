@@ -9,10 +9,10 @@
 **Current Status:** 🟢 MVP complete
 
 ### Current Phase
-Release 1.0.0 – Design System V2 (Early Growth)
+Release 1.4.0 – Quality and Trust Foundation (PRD Phase 1)
 
 ### Next Milestone
-Discography track lists · Enhanced Fandom Support (see Roadmap)
+Release gates on real devices · Measurement (PRD Phase 2, awaiting decision D-03)
 
 Sprints 1–4 deliver every MVP capability — **Official Information (Member Profiles)**,
 **Schedule (Upcoming Events)**, **Latest Updates**, and the **Official Streaming Hub** —
@@ -24,6 +24,13 @@ colour up to AA.
 
 Sprints 5–6 added all-day events with the real 2026 schedule, and **Awards** — 52
 achievements grouped by year.
+
+Release 1.4.0 moves the **Schedule** onto a live community calendar, cached on the device
+and shown on both the reader's clock and the one it was published on; gives every release
+in **Music** its track list; and makes the whole app readable in **both light and dark mode**.
+Every screen is now rendered and measured by three test sweeps — contrast on the surfaces
+it actually draws, 200% text at 360dp without losing a word, and screen-reader labels with
+48×48 touch targets — before a change can merge.
 
 Two capabilities proved the architecture holds as needs change: Latest Updates is served
 over the network behind the same repository contract the bundled features use, and the
@@ -139,7 +146,10 @@ Current development focus:
 - ✅ Statistics
 - ✅ Discography
 - ✅ Design System V2
-- ⏳ Additional capabilities (see Roadmap)
+- ✅ Agenda — events and votes on one timeline
+- ✅ Accessibility — WCAG 2.1 AA in light and dark mode, 200% text, screen readers
+- ⏳ Release gates on real devices
+- ⏳ Measurement · Reminders (see PRD §15–16)
 
 For the complete roadmap, see **docs/03_roadmap.md**.
 

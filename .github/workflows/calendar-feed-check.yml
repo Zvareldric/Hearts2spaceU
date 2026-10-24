@@ -1,0 +1,32 @@
+name: Calendar feed check
+
+# The Schedule reads h2hcalendar.com, a calendar other fans maintain, with no
+# contract and no notice of changes. This checks once a week that the feed
+# still has the shape the app expects, so a renamed field is caught here
+# rather than by a fan looking at an empty Schedule. A failed scheduled run
+# notifies the repository owner by email.
+on:
+  schedule:
+    - cron: '0 1 * * 1' # Mondays, 01:00 UTC
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app/hearts2spaceu
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 3.44.6
+          channel: stable
+          cache: true
+
+      - run: flutter pub get
+
+      - name: Check the live feed
+        run: flutter test test_live

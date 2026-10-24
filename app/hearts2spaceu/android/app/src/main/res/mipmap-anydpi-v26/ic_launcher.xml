@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 8+: the launcher masks these layers to its own shape, and Android
+     13+ tints the monochrome layer to match a themed home screen. Both come
+     from the brand mark on Home: the hero gradient and a white heart. -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@mipmap/ic_launcher_background" />
+    <foreground android:drawable="@mipmap/ic_launcher_foreground" />
+    <monochrome android:drawable="@mipmap/ic_launcher_foreground" />
+</adaptive-icon>

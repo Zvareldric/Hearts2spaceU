@@ -9,7 +9,7 @@ Aset tingkat **project** yang dipakai lintas komponen atau untuk keperluan **non
 ## Isi — root `assets/` (non-runtime)
 | Folder | Untuk apa | Contoh |
 |--------|-----------|--------|
-| `branding/` | Identitas visual (sumber) | **logo**, sumber ikon aplikasi, banner |
+| `branding/` | Identitas visual (sumber) | **sumber ikon aplikasi** (lihat `branding/README.md`), logo, banner |
 | `design/` | Aset proses desain | **mockup**, wireframe, **Figma export** |
 | `screenshots/` | Tangkapan layar aplikasi | untuk README, GitHub, store listing |
 

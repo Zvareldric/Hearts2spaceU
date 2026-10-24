@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/constants/app_constants.dart';
+import '../features/reminders/presentation/providers/reminder_providers.dart';
 import '../routes/app_router.dart';
 import '../routes/app_routes.dart';
 import 'theme/app_theme.dart';
@@ -10,11 +12,15 @@ import 'widgets/layout/ambient_background.dart';
 ///
 /// Wires together theming and routing. Keep this thin — feature logic lives
 /// under `features/`.
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   const App({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Keeps scheduled reminders in step with the data for the whole session,
+    // not only while the Agenda happens to be open.
+    ref.watch(reminderSyncProvider);
+
     return MaterialApp(
       title: AppConstants.appName,
       debugShowCheckedModeBanner: false,

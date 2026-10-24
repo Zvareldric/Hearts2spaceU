@@ -6,6 +6,7 @@ import '../../../../app/widgets/badges/type_badge.dart';
 import '../../../../app/widgets/cards/app_card.dart';
 import '../../../collection/domain/favorite.dart';
 import '../../../collection/presentation/widgets/favorite_button.dart';
+import '../../../reminders/presentation/widgets/reminder_button.dart';
 import '../../../schedule/presentation/event_date_format.dart';
 // For `formatRemaining`: one phrase for "how long is left", written once, so a
 // countdown never reads differently here than it does on the Voting Hub.
@@ -15,7 +16,7 @@ import '../../domain/agenda_item.dart';
 /// One agenda row — an event or a vote, told apart at a glance.
 ///
 /// Built from the shared building blocks ([AppCard], [TypeBadge],
-/// [FavoriteButton]) and lives in the feature, not in `app/widgets/`, because
+/// [FavoriteButton], [ReminderButton]) and lives in the feature, not in `app/widgets/`, because
 /// it knows what an [AgendaItem] is.
 class AgendaRow extends StatelessWidget {
   const AgendaRow({
@@ -123,6 +124,10 @@ class AgendaRow extends StatelessWidget {
               ],
             ),
           ),
+          // Either kind can be reminded: a reminder is meant to ring and be
+          // done, so a vote expiring is no reason against it
+          // (docs/specs/reminders.md §4).
+          ReminderButton(item: item, now: now),
           // An event can be kept; a vote cannot — one that is marked would
           // vanish from the collection the moment it closed
           // (docs/specs/agenda.md §4). So a vote's end of the row shows where

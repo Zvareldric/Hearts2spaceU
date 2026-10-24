@@ -174,7 +174,7 @@ class AgendaRow extends StatelessWidget {
 /// A vote that has not opened yet still counts down to its close: that is the
 /// deadline the row is sorted by, and the badge beside it says it is upcoming.
 String agendaDueLabel(AgendaItem item, DateTime now) {
-  final left = formatRemaining(item.dueAt.difference(now));
+  final left = formatRemaining(item.localDue.difference(now));
   return switch (item.kind) {
     AgendaKind.vote => 'Closes $left',
     AgendaKind.event => left,

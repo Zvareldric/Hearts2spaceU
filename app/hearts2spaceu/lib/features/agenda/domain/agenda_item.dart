@@ -1,3 +1,5 @@
+import '../../schedule/domain/zoned_time.dart';
+
 /// What one agenda row is, whichever capability it came from.
 ///
 /// The two sources say different things with their dates — an event's is when
@@ -53,4 +55,9 @@ class AgendaItem {
   /// deadlines the app has always shown on the reader's own clock.
   final String? zoneLabel;
   final Duration? zoneOffset;
+
+  /// [dueAt] as an instant on the reader's own clock — what any countdown or
+  /// reminder has to measure from. [dueAt] itself is the time as the source
+  /// printed it, which for a KST event read in Jakarta is two hours late.
+  DateTime get localDue => toReaderClock(dueAt, zoneOffset);
 }

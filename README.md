@@ -148,8 +148,9 @@ Current development focus:
 - ✅ Design System V2
 - ✅ Agenda — events and votes on one timeline
 - ✅ Accessibility — WCAG 2.1 AA in light and dark mode, 200% text, screen readers
+- ✅ Reminders — opt-in local notifications from the Agenda
 - ⏳ Release gates on real devices
-- ⏳ Measurement · Reminders (see PRD §15–16)
+- ⏳ Measurement (see PRD §15–16)
 
 For the complete roadmap, see **docs/03_roadmap.md**.
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The notifications plugin finds the reminder icon by its name, at run time,
+     so the release build's resource shrinker sees nothing using it and would
+     strip it — and a notification whose icon is missing never shows. -->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@drawable/ic_stat_reminder" />

@@ -193,6 +193,24 @@ void main() {
       expect(agendaDueLabel(vote, now), 'Closes in 3 days');
     });
 
+    test('an event in another zone counts down to the real instant', () {
+      // 20:00 KST is 11:00 UTC. Counting from the printed 20:00 instead put
+      // the countdown out by the zone gap — two hours late in Jakarta.
+      final event = AgendaItem(
+        kind: AgendaKind.event,
+        id: 'e1',
+        title: 'Concert',
+        dueAt: DateTime(2026, 8, 20, 20),
+        zoneLabel: 'KST',
+        zoneOffset: const Duration(hours: 9),
+      );
+
+      expect(
+        agendaDueLabel(event, DateTime.utc(2026, 8, 20, 9).toLocal()),
+        'in 2 hours',
+      );
+    });
+
     test('an upcoming vote still counts down to its close', () {
       final vote = AgendaItem(
         kind: AgendaKind.vote,
